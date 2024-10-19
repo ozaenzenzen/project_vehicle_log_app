@@ -1,0 +1,1 @@
+enum NotificationActionEnum { refresh, loadMore }
