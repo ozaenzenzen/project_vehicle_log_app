@@ -75,18 +75,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
         child: Scaffold(
           // extendBody: true,
           // resizeToAvoidBottomInset: true,
-          appBar: AppBarWidget(
+          appBar: const AppBarWidget(
             title: "Add Vehicle",
-            actions: [
-              InkWell(
-                onTap: () {
-                  Get.to(() => OtherPage());
-                },
-                child: Icon(
-                  Icons.no_backpack,
-                ),
-              )
-            ],
           ),
           bottomSheet: Container(
             decoration: const BoxDecoration(
