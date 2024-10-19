@@ -13,12 +13,12 @@ class AppInfo {
 
   static Future<void> appInfoInit() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    appVersion = packageInfo.version + "+" + packageInfo.buildNumber + buildTypeCustom;
+    appVersion = "${packageInfo.version}+${packageInfo.buildNumber}$buildTypeCustom";
   }
 
   static Future<String?> showAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    appVersion = packageInfo.version + "+" + packageInfo.buildNumber + buildTypeCustom;
+    appVersion = "${packageInfo.version}+${packageInfo.buildNumber}$buildTypeCustom";
     return appVersion;
   }
 }

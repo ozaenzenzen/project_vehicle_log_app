@@ -12,7 +12,6 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_ve
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signup/signup_page.dart';
-import 'package:project_vehicle_log_app/presentation/signup/signup_page_version2.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
