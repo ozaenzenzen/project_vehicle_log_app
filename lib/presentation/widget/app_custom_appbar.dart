@@ -82,12 +82,12 @@ class AppCustomAppBarState extends State<AppCustomAppBar> {
 
     return BottomAppBar(
       shape: widget.notchedShape,
+      color: widget.backgroundColor,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items,
       ),
-      color: widget.backgroundColor,
     );
   }
 

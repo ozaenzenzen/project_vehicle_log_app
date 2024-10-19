@@ -5,13 +5,10 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_request_models.dart';
 import 'package:project_vehicle_log_app/presentation/signin/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/signup/signup_bloc/signup_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/signup/signup_page_lain.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
-import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class SignUpPageVersion2 extends StatefulWidget {

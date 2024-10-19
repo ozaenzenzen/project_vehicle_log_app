@@ -1,0 +1,1 @@
+enum StatusLogs { add, update, delete }

@@ -1,0 +1,1 @@
+enum GetLogVehicleActionEnum { refresh, loadMore }

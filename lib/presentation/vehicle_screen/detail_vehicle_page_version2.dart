@@ -5,27 +5,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_main_info_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/list_item_widget_version2.dart';
-// import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_main_info_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_measurement_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget.dart';
 
 // enum StatusLogs { add, update, delete }
 
@@ -187,32 +185,32 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Year",
                     value: state.result!.listData![newIndex].year,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Engine Capacity (cc)",
                     value: state.result!.listData![newIndex].engineCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Tank Capacity (Litre)",
                     value: state.result!.listData![newIndex].tankCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Color",
                     value: state.result!.listData![newIndex].color,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Machine Number",
                     value: state.result!.listData![newIndex].machineNumber,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Chassis Number",
                     value: state.result!.listData![newIndex].chassisNumber,
                   ),
@@ -227,16 +225,59 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
     );
   }
 
+  RefreshController logsViewRefreshController = RefreshController(initialRefresh: false);
+  List<ListDatumLogEntity> listData = [];
+
   logsView() {
-    return BlocBuilder<Hp2GetListLogBloc, Hp2GetListLogState>(
-      // bloc: getAllVehicleBloc,
-      builder: (context, state) {
-        if (state is Hp2GetListLogLoading) {
-          return const AppLoadingIndicator();
-        } else if (state is Hp2GetListLogFailed) {
-          return Text(state.errorMessage);
-        } else if (state is Hp2GetListLogSuccess) {
-          sortedListLogs = state.result!.listData!;
+    return SmartRefresher(
+      controller: logsViewRefreshController,
+      enablePullDown: true,
+      enablePullUp: true,
+      onRefresh: () {
+        context.read<Hp2GetListLogBloc>().add(
+              Hp2GetListLogAction(
+                actionType: GetLogVehicleActionEnum.refresh,
+                reqData: GetLogVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                  vehicleId: "${widget.idVehicle}",
+                ),
+              ),
+            );
+      },
+      onLoading: () {
+        context.read<Hp2GetListLogBloc>().add(
+              Hp2GetListLogAction(
+                actionType: GetLogVehicleActionEnum.loadMore,
+                reqData: GetLogVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                  vehicleId: "${widget.idVehicle}",
+                ),
+              ),
+            );
+      },
+      child: BlocConsumer<Hp2GetListLogBloc, Hp2GetListLogState>(
+        listener: (context, state) {
+          if (state is Hp2GetListLogSuccess) {
+            if (state.actionType == GetLogVehicleActionEnum.refresh) {
+              logsViewRefreshController.refreshCompleted();
+            } else {
+              logsViewRefreshController.loadComplete();
+            }
+          }
+        },
+        builder: (context, state) {
+          if (state is Hp2GetListLogLoading) {
+            if (state.actionType == GetLogVehicleActionEnum.refresh) {
+              // return const AppLoadingIndicator();
+              return loadingSkeletonState();
+            }
+          }
+          if (state is Hp2GetListLogSuccess) {
+            listData = state.result!.listData!;
+          }
+          sortedListLogs = listData;
           sortedListLogs.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
           return SingleChildScrollView(
             child: Container(
@@ -294,10 +335,30 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
               ),
             ),
           );
-        } else {
-          return const Text("data is null");
-        }
-      },
+        },
+      ),
+    );
+  }
+
+  SingleChildScrollView loadingSkeletonState() {
+    return SingleChildScrollView(
+      padding: EdgeInsets.all(16.h),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: 18,
+        itemBuilder: (context, index) {
+          return SkeletonAvatar(
+            style: SkeletonAvatarStyle(
+              height: 240.h,
+              width: MediaQuery.of(context).size.width,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 10.h);
+        },
+      ),
     );
   }
 
@@ -422,6 +483,7 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
             fontWeight: FontWeight.w600,
             fontSize: 18.sp,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );

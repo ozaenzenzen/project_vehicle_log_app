@@ -3,7 +3,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_request_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/notification/notification_data_entity.dart';

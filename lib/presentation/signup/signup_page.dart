@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_request_models.dart';
-import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/signin/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/signup/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';

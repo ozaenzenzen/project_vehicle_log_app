@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
@@ -52,6 +50,7 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                     limit: 10,
                     currentPage: 1,
                   ),
+                  action: GetAllVehicleActionEnum.refresh,
                 ),
               );
         },
@@ -179,6 +178,7 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                 onTap: () {
                   context.read<Hp2GetListLogBloc>().add(
                         Hp2GetListLogAction(
+                          actionType: GetLogVehicleActionEnum.refresh,
                           reqData: GetLogVehicleRequestModelV2(
                             limit: 10,
                             currentPage: 1,

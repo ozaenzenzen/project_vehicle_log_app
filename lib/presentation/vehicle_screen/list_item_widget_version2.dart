@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 

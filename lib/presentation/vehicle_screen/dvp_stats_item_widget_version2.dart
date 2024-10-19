@@ -1,17 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page_version2.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -91,14 +86,19 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                             return InkWell(
                               onTap: () {
                                 Get.back();
-                                Get.to(() => EditMeasurementPageVersion2(
-                                      data: widget.data![index],
-                                    ));
+                                Get.to(
+                                  () => EditMeasurementPageVersion2(
+                                    data: widget.data![index],
+                                  ),
+                                );
                               },
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.h),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12.h,
+                                  horizontal: 8.h,
+                                ),
                                 child: Text(
-                                  '${(index + 1)}. ${newData![index].measurementTitle}: ${formatter.format(newData![index].updatedAt!)}',
+                                  '${(index + 1)}. ${newData![index].measurementTitle}: ${formatter.format(newData![index].updatedAt!.toLocal())}',
                                   style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
