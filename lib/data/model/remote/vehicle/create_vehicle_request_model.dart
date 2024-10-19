@@ -1,5 +1,5 @@
 class CreateVehicleRequestModel {
-  int userId;
+  // int userId;
   String vehicleName;
   String vehicleImage;
   String year;
@@ -10,7 +10,7 @@ class CreateVehicleRequestModel {
   String chassisNumber;
 
   CreateVehicleRequestModel({
-    required this.userId,
+    // required this.userId,
     required this.vehicleName,
     required this.vehicleImage,
     required this.year,
@@ -22,7 +22,7 @@ class CreateVehicleRequestModel {
   });
 
   factory CreateVehicleRequestModel.fromJson(Map<String, dynamic> json) => CreateVehicleRequestModel(
-        userId: json["user_id"],
+        // userId: json["user_id"],
         vehicleName: json["vehicle_name"],
         vehicleImage: json["vehicle_image"],
         year: json["year"],
@@ -34,7 +34,7 @@ class CreateVehicleRequestModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "user_id": userId,
+        // "user_id": userId,
         "vehicle_name": vehicleName,
         "vehicle_image": vehicleImage,
         "year": year,
