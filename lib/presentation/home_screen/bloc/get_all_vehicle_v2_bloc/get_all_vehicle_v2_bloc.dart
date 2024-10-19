@@ -7,6 +7,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_al
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 
 part 'get_all_vehicle_v2_event.dart';
 part 'get_all_vehicle_v2_state.dart';
@@ -15,7 +16,30 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
   GetAllVehicleV2Bloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleV2Initial()) {
     on<GetAllVehicleV2Event>((event, emit) {
       if (event is GetAllVehicleV2RemoteAction) {
-        _getAllVehicleRemoteActionV2(appVehicleReposistory, event);
+        if (event.action == GetAllVehicleActionEnum.refresh) {
+          currentPage = 1;
+          responseData.listData = [];
+          listResponseData = [];
+          _getAllVehicleRemoteActionV2(
+            appVehicleReposistory,
+            event,
+          );
+        } else {
+          if (currentPage <= responseData.totalPages!) {
+            currentPage++;
+            _getAllVehicleRemoteActionV2(
+              appVehicleReposistory,
+              event,
+            );
+          } else {
+            emit(
+              GetAllVehicleV2Success(
+                result: responseData,
+                action: GetAllVehicleActionEnum.loadMore,
+              ),
+            );
+          }
+        }
       }
       if (event is GetAllVehicleV2LocalAction) {
         _getAllVehicleLocalActionV2(appVehicleReposistory, event);
@@ -23,11 +47,19 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
     });
   }
 
+  VehicleDataEntity responseData = VehicleDataEntity();
+  List<ListDatumVehicleDataEntity>? listResponseData = [];
+  int currentPage = 1;
+
   Future<void> _getAllVehicleRemoteActionV2(
     AppVehicleReposistory appVehicleReposistory,
     GetAllVehicleV2RemoteAction event,
   ) async {
-    emit(GetAllVehicleV2Loading());
+    emit(
+      GetAllVehicleV2Loading(
+        action: event.action,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
@@ -38,9 +70,12 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
         return;
       }
 
+      GetAllVehicleRequestModelV2 dataRequest = event.reqData;
+      dataRequest.currentPage = currentPage;
+
       GetAllVehicleResponseModelV2? result = await appVehicleReposistory.getAllVehicleDataV2(
         userToken,
-        event.reqData,
+        dataRequest,
       );
       if (result != null) {
         if (result.status == 200) {
@@ -50,6 +85,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
           emit(
             GetAllVehicleV2Success(
               result: result.toVehicleDataEntity(),
+              action: event.action,
             ),
           );
         } else {
@@ -79,7 +115,11 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
     AppVehicleReposistory appVehicleReposistory,
     GetAllVehicleV2LocalAction event,
   ) async {
-    emit(GetAllVehicleV2Loading());
+    emit(
+      GetAllVehicleV2Loading(
+        action: GetAllVehicleActionEnum.refresh,
+      ),
+    );
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
@@ -94,6 +134,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
         emit(
           GetAllVehicleV2Success(
             result: result,
+            action: GetAllVehicleActionEnum.refresh,
           ),
         );
       } else {

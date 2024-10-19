@@ -9,6 +9,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
@@ -98,6 +99,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                 limit: 10,
                 currentPage: 1,
               ),
+              action: GetAllVehicleActionEnum.refresh,
             ),
           );
         // ..read<Hp2GetListLogBloc>().add(

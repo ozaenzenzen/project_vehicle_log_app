@@ -7,6 +7,7 @@ import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repo
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
@@ -181,6 +182,7 @@ class _SignInPageState extends State<SignInPage> {
                                   limit: 10,
                                   currentPage: 1,
                                 ),
+                                action: GetAllVehicleActionEnum.refresh,
                               ),
                             );
                         Get.offAll(

@@ -1,0 +1,1 @@
+enum GetAllVehicleActionEnum { refresh, loadMore }

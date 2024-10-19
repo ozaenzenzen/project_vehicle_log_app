@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
@@ -29,10 +31,13 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
 
   RefreshController refreshController = RefreshController(initialRefresh: false);
 
+  List<ListDatumVehicleDataEntity> listData = [];
+
   @override
   Widget build(BuildContext context) {
     return SmartRefresher(
       enablePullDown: true,
+      enablePullUp: true,
       controller: refreshController,
       onRefresh: () {
         context.read<GetAllVehicleV2Bloc>().add(
@@ -41,11 +46,20 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                   limit: 10,
                   currentPage: 1,
                 ),
+                action: GetAllVehicleActionEnum.refresh,
               ),
             );
       },
       onLoading: () {
-        //
+        context.read<GetAllVehicleV2Bloc>().add(
+              GetAllVehicleV2RemoteAction(
+                reqData: GetAllVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                ),
+                action: GetAllVehicleActionEnum.loadMore,
+              ),
+            );
       },
       child: SingleChildScrollView(
         child: Container(
@@ -74,17 +88,23 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
               BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
                 listener: (context, state) {
                   if (state is GetAllVehicleV2Success) {
-                    refreshController.refreshCompleted();
+                    if (state.action == GetAllVehicleActionEnum.refresh) {
+                      refreshController.refreshCompleted();
+                    } else {
+                      refreshController.loadComplete();
+                    }
                   }
                 },
                 builder: (context, state) {
                   if (state is GetAllVehicleV2Loading) {
-                    return loadingView();
-                  } else if (state is GetAllVehicleV2Success) {
-                    return successView(state);
-                  } else {
-                    return initialView();
+                    if (state.action == GetAllVehicleActionEnum.refresh) {
+                      return loadingView();
+                    }
                   }
+                  if (state is GetAllVehicleV2Success) {
+                    listData = state.result!.listData!;
+                  }
+                  return successView(listData);
                 },
               ),
             ],
@@ -98,13 +118,15 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
     return const SizedBox();
   }
 
-  Widget successView(GetAllVehicleV2Success state) {
+  // Widget successView(GetAllVehicleV2Success state) {
+  Widget successView(List<ListDatumVehicleDataEntity> listDataHere) {
     return ListView.separated(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: const NeverScrollableScrollPhysics(),
       // itemCount: state.getAllVehicleDataResponseModel == null ? 0 : state.getAllVehicleDataResponseModel!.data!.length,
-      itemCount: state.result != null ? state.result!.listData!.length : 0,
+      // itemCount: state.result != null ? state.result!.listData!.length : 0,
+      itemCount: listDataHere.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
@@ -114,16 +136,16 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                       limit: 10,
                       currentPage: 1,
                       sortOrder: "DESC",
-                      vehicleId: "${state.result!.listData![index].id}",
+                      vehicleId: "${listDataHere[index].id}",
                     ),
                   ),
                 );
             Get.to(
               () => DetailVehiclePageVersion2(
                 // indexMeasurement: index,
-                datumVehicle: state.result!.listData![index],
-                idVehicle: state.result!.listData![index].id!,
-                listMeasurementTitleByGroup: state.result!.listData![index].measurmentTitle,
+                datumVehicle: listDataHere[index],
+                idVehicle: listDataHere[index].id!,
+                listMeasurementTitleByGroup: listDataHere[index].measurmentTitle,
               ),
             );
           },
@@ -147,7 +169,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                 CircleAvatar(
                   radius: 40.h,
                   backgroundColor: AppColor.primary,
-                  child: state.result!.listData![index].vehicleImage == "x"
+                  child: (listDataHere[index].vehicleImage == "x" || listDataHere[index].vehicleImage!.length < 40 || listDataHere[index].vehicleImage == null)
                       ? ClipOval(
                           child: Image.network(
                             "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw",
@@ -158,7 +180,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                         )
                       : ClipOval(
                           child: Image.memory(
-                            base64Decode(state.result!.listData![index].vehicleImage!),
+                            base64Decode(listDataHere[index].vehicleImage!),
                             fit: BoxFit.cover,
                             height: 80.h,
                             width: 80.h,
@@ -170,7 +192,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                   children: [
                     Text(
                       // "${DummyData.dummyData[index].vehicleName}",
-                      state.result!.listData![index].vehicleName!,
+                      listDataHere[index].vehicleName!,
                       // "Vehicle $index",
                       style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w600,
