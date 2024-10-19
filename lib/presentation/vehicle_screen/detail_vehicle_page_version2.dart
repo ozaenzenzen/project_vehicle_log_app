@@ -416,6 +416,7 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
             fontWeight: FontWeight.w600,
             fontSize: 18.sp,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );
