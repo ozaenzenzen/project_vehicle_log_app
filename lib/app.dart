@@ -15,8 +15,6 @@ import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_b
 import 'package:project_vehicle_log_app/presentation/signup/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_log_vehicle_bloc/get_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
@@ -41,12 +39,12 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SignoutBloc()),
         BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => ProfileBloc(AccountLocalRepository())),
-        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
-        BlocProvider(create: (context) => GetLogVehicleBloc(AppVehicleReposistory())),
+        // BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
+        // BlocProvider(create: (context) => GetLogVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
-        
+
         BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => GetAllVehicleV2Bloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => Hp2GetListLogBloc(AppVehicleReposistory())),

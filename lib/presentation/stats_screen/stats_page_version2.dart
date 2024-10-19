@@ -12,7 +12,7 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_ve
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';

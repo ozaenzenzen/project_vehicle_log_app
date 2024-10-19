@@ -1,32 +1,32 @@
-part of 'get_all_vehicle_bloc.dart';
+// part of 'get_all_vehicle_bloc.dart';
 
-@immutable
-abstract class GetAllVehicleState {}
+// @immutable
+// abstract class GetAllVehicleState {}
 
-class GetAllVehicleInitial extends GetAllVehicleState {}
+// class GetAllVehicleInitial extends GetAllVehicleState {}
 
-class GetAllVehicleSuccess extends GetAllVehicleState {
-  final GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel;
+// class GetAllVehicleSuccess extends GetAllVehicleState {
+//   final GetAllVehicleDataResponseModel? getAllVehicleDataResponseModel;
 
-  GetAllVehicleSuccess({
-    this.getAllVehicleDataResponseModel,
-  });
-}
+//   GetAllVehicleSuccess({
+//     this.getAllVehicleDataResponseModel,
+//   });
+// }
 
-class GetProfileDataVehicleSuccess extends GetAllVehicleState {
-  final UserDataEntity accountDataUserModel;
+// class GetProfileDataVehicleSuccess extends GetAllVehicleState {
+//   final UserDataEntity accountDataUserModel;
 
-  GetProfileDataVehicleSuccess({
-    required this.accountDataUserModel,
-  });
-}
+//   GetProfileDataVehicleSuccess({
+//     required this.accountDataUserModel,
+//   });
+// }
 
-class GetAllVehicleFailed extends GetAllVehicleState {
-  final String errorMessage;
+// class GetAllVehicleFailed extends GetAllVehicleState {
+//   final String errorMessage;
 
-  GetAllVehicleFailed({
-    required this.errorMessage,
-  });
-}
+//   GetAllVehicleFailed({
+//     required this.errorMessage,
+//   });
+// }
 
-class GetAllVehicleLoading extends GetAllVehicleState {}
+// class GetAllVehicleLoading extends GetAllVehicleState {}

@@ -18,7 +18,6 @@ import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurem
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
@@ -89,81 +88,69 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetAllVehicleBloc, GetAllVehicleState>(
-      listener: (context, state) {
-        if (state is GetProfileDataVehicleSuccess) {
-          accountDataUserModelHomePage = state.accountDataUserModel;
-          context.read<GetAllVehicleBloc>().add(
-                GetAllVehicleDataLocalAction(
-                  vehicleLocalRepository: VehicleLocalRepository(),
-                ),
-              );
-        }
-      },
-      child: RefreshIndicator(
-        onRefresh: () async {
-          context
-            ..read<ProfileBloc>().add(
-              GetProfileRemoteAction(
-                accountRepository: AppAccountReposistory(),
-              ),
-            )
-            ..read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2RemoteAction(
-                reqData: GetAllVehicleRequestModelV2(
-                  limit: 10,
-                  currentPage: 1,
-                ),
-              ),
-            );
-          // ..read<Hp2GetListLogBloc>().add(
-          //   Hp2GetListLogAction(
-          //     reqData: GetLogVehicleRequestModelV2(
-          //       limit: 10,
-          //       currentPage: 1,
-          //     ),
-          //   ),
-          // )
-          // ..read<GetAllVehicleBloc>().add(
-          //   GetAllVehicleDataRemoteAction(
-          //     id: accountDataUserModelHomePage!.id.toString(),
-          //     vehicleLocalRepository: VehicleLocalRepository(),
-          //   ),
-          // );
-        },
-        child: SingleChildScrollView(
-          physics: const ScrollPhysics(),
-          child: Container(
-            color: AppColor.shape,
-            padding: EdgeInsets.all(16.h),
-            alignment: Alignment.center,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(height: 40.h),
-                    headHomeSection(),
-                    SizedBox(height: 20.h),
-                    Column(
-                      children: [
-                        homeVehicleSummarySection(),
-                        SizedBox(height: 20.h),
-                        homeListVehicleSection(),
-                        SizedBox(height: 20.h),
-                        homeListMeasurementSection(),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        context
+          ..read<ProfileBloc>().add(
+            GetProfileRemoteAction(
+              accountRepository: AppAccountReposistory(),
             ),
+          )
+          ..read<GetAllVehicleV2Bloc>().add(
+            GetAllVehicleV2RemoteAction(
+              reqData: GetAllVehicleRequestModelV2(
+                limit: 10,
+                currentPage: 1,
+              ),
+            ),
+          );
+        // ..read<Hp2GetListLogBloc>().add(
+        //   Hp2GetListLogAction(
+        //     reqData: GetLogVehicleRequestModelV2(
+        //       limit: 10,
+        //       currentPage: 1,
+        //     ),
+        //   ),
+        // )
+        // ..read<GetAllVehicleBloc>().add(
+        //   GetAllVehicleDataRemoteAction(
+        //     id: accountDataUserModelHomePage!.id.toString(),
+        //     vehicleLocalRepository: VehicleLocalRepository(),
+        //   ),
+        // );
+      },
+      child: SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: Container(
+          color: AppColor.shape,
+          padding: EdgeInsets.all(16.h),
+          alignment: Alignment.center,
+          child: Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(height: 40.h),
+                  headHomeSection(),
+                  SizedBox(height: 20.h),
+                  Column(
+                    children: [
+                      homeVehicleSummarySection(),
+                      SizedBox(height: 20.h),
+                      homeListVehicleSection(),
+                      SizedBox(height: 20.h),
+                      homeListMeasurementSection(),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -275,9 +262,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeVehicleSummarySection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
       builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
+        if (state is GetAllVehicleV2Success) {
           return AppContainerBoxWidget(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -366,7 +353,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               ),
             ),
           );
-        } else if (state is GetAllVehicleLoading) {
+        } else if (state is GetAllVehicleV2Loading) {
           return SkeletonAvatar(
             style: SkeletonAvatarStyle(
               width: MediaQuery.of(context).size.width,

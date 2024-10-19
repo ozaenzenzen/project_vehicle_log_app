@@ -12,7 +12,6 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehic
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
-// import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';

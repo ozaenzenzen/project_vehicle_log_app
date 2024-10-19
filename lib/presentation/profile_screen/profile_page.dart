@@ -36,9 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(
-          GetProfileRemoteAction(
-            accountRepository: AppAccountReposistory(),
-          ),
+          GetProfileLocalAction(),
         );
   }
 
@@ -186,15 +184,17 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget editProfileSection() {
     return InkWell(
       onTap: () {
-        Get.to(() => EditProfilePage(
-              callbackAction: () {
-                context.read<ProfileBloc>().add(
-                      GetProfileRemoteAction(
-                        accountRepository: AppAccountReposistory(),
-                      ),
-                    );
-              },
-            ));
+        Get.to(
+          () => EditProfilePage(
+            callbackAction: () {
+              context.read<ProfileBloc>().add(
+                    GetProfileRemoteAction(
+                      accountRepository: AppAccountReposistory(),
+                    ),
+                  );
+            },
+          ),
+        );
       },
       child: Text(
         "Edit Profile",

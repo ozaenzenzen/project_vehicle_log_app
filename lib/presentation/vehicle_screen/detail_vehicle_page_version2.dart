@@ -14,8 +14,9 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_li
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_main_info_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/list_item_widget_version2.dart';
-// import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+// 
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/support/app_assets.dart';
@@ -187,32 +188,32 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Year",
                     value: state.result!.listData![newIndex].year,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Engine Capacity (cc)",
                     value: state.result!.listData![newIndex].engineCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Tank Capacity (Litre)",
                     value: state.result!.listData![newIndex].tankCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Color",
                     value: state.result!.listData![newIndex].color,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Machine Number",
                     value: state.result!.listData![newIndex].machineNumber,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidget(
+                  ItemListWidgetVersion2(
                     title: "Chassis Number",
                     value: state.result!.listData![newIndex].chassisNumber,
                   ),

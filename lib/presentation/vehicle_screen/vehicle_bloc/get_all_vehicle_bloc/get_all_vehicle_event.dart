@@ -1,30 +1,30 @@
-part of 'get_all_vehicle_bloc.dart';
+// part of 'get_all_vehicle_bloc.dart';
 
-@immutable
-abstract class GetAllVehicleEvent {}
+// @immutable
+// abstract class GetAllVehicleEvent {}
 
-class GetAllVehicleDataRemoteAction extends GetAllVehicleEvent {
-  final String id;
-  final VehicleLocalRepository vehicleLocalRepository;
+// class GetAllVehicleDataRemoteAction extends GetAllVehicleEvent {
+//   final String id;
+//   final VehicleLocalRepository vehicleLocalRepository;
 
-  GetAllVehicleDataRemoteAction({
-    required this.id,
-    required this.vehicleLocalRepository,
-  });
-}
+//   GetAllVehicleDataRemoteAction({
+//     required this.id,
+//     required this.vehicleLocalRepository,
+//   });
+// }
 
-class GetAllVehicleDataLocalAction extends GetAllVehicleEvent {
-  final VehicleLocalRepository vehicleLocalRepository;
+// class GetAllVehicleDataLocalAction extends GetAllVehicleEvent {
+//   final VehicleLocalRepository vehicleLocalRepository;
 
-  GetAllVehicleDataLocalAction({
-    required this.vehicleLocalRepository,
-  });
-}
+//   GetAllVehicleDataLocalAction({
+//     required this.vehicleLocalRepository,
+//   });
+// }
 
-class GetProfileDataVehicleAction extends GetAllVehicleEvent {
-  final AccountLocalRepository localRepository;
+// class GetProfileDataVehicleAction extends GetAllVehicleEvent {
+//   final AccountLocalRepository localRepository;
 
-  GetProfileDataVehicleAction({
-    required this.localRepository,
-  });
-}
+//   GetProfileDataVehicleAction({
+//     required this.localRepository,
+//   });
+// }
