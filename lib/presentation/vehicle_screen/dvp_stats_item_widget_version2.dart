@@ -86,14 +86,19 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                             return InkWell(
                               onTap: () {
                                 Get.back();
-                                Get.to(() => EditMeasurementPageVersion2(
-                                      data: widget.data![index],
-                                    ));
+                                Get.to(
+                                  () => EditMeasurementPageVersion2(
+                                    data: widget.data![index],
+                                  ),
+                                );
                               },
                               child: Container(
-                                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.h),
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 12.h,
+                                  horizontal: 8.h,
+                                ),
                                 child: Text(
-                                  '${(index + 1)}. ${newData![index].measurementTitle}: ${formatter.format(newData![index].updatedAt!)}',
+                                  '${(index + 1)}. ${newData![index].measurementTitle}: ${formatter.format(newData![index].updatedAt!.toLocal())}',
                                   style: GoogleFonts.inter(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,

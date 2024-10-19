@@ -7,7 +7,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_log_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
-
+import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 
 part 'hp2_get_list_log_event.dart';
 part 'hp2_get_list_log_state.dart';
@@ -16,16 +16,47 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
   Hp2GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(Hp2GetListLogInitial()) {
     on<Hp2GetListLogEvent>((event, emit) {
       if (event is Hp2GetListLogAction) {
-        _hp2GetListLog(vehicleReposistory, event);
+        if (event.actionType == GetLogVehicleActionEnum.refresh) {
+          currentPage = 1;
+          responseData.listData = [];
+          listResponseData = [];
+          _hp2GetListLog(
+            vehicleReposistory,
+            event,
+          );
+        } else {
+          if (currentPage <= responseData.totalPages!) {
+            currentPage++;
+            _hp2GetListLog(
+              vehicleReposistory,
+              event,
+            );
+          } else {
+            emit(
+              Hp2GetListLogSuccess(
+                result: responseData,
+                actionType: GetLogVehicleActionEnum.loadMore,
+              ),
+            );
+          }
+        }
       }
     });
   }
+
+  LogDataEntity responseData = LogDataEntity();
+  List<ListDatumLogEntity>? listResponseData = [];
+  int currentPage = 1;
 
   Future<void> _hp2GetListLog(
     AppVehicleReposistory vehicleReposistory,
     Hp2GetListLogAction event,
   ) async {
-    emit(Hp2GetListLogLoading());
+    emit(
+      Hp2GetListLogLoading(
+        actionType: event.actionType,
+      ),
+    );
     await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
@@ -37,6 +68,9 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         );
         return;
       }
+
+      GetLogVehicleRequestModelV2 dataRequest = event.reqData;
+      dataRequest.currentPage = currentPage;
 
       GetLogVehicleResponseModelV2? result = await vehicleReposistory.getLogVehicleDataV2(
         userToken,
@@ -63,6 +97,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         emit(
           Hp2GetListLogSuccess(
             result: result.toLogDataEntity(),
+            actionType: event.actionType,
           ),
         );
         return;
