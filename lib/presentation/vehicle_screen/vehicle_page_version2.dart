@@ -95,6 +95,10 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                       refreshController.loadComplete();
                     }
                   }
+                  if (state is GetAllVehicleV2Failed) {
+                    refreshController.refreshCompleted();
+                    refreshController.loadComplete();
+                  }
                 },
                 builder: (context, state) {
                   if (state is GetAllVehicleV2Loading) {

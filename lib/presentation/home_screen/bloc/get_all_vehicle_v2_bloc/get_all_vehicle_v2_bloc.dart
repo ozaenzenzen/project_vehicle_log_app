@@ -79,12 +79,15 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       );
       if (result != null) {
         if (result.status == 200) {
+          responseData = result.toVehicleDataEntity()!;
+          listResponseData?.addAll(result.toVehicleDataEntity()!.listData!);
+          responseData.listData = listResponseData;
           await VehicleLocalRepository().setLocalVehicleDataV2(
             data: result.toVehicleDataEntity()!,
           );
           emit(
             GetAllVehicleV2Success(
-              result: result.toVehicleDataEntity(),
+              result: responseData,
               action: event.action,
             ),
           );
