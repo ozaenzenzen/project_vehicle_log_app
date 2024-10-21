@@ -93,7 +93,6 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         return;
       }
       if (result.data != null) {
-        // AppLogger.debugLog("result.data: ${jsonEncode(result.toJson())}");
         responseData = result.toLogDataEntity()!;
         listResponseData?.addAll(result.toLogDataEntity()!.listData!);
         responseData.listData = listResponseData;
@@ -105,10 +104,10 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         );
         return;
       }
-    } catch (e) {
+    } catch (errorMessage) {
       emit(
         Hp2GetListLogFailed(
-          errorMessage: "$e",
+          errorMessage: "$errorMessage",
         ),
       );
     }

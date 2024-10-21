@@ -77,38 +77,40 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
         userToken,
         dataRequest,
       );
-      if (result != null) {
-        if (result.status == 200) {
-          responseData = result.toVehicleDataEntity()!;
-          listResponseData?.addAll(result.toVehicleDataEntity()!.listData!);
-          responseData.listData = listResponseData;
-          await VehicleLocalRepository().setLocalVehicleDataV2(
-            data: result.toVehicleDataEntity()!,
-          );
-          emit(
-            GetAllVehicleV2Success(
-              result: responseData,
-              action: event.action,
-            ),
-          );
-        } else {
-          emit(
-            GetAllVehicleV2Failed(
-              errorMessage: result.message.toString(),
-            ),
-          );
-        }
-      } else {
+      if (result == null) {
         emit(
           GetAllVehicleV2Failed(
             errorMessage: "Terjadi kesalahan, data kosong",
+          ),
+        );
+        return;
+      }
+      if (result.status != 200) {
+        emit(
+          GetAllVehicleV2Failed(
+            errorMessage: "${result.message}",
+          ),
+        );
+        return;
+      }
+      if (result.data != null) {
+        responseData = result.toVehicleDataEntity()!;
+        listResponseData?.addAll(result.toVehicleDataEntity()!.listData!);
+        responseData.listData = listResponseData;
+        await VehicleLocalRepository().setLocalVehicleDataV2(
+          data: result.toVehicleDataEntity()!,
+        );
+        emit(
+          GetAllVehicleV2Success(
+            result: responseData,
+            action: event.action,
           ),
         );
       }
     } catch (errorMessage) {
       emit(
         GetAllVehicleV2Failed(
-          errorMessage: errorMessage.toString(),
+          errorMessage: "$errorMessage",
         ),
       );
     }
