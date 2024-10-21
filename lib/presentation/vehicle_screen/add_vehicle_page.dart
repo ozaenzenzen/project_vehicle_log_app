@@ -52,11 +52,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   @override
   Widget build(BuildContext context) {
-    // context.read<GetAllVehicleBloc>().add(
-    //       GetProfileDataVehicleAction(
-    //         localRepository: AccountLocalRepository(),
-    //       ),
-    //     );
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
