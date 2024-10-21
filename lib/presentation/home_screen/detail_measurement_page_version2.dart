@@ -40,7 +40,7 @@ class DetailMeasurementPageVersion2 extends StatefulWidget {
 
 class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVersion2> {
   List<ListDatumLogEntity>? listLogVehicleData;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,14 +171,17 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
                 DVPStatsItemWidgetVersion2(
                   // title: "Test Title",
                   // title: state.result!.listData![widget.index].measurementTitle,
-                  title: state
-                      .result!
-                      .listData![state.result!.listData!.indexWhere(
-                    (element) {
-                      return element.measurementTitle == widget.data.measurmentTitle?[widget.indexMeasurement];
-                    },
-                  )]
-                      .measurementTitle,
+                  // title: (state.result == null || state.result!.listData == null || state.result!.listData!.isEmpty)
+                  //     ? ""
+                  //     : state
+                  //         .result!
+                  //         .listData![state.result!.listData!.indexWhere(
+                  //         (element) {
+                  //           return element.measurementTitle == widget.data.measurmentTitle?[widget.indexMeasurement];
+                  //         },
+                  //       )]
+                  //         .measurementTitle,
+                  title: widget.data.measurmentTitle?[widget.indexMeasurement],
 
                   // data: state.result!.listData![state.result!.listData!.indexWhere(
                   //   (element) {
