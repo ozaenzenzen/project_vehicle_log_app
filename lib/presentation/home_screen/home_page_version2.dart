@@ -18,6 +18,7 @@ import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
@@ -465,6 +466,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
       },
       builder: (context, state) {
         if (state is GetAllVehicleV2Success) {
+          if (state.result == null || state.result!.listData!.isEmpty) {
+            return const SizedBox();
+          }
           return SizedBox(
             height: 40.h,
             child: ListView.builder(
@@ -520,7 +524,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
     return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
       builder: (context, state) {
         if (state is GetAllVehicleV2Success) {
-          if (state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
+          if (state.result == null || state.result!.listData!.isEmpty || state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
             return const SizedBox();
           } else {
             return ListMeasurementWidgetV2(
