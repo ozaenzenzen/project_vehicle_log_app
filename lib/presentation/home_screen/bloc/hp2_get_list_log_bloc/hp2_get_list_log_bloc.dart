@@ -94,9 +94,12 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       }
       if (result.data != null) {
         // AppLogger.debugLog("result.data: ${jsonEncode(result.toJson())}");
+        responseData = result.toLogDataEntity()!;
+        listResponseData?.addAll(result.toLogDataEntity()!.listData!);
+        responseData.listData = listResponseData;
         emit(
           Hp2GetListLogSuccess(
-            result: result.toLogDataEntity(),
+            result: responseData,
             actionType: event.actionType,
           ),
         );
