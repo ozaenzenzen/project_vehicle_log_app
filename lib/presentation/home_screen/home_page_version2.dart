@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurem
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
+import 'package:project_vehicle_log_app/support/app_base64converter_helper.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
@@ -45,6 +47,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
 
   late List<_ChartData> data;
   late TooltipBehavior _tooltip;
+
+  Uint8List? profilePictureData;
 
   @override
   void initState() {
@@ -158,33 +162,38 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
             children: [
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
+                  String name = "";
                   if (state is ProfileLoading) {
                     return SizedBox(
                       height: 40.h,
                       width: 150.w,
                       child: const SkeletonLine(),
                     );
-                  } else if (state is ProfileFailed) {
-                    return Text(state.errorMessage);
-                  } else if (state is ProfileSuccess) {
+                  }
+                  if (state is ProfileFailed) {
                     return Expanded(
                       child: Text(
-                        "Hi, ${state.userDataModel.name}",
+                        state.errorMessage,
                         style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                           color: Colors.black38,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     );
-                  } else {
-                    return Text(
-                      "Hi, User",
+                  }
+                  if (state is ProfileSuccess) {
+                    name = state.userDataModel.name ?? "";
+                  }
+                  return Expanded(
+                    child: Text(
+                      "Hi, $name",
+                      // "Hi, ${state.userDataModel.name}",
                       style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                         color: Colors.black38,
                         fontWeight: FontWeight.w500,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
               ),
               InkWell(
@@ -204,9 +213,55 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                       );
                     } else if (state is ProfileSuccess) {
                       if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
+                        // return FutureBuilder<Uint8List>(
+                        //   future: AppBase64ConverterHelper().decodeBase64(state.userDataModel.profilePicture!),
+                        //   builder: (context, snapshot) {
+                        //     if (snapshot.hasData) {
+                        //       if (snapshot.data == null) {
+                        //         return CircleAvatar(
+                        //           radius: 36.h,
+                        //           backgroundColor: AppColor.primary,
+                        //         );
+                        //       }
+                        //       if (snapshot.data!.isEmpty) {
+                        //         return ClipOval(
+                        //           child: SkeletonAvatar(
+                        //             style: SkeletonAvatarStyle(
+                        //               height: 80.h,
+                        //               width: 80.h,
+                        //             ),
+                        //           ),
+                        //         );
+                        //       }
+                        //       if (snapshot.data!.isNotEmpty) {
+                        //         return ClipOval(
+                        //           child: Image.memory(
+                        //             snapshot.data!,
+                        //             // base64Decode(state.userDataModel.profilePicture!),
+                        //             height: 80.h,
+                        //             width: 80.h,
+                        //             fit: BoxFit.cover,
+                        //           ),
+                        //         );
+                        //       }
+                        //     }
+                        //     if (snapshot.hasError) {
+                        //       return CircleAvatar(
+                        //         radius: 36.h,
+                        //         backgroundColor: AppColor.primary,
+                        //       );
+                        //     }
+                        //     return CircleAvatar(
+                        //       radius: 36.h,
+                        //       backgroundColor: AppColor.primary,
+                        //     );
+                        //   },
+                        // );
+                        profilePictureData = base64Decode(state.userDataModel.profilePicture!);
                         return ClipOval(
                           child: Image.memory(
-                            base64Decode(state.userDataModel.profilePicture!),
+                            profilePictureData!,
+                            // base64Decode(state.userDataModel.profilePicture!),
                             height: 80.h,
                             width: 80.h,
                             fit: BoxFit.cover,
