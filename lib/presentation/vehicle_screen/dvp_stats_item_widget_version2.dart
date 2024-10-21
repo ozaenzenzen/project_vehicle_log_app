@@ -41,8 +41,9 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
   final formatter = DateFormat('dd MMMM yyyy, HH:mm');
   final formatter2 = DateFormat('dd/MM/yyyy, HH:mm');
 
-  List<ListDatumLogEntity>? newData = <ListDatumLogEntity>[];
-  List<ListDatumLogEntity>? newDataDialog = <ListDatumLogEntity>[];
+  List<ListDatumLogEntity> newData = <ListDatumLogEntity>[];
+  List<ListDatumLogEntity> newData1 = <ListDatumLogEntity>[];
+  List<ListDatumLogEntity> newDataDialog = <ListDatumLogEntity>[];
 
   @override
   void initState() {
@@ -54,19 +55,27 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
   RefreshController dialogRefreshController = RefreshController(initialRefresh: false);
 
   void sorting(List<ListDatumLogEntity>? input) {
-    newData = input;
-    newData = widget.data?.where((element) {
+    newData = input!;
+    newData = input.where((element) {
       return element.measurementTitle == widget.title;
     }).toList();
-    newData?.sort((a, b) {
+    newData.sort((a, b) {
+      return a.createdAt!.compareTo(b.createdAt!);
+    });
+
+    newData1 = input;
+    newData1 = input.where((element) {
+      return element.measurementTitle == widget.title;
+    }).toList();
+    newData1.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
     });
 
     newDataDialog = input;
-    newDataDialog = widget.data?.where((element) {
+    newDataDialog = input.where((element) {
       return element.measurementTitle == widget.title;
     }).toList();
-    newDataDialog?.sort((a, b) {
+    newDataDialog.sort((a, b) {
       return b.createdAt!.compareTo(a.createdAt!);
     });
     // AppLogger.debugLog("Output: ${newDataDialog?.map((e) => AppLogger.debugLog("e0: ${e.currentOdo}}")).toList()}");
@@ -79,11 +88,12 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          border: Border.all(
-            color: Colors.grey,
-          ),
-          borderRadius: BorderRadius.circular(8)),
+        color: Colors.grey.shade200,
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -223,6 +233,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
           ),
           SizedBox(height: 5.h),
           SfCartesianChart(
+            key: const Key("Expenses"),
             primaryXAxis: CategoryAxis(),
             // Chart title
             title: ChartTitle(text: 'Expenses'),
@@ -233,8 +244,9 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
                 legendItemText: "Expenses",
-                dataSource: newData!,
+                dataSource: newData1,
                 xValueMapper: (ListDatumLogEntity sales, _) {
+                  // AppLogger.debugLog("indxL $index");
                   return formatter2.format(sales.createdAt!.toLocal());
                 },
                 yValueMapper: (ListDatumLogEntity sales, _) {
@@ -264,8 +276,9 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
             //   )
             // ],
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 10.h),
           SfCartesianChart(
+            key: const Key("Odo Changes"),
             primaryXAxis: CategoryAxis(),
             // Chart title
             title: ChartTitle(text: 'Odo Changes'),
@@ -276,7 +289,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
                 legendItemText: "Odo Changes",
-                dataSource: newData!,
+                dataSource: newData,
                 xValueMapper: (ListDatumLogEntity sales, _) {
                   return formatter2.format(sales.createdAt!.toLocal());
                 },
