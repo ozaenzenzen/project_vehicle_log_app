@@ -10,6 +10,7 @@ import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page_version2.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -60,10 +61,16 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
     newData?.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
     });
-    newDataDialog = newData;
+
+    newDataDialog = input;
+    newDataDialog = widget.data?.where((element) {
+      return element.measurementTitle == widget.title;
+    }).toList();
     newDataDialog?.sort((a, b) {
       return b.createdAt!.compareTo(a.createdAt!);
     });
+    // AppLogger.debugLog("Output: ${newDataDialog?.map((e) => AppLogger.debugLog("e0: ${e.currentOdo}}")).toList()}");
+    // AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e1: ${e.currentOdo}}")).toList()}");
     // AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e: ${jsonEncode(e.toJson())}")).toList()}");
   }
 
