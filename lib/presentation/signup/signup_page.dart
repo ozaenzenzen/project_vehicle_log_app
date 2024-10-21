@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height - 30.h,
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: FutureBuilder(

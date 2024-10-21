@@ -44,27 +44,34 @@ class _SignInPageState extends State<SignInPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FutureBuilder(
-                    future: AppInfo.showAppVersion(),
-                    builder: (context, snapshot) {
-                      return Text(
-                        // "Vehicle Log Apps Version 1.0.0+1",
-                        // "Vehicle Log Apps Version ${AppInfo.appVersion}",
-                        "Vehicle Log Apps Version ${snapshot.data}",
-                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 10.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      );
-                    }),
-              ),
-            ),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height,
+            //   child: Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         FutureBuilder(
+            //           future: AppInfo.showAppVersion(),
+            //           builder: (context, snapshot) {
+            //             return Text(
+            //               // "Vehicle Log Apps Version 1.0.0+1",
+            //               // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+            //               "Vehicle Log Apps Version ${snapshot.data}",
+            //               style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+            //                 fontSize: 10.sp,
+            //                 color: Colors.grey,
+            //                 fontWeight: FontWeight.w400,
+            //               ),
+            //             );
+            //           },
+            //         ),
+            //         SizedBox(height: 10.h),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SingleChildScrollView(
               padding: EdgeInsets.all(16.h),
               child: Column(
@@ -238,6 +245,25 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       }
                     },
+                  ),
+                  SizedBox(height: 150.h),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FutureBuilder(
+                      future: AppInfo.showAppVersion(),
+                      builder: (context, snapshot) {
+                        return Text(
+                          // "Vehicle Log Apps Version 1.0.0+1",
+                          // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+                          "Vehicle Log Apps Version ${snapshot.data}",
+                          style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 10.sp,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   // const Spacer(),
                 ],
