@@ -68,11 +68,6 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
     //       currentPage: 1,
     //     ),
     //   ),
-    // )
-    // ..read<GetAllVehicleBloc>().add(
-    //   GetProfileDataVehicleAction(
-    //     localRepository: AccountLocalRepository(),
-    //   ),
     // );
     data = [
       _ChartData('David', 25),
@@ -102,21 +97,16 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               ),
               action: GetAllVehicleActionEnum.refresh,
             ),
+          )
+          ..read<Hp2GetListLogBloc>().add(
+            Hp2GetListLogAction(
+              actionType: GetLogVehicleActionEnum.refresh,
+              reqData: GetLogVehicleRequestModelV2(
+                limit: 10,
+                currentPage: 1,
+              ),
+            ),
           );
-        // ..read<Hp2GetListLogBloc>().add(
-        //   Hp2GetListLogAction(
-        //     reqData: GetLogVehicleRequestModelV2(
-        //       limit: 10,
-        //       currentPage: 1,
-        //     ),
-        //   ),
-        // )
-        // ..read<GetAllVehicleBloc>().add(
-        //   GetAllVehicleDataRemoteAction(
-        //     id: accountDataUserModelHomePage!.id.toString(),
-        //     vehicleLocalRepository: VehicleLocalRepository(),
-        //   ),
-        // );
       },
       child: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -473,17 +463,14 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
           }
         }
       },
-      // return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
         if (state is GetAllVehicleV2Success) {
-          // if (state is GetAllVehicleSuccess) {
           return SizedBox(
             height: 40.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: state.result?.listData?.length,
-              // itemCount: state.getAllVehicleDataResponseModel!.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -516,7 +503,6 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
             ),
           );
         } else if (state is GetAllVehicleV2Loading) {
-          // } else if (state is GetAllVehicleLoading) {
           return SkeletonLine(
             style: SkeletonLineStyle(
               width: MediaQuery.of(context).size.width,

@@ -50,20 +50,11 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
 
   TooltipBehavior? tooltipBehavior;
 
-  // late GetAllVehicleBloc getAllVehicleBloc;
-
-  // List<VehicleMeasurementLogModel> sortedListLogs = [];
   List<ListDatumLogEntity> sortedListLogs = [];
 
   @override
   void initState() {
     super.initState();
-    // getAllVehicleBloc = BlocProvider.of(context)
-    //   ..add(
-    //     GetAllVehicleDataLocalAction(
-    //       vehicleLocalRepository: VehicleLocalRepository(),
-    //     ),
-    //   );
     tooltipBehavior = TooltipBehavior(enable: true);
     tabController = TabController(
       vsync: this,
@@ -73,12 +64,6 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
 
   @override
   void didChangeDependencies() {
-    // getAllVehicleBloc = BlocProvider.of(context)
-    //   ..add(
-    //     GetAllVehicleDataLocalAction(
-    //       vehicleLocalRepository: VehicleLocalRepository(),
-    //     ),
-    //   );
     super.didChangeDependencies();
   }
 
@@ -114,7 +99,6 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
 
   infoView() {
     return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
-      // bloc: getAllVehicleBloc,
       builder: (context, state) {
         if (state is GetAllVehicleV2Loading) {
           return const AppLoadingIndicator();

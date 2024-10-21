@@ -9,6 +9,7 @@ import 'package:project_vehicle_log_app/data/model/local/account_user_data_model
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
@@ -19,14 +20,19 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
+  final String? measurementService;
+  final List<ListDatumLogEntity>? listLogVehicleData;
 
   const AddMeasurementPage({
     Key? key,
     required this.vehicleId,
+    this.measurementService,
+    this.listLogVehicleData,
   }) : super(key: key);
 
   @override
@@ -45,11 +51,16 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
   late ProfileBloc profileBloc;
 
-  // @override
-  // void initState() {
-  //   profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
-  //   super.initState();
-  // }
+  DateTime? checkpointDateChosen;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.measurementService != null) {
+      measurementTitleController.text = widget.measurementService!; 
+      currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -179,7 +190,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
               if (pickedDate != null) {
                 debugPrint(pickedDate.toString()); //pickedDate output format => 2021-03-10 00:00:00.000
-                String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                // String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                String formattedDate = formatter.format(pickedDate);
+                checkpointDateChosen = pickedDate;
                 debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
                 //you can implement different kind of Date Format here according to your requirement
 
@@ -262,7 +275,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                               currentOdo: currentOdoController.text,
                               estimateOdoChanging: estimateOdoController.text,
                               amountExpenses: amountExpensesController.text,
-                              checkpointDate: checkpointDateController.text,
+                              checkpointDate: checkpointDateChosen!.toIso8601String(),
                               notes: notesController.text,
                             ),
                           ),

@@ -285,7 +285,8 @@ class AppDialogAction {
               child: Container(
                 margin: EdgeInsets.all(30.h),
                 padding: padding,
-                width: double.infinity,
+                // width: double.infinity,
+                width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: color ?? const Color(0xffFFFFFF),
                   borderRadius: BorderRadius.circular(radius),

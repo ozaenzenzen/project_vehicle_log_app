@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class DetailMeasurementPageVersion2 extends StatefulWidget {
@@ -35,10 +39,32 @@ class DetailMeasurementPageVersion2 extends StatefulWidget {
 }
 
 class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVersion2> {
+  List<ListDatumLogEntity>? listLogVehicleData;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
+      floatingActionButton: FloatingActionButton.extended(
+        key: const Key("newValue"),
+        onPressed: () {
+          Get.to(
+            () => AddMeasurementPage(
+              vehicleId: widget.data.id!,
+              measurementService: widget.data.measurmentTitle![widget.indexMeasurement],
+              listLogVehicleData: listLogVehicleData,
+            ),
+          );
+        },
+        label: Text(
+          "Add Measurement",
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
+          ),
+        ),
+      ),
       appBar: AppBarWidget(
         title: "${widget.data.vehicleName}: ${widget.data.measurmentTitle![widget.indexMeasurement]}",
       ),
@@ -92,6 +118,7 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
         } else if (state is Hp2GetListLogFailed) {
           return Text(state.errorMessage);
         } else if (state is Hp2GetListLogSuccess) {
+          listLogVehicleData = state.result?.listData;
           return Container(
             padding: EdgeInsets.all(16.h),
             child: Column(
