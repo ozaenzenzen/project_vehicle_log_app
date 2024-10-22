@@ -18,6 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class SignInPage extends StatefulWidget {
@@ -110,6 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                     textFieldHintText: "*****",
                     controller: passwordTextFieldController,
                     obscureText: isHidePassword,
+                    textInputAction: TextInputAction.go,
                     suffixIcon: InkWell(
                       onTap: () {
                         setState(() {
@@ -120,6 +122,19 @@ class _SignInPageState extends State<SignInPage> {
                         isHidePassword ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
+                    onSubmitted: (String value) {
+                      AppLogger.debugLog("value here: $value");
+                      context.read<SigninBloc>().add(
+                            SigninAction(
+                              signInRequestModel: SignInRequestModel(
+                                email: emailTextFieldController.text,
+                                password: passwordTextFieldController.text,
+                              ),
+                              appVehicleReposistory: AppVehicleReposistory(),
+                              vehicleLocalRepository: VehicleLocalRepository(),
+                            ),
+                          );
+                    },
                   ),
                   SizedBox(height: 10.h),
                   Row(
