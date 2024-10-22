@@ -10,6 +10,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_veh
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
@@ -57,7 +58,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   void initState() {
     super.initState();
     if (widget.measurementService != null) {
-      measurementTitleController.text = widget.measurementService!; 
+      measurementTitleController.text = widget.measurementService!;
       currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
     }
   }
@@ -238,11 +239,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                         ),
                       )
                       ..read<GetAllVehicleBloc>().add(
-                        GetAllVehicleLocalAction(
+                        GetAllVehicleRemoteAction(
                           reqData: GetAllVehicleRequestModelV2(
                             limit: 10,
                             currentPage: 1,
                           ),
+                          action: GetAllVehicleActionEnum.refresh,
                         ),
                       );
                     Get.offAll(() => const MainPage());
