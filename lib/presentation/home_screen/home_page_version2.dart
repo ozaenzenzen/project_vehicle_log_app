@@ -578,16 +578,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   Widget homeListMeasurementSection() {
     return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
-          if (state.result == null || state.result!.listData!.isEmpty || state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
-            return const SizedBox();
-          } else {
-            return ListMeasurementWidgetV2(
-              data: state.result!.listData!,
-              indexInput: indexClicked,
-            );
-          }
-        } else if (state is GetAllVehicleV2Loading) {
+        if (state is GetAllVehicleV2Loading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -602,6 +593,15 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               return const SkeletonAvatar();
             },
           );
+        } else if (state is GetAllVehicleV2Success) {
+          if (state.result == null || state.result!.listData!.isEmpty || state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
+            return const SizedBox();
+          } else {
+            return ListMeasurementWidgetV2(
+              data: state.result!.listData!,
+              indexInput: indexClicked,
+            );
+          }
         } else {
           return const SizedBox();
         }
