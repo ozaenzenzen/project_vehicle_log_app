@@ -221,19 +221,20 @@ class _EditMeasurementPageVersion2State extends State<EditMeasurementPageVersion
                 onPressed: () {
                   FocusManager.instance.primaryFocus?.unfocus();
                   editMeasurementLogBloc.add(
-                        UpdateMeasurementAction(
-                          editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
-                            id: widget.data.id,
-                            vehicleId: widget.data.vehicleId,
-                            measurementTitle: measurementTitleController.text,
-                            currentOdo: currentOdoController.text,
-                            estimateOdoChanging: estimateOdoChangingController.text,
-                            amountExpenses: amountExpensesController.text,
-                            checkpointDate: checkpointDateController.text,
-                            notes: notesController.text,
-                          ),
-                        ),
-                      );
+                    UpdateMeasurementAction(
+                      editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
+                        id: widget.data.id,
+                        vehicleId: widget.data.vehicleId,
+                        measurementTitle: measurementTitleController.text,
+                        currentOdo: currentOdoController.text,
+                        estimateOdoChanging: estimateOdoChangingController.text,
+                        amountExpenses: amountExpensesController.text,
+                        // checkpointDate: checkpointDateController.text,
+                        checkpointDate: "${checkpointDateChosen?.millisecondsSinceEpoch}",
+                        notes: notesController.text,
+                      ),
+                    ),
+                  );
                 },
                 text: "Update",
               ),
@@ -241,7 +242,13 @@ class _EditMeasurementPageVersion2State extends State<EditMeasurementPageVersion
             SizedBox(height: 10.h),
             AppSecondaryButtonWidget.error(
               onPressed: () {
-                Get.back();
+                // Get.back();
+                AppDialogAction.showWarningPopup(
+                  context: context,
+                  title: "Informasi",
+                  description: "Fitur ini belum tersedia",
+                  buttonTitle: "Kembali",
+                );
               },
               text: "Delete",
             ),
