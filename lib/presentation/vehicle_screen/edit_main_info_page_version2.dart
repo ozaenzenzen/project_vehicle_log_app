@@ -22,19 +22,19 @@ import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_image_picker.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class EditMainInfoPageVersion2 extends StatefulWidget {
+class EditVehiclePage extends StatefulWidget {
   final ListDatumVehicleDataEntity data;
 
-  const EditMainInfoPageVersion2({
+  const EditVehiclePage({
     Key? key,
     required this.data,
   }) : super(key: key);
 
   @override
-  State<EditMainInfoPageVersion2> createState() => _EditMainInfoPageVersion2State();
+  State<EditVehiclePage> createState() => _EditVehiclePageState();
 }
 
-class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
+class _EditVehiclePageState extends State<EditVehiclePage> {
   int? vehicleId;
 
   String imagePickedInBase64 = "";

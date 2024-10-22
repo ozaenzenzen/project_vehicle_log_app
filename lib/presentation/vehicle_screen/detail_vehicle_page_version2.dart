@@ -155,7 +155,7 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                       InkWell(
                         onTap: () {
                           Get.to(
-                            () => EditMainInfoPageVersion2(
+                            () => EditVehiclePage(
                               data: state.result!.listData!.firstWhere((element) => element.id == widget.idVehicle),
                             ),
                           );
