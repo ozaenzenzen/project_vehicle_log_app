@@ -168,14 +168,14 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                                       },
                                       child: ListView.separated(
                                         shrinkWrap: true,
-                                        itemCount: newDataDialog!.length,
+                                        itemCount: newDataDialog.length,
                                         itemBuilder: (context, index) {
                                           return InkWell(
                                             onTap: () {
                                               Get.back();
                                               Get.to(
                                                 () => EditMeasurementPageVersion2(
-                                                  data: newDataDialog![index],
+                                                  data: newDataDialog[index],
                                                 ),
                                               );
                                             },
@@ -185,7 +185,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                                                 horizontal: 8.h,
                                               ),
                                               child: Text(
-                                                '${(index + 1)}. ${newDataDialog![index].measurementTitle}: ${formatter.format(newDataDialog![index].updatedAt!.toLocal())}',
+                                                '${(index + 1)}. ${newDataDialog[index].measurementTitle}: ${formatter.format(newDataDialog[index].updatedAt!.toLocal())}',
                                                 style: GoogleFonts.inter(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w500,
@@ -212,11 +212,12 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border.all(
-                        // color: AppColor.green,
-                        color: AppColor.primary,
-                      ),
-                      borderRadius: BorderRadius.circular(4)),
+                    border: Border.all(
+                      // color: AppColor.green,
+                      color: AppColor.primary,
+                    ),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   padding: EdgeInsets.all(8.h),
                   child: Text(
                     "Update",
