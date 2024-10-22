@@ -10,7 +10,7 @@ import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_main_info_page_version2.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';

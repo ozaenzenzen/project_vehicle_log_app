@@ -9,8 +9,8 @@ import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart'
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 
-part 'hp2_get_list_log_event.dart';
-part 'hp2_get_list_log_state.dart';
+part 'get_list_log_event.dart';
+part 'get_list_log_state.dart';
 
 class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
   GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(GetListLogInitial()) {

@@ -1,4 +1,4 @@
-part of 'hp2_get_list_log_bloc.dart';
+part of 'get_list_log_bloc.dart';
 
 @immutable
 abstract class GetListLogEvent {}
