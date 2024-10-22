@@ -21,7 +21,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class AddMeasurementPage extends StatefulWidget {

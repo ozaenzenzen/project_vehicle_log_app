@@ -13,7 +13,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicato
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class DetailMeasurementPageVersion2 extends StatefulWidget {
