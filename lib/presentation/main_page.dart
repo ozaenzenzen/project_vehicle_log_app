@@ -82,6 +82,7 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
         key: const Key("MainFAB"),
+        heroTag: const Key("MainFAB"),
         shape: const CircleBorder(),
         onPressed: () {
           Get.to(() => const AddVehiclePage());

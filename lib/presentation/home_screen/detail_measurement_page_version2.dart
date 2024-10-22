@@ -46,7 +46,8 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton.extended(
-        key: const Key("newValue"),
+        key: const Key("DMPFAB"),
+        heroTag: const Key("DMPFAB"),
         onPressed: () {
           Get.to(
             () => AddMeasurementPage(

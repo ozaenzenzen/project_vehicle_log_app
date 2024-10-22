@@ -478,6 +478,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton.extended(
+        key: const Key("DVPFAB"),
+        heroTag: const Key("DVPFAB"),
         onPressed: () {
           Get.to(
             () => AddMeasurementPage(
