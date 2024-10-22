@@ -9,8 +9,8 @@ import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart'
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 
-part 'get_all_vehicle_v2_event.dart';
-part 'get_all_vehicle_v2_state.dart';
+part 'get_all_vehicle_event.dart';
+part 'get_all_vehicle_state.dart';
 
 class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {

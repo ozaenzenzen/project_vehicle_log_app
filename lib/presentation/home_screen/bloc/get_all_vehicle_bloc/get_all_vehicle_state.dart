@@ -1,4 +1,4 @@
-part of 'get_all_vehicle_v2_bloc.dart';
+part of 'get_all_vehicle_bloc.dart';
 
 @immutable
 abstract class GetAllVehicleState {}

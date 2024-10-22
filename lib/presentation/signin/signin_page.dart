@@ -9,7 +9,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_al
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signup/signup_page.dart';
