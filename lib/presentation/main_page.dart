@@ -81,6 +81,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
+        key: const Key("MainFAB"),
         shape: const CircleBorder(),
         onPressed: () {
           Get.to(() => const AddVehiclePage());
