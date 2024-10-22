@@ -12,10 +12,10 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 part 'get_all_vehicle_v2_event.dart';
 part 'get_all_vehicle_v2_state.dart';
 
-class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2State> {
-  GetAllVehicleV2Bloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleV2Initial()) {
-    on<GetAllVehicleV2Event>((event, emit) {
-      if (event is GetAllVehicleV2RemoteAction) {
+class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
+  GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
+    on<GetAllVehicleEvent>((event, emit) {
+      if (event is GetAllVehicleRemoteAction) {
         if (event.action == GetAllVehicleActionEnum.refresh) {
           currentPage = 1;
           responseData.listData = [];
@@ -33,7 +33,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
             );
           } else {
             emit(
-              GetAllVehicleV2Success(
+              GetAllVehicleSuccess(
                 result: responseData,
                 action: GetAllVehicleActionEnum.loadMore,
               ),
@@ -41,7 +41,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
           }
         }
       }
-      if (event is GetAllVehicleV2LocalAction) {
+      if (event is GetAllVehicleLocalAction) {
         _getAllVehicleLocalActionV2(appVehicleReposistory, event);
       }
     });
@@ -53,10 +53,10 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
 
   Future<void> _getAllVehicleRemoteActionV2(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleV2RemoteAction event,
+    GetAllVehicleRemoteAction event,
   ) async {
     emit(
-      GetAllVehicleV2Loading(
+      GetAllVehicleLoading(
         action: event.action,
       ),
     );
@@ -65,7 +65,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
         emit(
-          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
+          GetAllVehicleFailed(errorMessage: "Failed To Get Support Data"),
         );
         return;
       }
@@ -79,7 +79,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       );
       if (result == null) {
         emit(
-          GetAllVehicleV2Failed(
+          GetAllVehicleFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
@@ -87,7 +87,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       }
       if (result.status != 200) {
         emit(
-          GetAllVehicleV2Failed(
+          GetAllVehicleFailed(
             errorMessage: "${result.message}",
           ),
         );
@@ -101,7 +101,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
           data: result.toVehicleDataEntity()!,
         );
         emit(
-          GetAllVehicleV2Success(
+          GetAllVehicleSuccess(
             result: responseData,
             action: event.action,
           ),
@@ -109,7 +109,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       }
     } catch (errorMessage) {
       emit(
-        GetAllVehicleV2Failed(
+        GetAllVehicleFailed(
           errorMessage: "$errorMessage",
         ),
       );
@@ -118,10 +118,10 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
 
   Future<void> _getAllVehicleLocalActionV2(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleV2LocalAction event,
+    GetAllVehicleLocalAction event,
   ) async {
     emit(
-      GetAllVehicleV2Loading(
+      GetAllVehicleLoading(
         action: GetAllVehicleActionEnum.refresh,
       ),
     );
@@ -130,7 +130,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
         emit(
-          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
+          GetAllVehicleFailed(errorMessage: "Failed To Get Support Data"),
         );
         return;
       }
@@ -138,21 +138,21 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       VehicleDataEntity? result = await VehicleLocalRepository().getLocalVehicleDataV2();
       if (result != null) {
         emit(
-          GetAllVehicleV2Success(
+          GetAllVehicleSuccess(
             result: result,
             action: GetAllVehicleActionEnum.refresh,
           ),
         );
       } else {
         emit(
-          GetAllVehicleV2Failed(
+          GetAllVehicleFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
       }
     } catch (errorMessage) {
       emit(
-        GetAllVehicleV2Failed(
+        GetAllVehicleFailed(
           errorMessage: errorMessage.toString(),
         ),
       );

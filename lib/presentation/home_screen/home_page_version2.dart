@@ -58,8 +58,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
     //     accountRepository: AppAccountReposistory(),
     //   ),
     // )
-    // ..read<GetAllVehicleV2Bloc>().add(
-    //   GetAllVehicleV2LocalAction(
+    // ..read<GetAllVehicleBloc>().add(
+    //   GetAllVehicleLocalAction(
     //     reqData: GetAllVehicleRequestModelV2(
     //       limit: 10,
     //       currentPage: 1,
@@ -94,8 +94,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               accountRepository: AppAccountReposistory(),
             ),
           )
-          ..read<GetAllVehicleV2Bloc>().add(
-            GetAllVehicleV2RemoteAction(
+          ..read<GetAllVehicleBloc>().add(
+            GetAllVehicleRemoteAction(
               reqData: GetAllVehicleRequestModelV2(
                 limit: 10,
                 currentPage: 1,
@@ -307,9 +307,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeVehicleSummarySection() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
+        if (state is GetAllVehicleSuccess) {
           return AppContainerBoxWidget(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -398,7 +398,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               ),
             ),
           );
-        } else if (state is GetAllVehicleV2Loading) {
+        } else if (state is GetAllVehicleLoading) {
           return SkeletonAvatar(
             style: SkeletonAvatarStyle(
               width: MediaQuery.of(context).size.width,
@@ -500,9 +500,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeListVehicleSection() {
-    return BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
       listener: (context, state) {
-        if (state is GetAllVehicleV2Success) {
+        if (state is GetAllVehicleSuccess) {
           if (state.result!.listData!.isNotEmpty) {
             context.read<Hp2GetListLogBloc>().add(
                   Hp2GetListLogAction(
@@ -520,7 +520,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
         }
       },
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
+        if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty) {
             return const SizedBox();
           }
@@ -561,7 +561,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               },
             ),
           );
-        } else if (state is GetAllVehicleV2Loading) {
+        } else if (state is GetAllVehicleLoading) {
           return SkeletonLine(
             style: SkeletonLineStyle(
               width: MediaQuery.of(context).size.width,
@@ -576,9 +576,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeListMeasurementSection() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Loading) {
+        if (state is GetAllVehicleLoading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -593,7 +593,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               return const SkeletonAvatar();
             },
           );
-        } else if (state is GetAllVehicleV2Success) {
+        } else if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty || state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
             return const SizedBox();
           } else {

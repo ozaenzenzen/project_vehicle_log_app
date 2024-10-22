@@ -44,8 +44,8 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
         enablePullDown: true,
         controller: refreshController,
         onRefresh: () {
-          context.read<GetAllVehicleV2Bloc>().add(
-                GetAllVehicleV2RemoteAction(
+          context.read<GetAllVehicleBloc>().add(
+                GetAllVehicleRemoteAction(
                   reqData: GetAllVehicleRequestModelV2(
                     limit: 10,
                     currentPage: 1,
@@ -80,9 +80,9 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                   ),
                 ),
                 SizedBox(height: 20.h),
-                BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+                BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
                   listener: (context, state) {
-                    if (state is GetAllVehicleV2Success) {
+                    if (state is GetAllVehicleSuccess) {
                       refreshController.refreshCompleted();
                       if (state.result!.listData!.isEmpty) {
                         dropDownValue = null;
@@ -92,11 +92,11 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                     }
                   },
                   builder: (context, state) {
-                    if (state is GetAllVehicleV2Loading) {
+                    if (state is GetAllVehicleLoading) {
                       return loadingView();
-                    } else if (state is GetAllVehicleV2Failed) {
+                    } else if (state is GetAllVehicleFailed) {
                       return failedView(state);
-                    } else if (state is GetAllVehicleV2Success) {
+                    } else if (state is GetAllVehicleSuccess) {
                       return successView(state);
                     } else {
                       return initialView();
@@ -111,7 +111,7 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
     );
   }
 
-  Widget failedView(GetAllVehicleV2Failed state) {
+  Widget failedView(GetAllVehicleFailed state) {
     return Text(state.errorMessage);
   }
 
@@ -119,7 +119,7 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
     return const SizedBox();
   }
 
-  Widget successView(GetAllVehicleV2Success state) {
+  Widget successView(GetAllVehicleSuccess state) {
     if (state.result!.listData!.isEmpty) {
       return const SizedBox();
     } else {

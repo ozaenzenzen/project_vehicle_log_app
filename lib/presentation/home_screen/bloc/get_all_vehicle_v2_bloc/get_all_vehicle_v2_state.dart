@@ -1,32 +1,32 @@
 part of 'get_all_vehicle_v2_bloc.dart';
 
 @immutable
-abstract class GetAllVehicleV2State {}
+abstract class GetAllVehicleState {}
 
-class GetAllVehicleV2Initial extends GetAllVehicleV2State {}
+class GetAllVehicleInitial extends GetAllVehicleState {}
 
-class GetAllVehicleV2Loading extends GetAllVehicleV2State {
+class GetAllVehicleLoading extends GetAllVehicleState {
   final GetAllVehicleActionEnum action;
 
-  GetAllVehicleV2Loading({
+  GetAllVehicleLoading({
     required this.action,
   });
 }
 
-class GetAllVehicleV2Success extends GetAllVehicleV2State {
+class GetAllVehicleSuccess extends GetAllVehicleState {
   final VehicleDataEntity? result;
   final GetAllVehicleActionEnum action;
   
-  GetAllVehicleV2Success({
+  GetAllVehicleSuccess({
     this.result,
     required this.action,
   });
 }
 
-class GetAllVehicleV2Failed extends GetAllVehicleV2State {
+class GetAllVehicleFailed extends GetAllVehicleState {
   final String errorMessage;
 
-  GetAllVehicleV2Failed({
+  GetAllVehicleFailed({
     required this.errorMessage,
   });
 }

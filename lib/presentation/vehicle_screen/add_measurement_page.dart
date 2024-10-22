@@ -237,8 +237,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                           accountRepository: AppAccountReposistory(),
                         ),
                       )
-                      ..read<GetAllVehicleV2Bloc>().add(
-                        GetAllVehicleV2LocalAction(
+                      ..read<GetAllVehicleBloc>().add(
+                        GetAllVehicleLocalAction(
                           reqData: GetAllVehicleRequestModelV2(
                             limit: 10,
                             currentPage: 1,

@@ -41,8 +41,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
       enablePullUp: true,
       controller: refreshController,
       onRefresh: () {
-        context.read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2RemoteAction(
+        context.read<GetAllVehicleBloc>().add(
+              GetAllVehicleRemoteAction(
                 reqData: GetAllVehicleRequestModelV2(
                   limit: 10,
                   currentPage: 1,
@@ -52,8 +52,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
             );
       },
       onLoading: () {
-        context.read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2RemoteAction(
+        context.read<GetAllVehicleBloc>().add(
+              GetAllVehicleRemoteAction(
                 reqData: GetAllVehicleRequestModelV2(
                   limit: 10,
                   currentPage: 1,
@@ -86,27 +86,27 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                 ),
               ),
               SizedBox(height: 20.h),
-              BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+              BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
                 listener: (context, state) {
-                  if (state is GetAllVehicleV2Success) {
+                  if (state is GetAllVehicleSuccess) {
                     if (state.action == GetAllVehicleActionEnum.refresh) {
                       refreshController.refreshCompleted();
                     } else {
                       refreshController.loadComplete();
                     }
                   }
-                  if (state is GetAllVehicleV2Failed) {
+                  if (state is GetAllVehicleFailed) {
                     refreshController.refreshCompleted();
                     refreshController.loadComplete();
                   }
                 },
                 builder: (context, state) {
-                  if (state is GetAllVehicleV2Loading) {
+                  if (state is GetAllVehicleLoading) {
                     if (state.action == GetAllVehicleActionEnum.refresh) {
                       return loadingView();
                     }
                   }
-                  if (state is GetAllVehicleV2Success) {
+                  if (state is GetAllVehicleSuccess) {
                     listData = state.result!.listData!;
                   }
                   return successView(listData);
@@ -123,7 +123,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
     return const SizedBox();
   }
 
-  // Widget successView(GetAllVehicleV2Success state) {
+  // Widget successView(GetAllVehicleSuccess state) {
   Widget successView(List<ListDatumVehicleDataEntity> listDataHere) {
     return ListView.separated(
       shrinkWrap: true,

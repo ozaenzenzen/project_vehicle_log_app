@@ -167,8 +167,8 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       } else if (state is SigninSuccess) {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        context.read<GetAllVehicleV2Bloc>().add(
-                              GetAllVehicleV2RemoteAction(
+                        context.read<GetAllVehicleBloc>().add(
+                              GetAllVehicleRemoteAction(
                                 reqData: GetAllVehicleRequestModelV2(
                                   limit: 10,
                                   currentPage: 1,

@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
 
         BlocProvider(create: (context) => NotificationBloc()),
-        BlocProvider(create: (context) => GetAllVehicleV2Bloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => Hp2GetListLogBloc(AppVehicleReposistory())),
       ],
       child: ScreenUtilInit(

@@ -1,19 +1,19 @@
 part of 'get_all_vehicle_v2_bloc.dart';
 
 @immutable
-abstract class GetAllVehicleV2Event {}
+abstract class GetAllVehicleEvent {}
 
-class GetAllVehicleV2RemoteAction extends GetAllVehicleV2Event {
+class GetAllVehicleRemoteAction extends GetAllVehicleEvent {
   final GetAllVehicleRequestModelV2 reqData;
   final GetAllVehicleActionEnum action;
   
-  GetAllVehicleV2RemoteAction({
+  GetAllVehicleRemoteAction({
     required this.reqData,
     required this.action,
   });
 }
 
-class GetAllVehicleV2LocalAction extends GetAllVehicleV2Event {
+class GetAllVehicleLocalAction extends GetAllVehicleEvent {
   final GetAllVehicleRequestModelV2 reqData;
-  GetAllVehicleV2LocalAction({required this.reqData});
+  GetAllVehicleLocalAction({required this.reqData});
 }

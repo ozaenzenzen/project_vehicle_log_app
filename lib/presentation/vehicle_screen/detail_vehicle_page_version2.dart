@@ -98,13 +98,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
       );
 
   infoView() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Loading) {
+        if (state is GetAllVehicleLoading) {
           return const AppLoadingIndicator();
-        } else if (state is GetAllVehicleV2Failed) {
+        } else if (state is GetAllVehicleFailed) {
           return Text(state.errorMessage);
-        } else if (state is GetAllVehicleV2Success) {
+        } else if (state is GetAllVehicleSuccess) {
           int newIndex = state.result!.listData!.indexWhere((element) {
             return element.id == widget.datumVehicle.id;
           });
