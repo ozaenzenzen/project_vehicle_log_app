@@ -70,7 +70,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     AccountLocalRepository localRepository,
   ) async {
     emit(ProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
       UserDataEntity? dataEntity = await localRepository.getLocalAccountData();
       if (dataEntity != null) {

@@ -22,6 +22,7 @@ class EditVehicleBloc extends Bloc<EditVehicleEvent, EditVehicleState> {
     EditVehicleAction event,
   ) async {
     emit(EditVehicleLoading());
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
