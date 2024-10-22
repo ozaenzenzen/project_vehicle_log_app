@@ -14,7 +14,7 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
@@ -107,6 +107,8 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
             appBar: const AppBarWidget(
               title: "Edit Vehicle",
             ),
+            resizeToAvoidBottomInset: true,
+            bottomSheet: bottomSheetSection(),
             body: Stack(
               children: [
                 bodyView(),
@@ -125,6 +127,35 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
         ),
       ),
     );
+  }
+
+  BlocBuilder<EditVehicleBloc, EditVehicleState> bottomSheetSection() {
+    return BlocBuilder<EditVehicleBloc, EditVehicleState>(
+            builder: (context, state) {
+              return AppBottomNavBarButtonWidget(
+                onTap: () {
+                  // Get.off(() => const MainPage());
+                  context.read<EditVehicleBloc>().add(
+                        EditVehicleAction(
+                          appVehicleReposistory: AppVehicleReposistory(),
+                          editVehicleRequestModel: EditVehicleRequestModel(
+                            vehicleId: vehicleId!,
+                            vehicleName: vehicleNameController.text,
+                            vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
+                            year: yearController.text,
+                            engineCapacity: engineCapacityController.text,
+                            tankCapacity: tankCapacityController.text,
+                            color: colorController.text,
+                            machineNumber: machineNumberController.text,
+                            chassisNumber: chassisNumberController.text,
+                          ),
+                        ),
+                      );
+                },
+                title: "Edit Vehicle",
+              );
+            },
+          );
   }
 
   Widget bodyView() {
@@ -318,32 +349,7 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
               controller: chassisNumberController,
             ),
             SizedBox(height: 20.h),
-            BlocBuilder<EditVehicleBloc, EditVehicleState>(
-              builder: (context, state) {
-                return AppMainButtonWidget(
-                  onPressed: () {
-                    // Get.off(() => const MainPage());
-                    context.read<EditVehicleBloc>().add(
-                          EditVehicleAction(
-                            appVehicleReposistory: AppVehicleReposistory(),
-                            editVehicleRequestModel: EditVehicleRequestModel(
-                              vehicleId: vehicleId!,
-                              vehicleName: vehicleNameController.text,
-                              vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
-                              year: yearController.text,
-                              engineCapacity: engineCapacityController.text,
-                              tankCapacity: tankCapacityController.text,
-                              color: colorController.text,
-                              machineNumber: machineNumberController.text,
-                              chassisNumber: chassisNumberController.text,
-                            ),
-                          ),
-                        );
-                  },
-                  text: "Edit Vehicle",
-                );
-              },
-            ),
+            SizedBox(height: kToolbarHeight + 30.h),
           ],
         ),
       ),
