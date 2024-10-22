@@ -109,15 +109,15 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
   }
 
   statsView() {
-    return BlocBuilder<Hp2GetListLogBloc, Hp2GetListLogState>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is Hp2GetListLogLoading) {
+        if (state is GetListLogLoading) {
           return const Center(
             child: AppLoadingIndicator(),
           );
-        } else if (state is Hp2GetListLogFailed) {
+        } else if (state is GetListLogFailed) {
           return Text(state.errorMessage);
-        } else if (state is Hp2GetListLogSuccess) {
+        } else if (state is GetListLogSuccess) {
           listLogVehicleData = state.result?.listData;
           return Container(
             padding: EdgeInsets.all(16.h),

@@ -114,15 +114,15 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                     builder: (context) {
                       return StatefulBuilder(
                         builder: (context, setState) {
-                          return BlocConsumer<Hp2GetListLogBloc, Hp2GetListLogState>(
+                          return BlocConsumer<GetListLogBloc, GetListLogState>(
                             listener: (context, state) {
-                              if (state is Hp2GetListLogSuccess) {
+                              if (state is GetListLogSuccess) {
                                 dialogRefreshController.loadComplete();
                                 dialogRefreshController.refreshCompleted();
                               }
                             },
                             builder: (context, state) {
-                              if (state is Hp2GetListLogSuccess) {
+                              if (state is GetListLogSuccess) {
                                 sorting(state.result?.listData);
                               }
                               return AlertDialog(
@@ -145,8 +145,8 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                                       enablePullUp: true,
                                       controller: dialogRefreshController,
                                       onRefresh: () {
-                                        context.read<Hp2GetListLogBloc>().add(
-                                              Hp2GetListLogAction(
+                                        context.read<GetListLogBloc>().add(
+                                              GetListLogAction(
                                                 actionType: GetLogVehicleActionEnum.refresh,
                                                 reqData: GetLogVehicleRequestModelV2(
                                                   limit: 10,
@@ -156,8 +156,8 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                                             );
                                       },
                                       onLoading: () {
-                                        context.read<Hp2GetListLogBloc>().add(
-                                              Hp2GetListLogAction(
+                                        context.read<GetListLogBloc>().add(
+                                              GetListLogAction(
                                                 actionType: GetLogVehicleActionEnum.loadMore,
                                                 reqData: GetLogVehicleRequestModelV2(
                                                   limit: 10,

@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
 
         BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
-        BlocProvider(create: (context) => Hp2GetListLogBloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory())),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),

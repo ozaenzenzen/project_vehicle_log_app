@@ -135,8 +135,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
+            context.read<GetListLogBloc>().add(
+                  GetListLogAction(
                     reqData: GetLogVehicleRequestModelV2(
                       limit: 10,
                       currentPage: 1,

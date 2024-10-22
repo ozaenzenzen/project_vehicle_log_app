@@ -12,10 +12,10 @@ import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action
 part 'hp2_get_list_log_event.dart';
 part 'hp2_get_list_log_state.dart';
 
-class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
-  Hp2GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(Hp2GetListLogInitial()) {
-    on<Hp2GetListLogEvent>((event, emit) {
-      if (event is Hp2GetListLogAction) {
+class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
+  GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(GetListLogInitial()) {
+    on<GetListLogEvent>((event, emit) {
+      if (event is GetListLogAction) {
         if (event.actionType == GetLogVehicleActionEnum.refresh) {
           currentPage = 1;
           responseData.listData = [];
@@ -33,7 +33,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
             );
           } else {
             emit(
-              Hp2GetListLogSuccess(
+              GetListLogSuccess(
                 result: responseData,
                 actionType: GetLogVehicleActionEnum.loadMore,
               ),
@@ -50,10 +50,10 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
 
   Future<void> _hp2GetListLog(
     AppVehicleReposistory vehicleReposistory,
-    Hp2GetListLogAction event,
+    GetListLogAction event,
   ) async {
     emit(
-      Hp2GetListLogLoading(
+      GetListLogLoading(
         actionType: event.actionType,
       ),
     );
@@ -62,7 +62,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "Failed To Get Support Data",
           ),
         );
@@ -78,7 +78,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       );
       if (result == null) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
@@ -86,7 +86,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       }
       if (result.status != 200) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "${result.message}",
           ),
         );
@@ -97,7 +97,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
         listResponseData?.addAll(result.toLogDataEntity()!.listData!);
         responseData.listData = listResponseData;
         emit(
-          Hp2GetListLogSuccess(
+          GetListLogSuccess(
             result: responseData,
             actionType: event.actionType,
           ),
@@ -106,7 +106,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       }
     } catch (errorMessage) {
       emit(
-        Hp2GetListLogFailed(
+        GetListLogFailed(
           errorMessage: "$errorMessage",
         ),
       );

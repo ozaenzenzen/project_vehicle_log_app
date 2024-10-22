@@ -176,8 +176,8 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  context.read<Hp2GetListLogBloc>().add(
-                        Hp2GetListLogAction(
+                  context.read<GetListLogBloc>().add(
+                        GetListLogAction(
                           actionType: GetLogVehicleActionEnum.refresh,
                           reqData: GetLogVehicleRequestModelV2(
                             limit: 10,

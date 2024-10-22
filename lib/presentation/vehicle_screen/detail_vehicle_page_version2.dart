@@ -218,8 +218,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
       enablePullDown: true,
       enablePullUp: true,
       onRefresh: () {
-        context.read<Hp2GetListLogBloc>().add(
-              Hp2GetListLogAction(
+        context.read<GetListLogBloc>().add(
+              GetListLogAction(
                 actionType: GetLogVehicleActionEnum.refresh,
                 reqData: GetLogVehicleRequestModelV2(
                   limit: 10,
@@ -230,8 +230,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
             );
       },
       onLoading: () {
-        context.read<Hp2GetListLogBloc>().add(
-              Hp2GetListLogAction(
+        context.read<GetListLogBloc>().add(
+              GetListLogAction(
                 actionType: GetLogVehicleActionEnum.loadMore,
                 reqData: GetLogVehicleRequestModelV2(
                   limit: 10,
@@ -241,9 +241,9 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
               ),
             );
       },
-      child: BlocConsumer<Hp2GetListLogBloc, Hp2GetListLogState>(
+      child: BlocConsumer<GetListLogBloc, GetListLogState>(
         listener: (context, state) {
-          if (state is Hp2GetListLogSuccess) {
+          if (state is GetListLogSuccess) {
             if (state.actionType == GetLogVehicleActionEnum.refresh) {
               logsViewRefreshController.refreshCompleted();
             } else {
@@ -252,13 +252,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
           }
         },
         builder: (context, state) {
-          if (state is Hp2GetListLogLoading) {
+          if (state is GetListLogLoading) {
             if (state.actionType == GetLogVehicleActionEnum.refresh) {
               // return const AppLoadingIndicator();
               return loadingSkeletonState();
             }
           }
-          if (state is Hp2GetListLogSuccess) {
+          if (state is GetListLogSuccess) {
             listData = state.result!.listData!;
           }
           sortedListLogs = listData;
@@ -347,13 +347,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
   }
 
   statsView() {
-    return BlocBuilder<Hp2GetListLogBloc, Hp2GetListLogState>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is Hp2GetListLogLoading) {
+        if (state is GetListLogLoading) {
           return const AppLoadingIndicator();
-        } else if (state is Hp2GetListLogFailed) {
+        } else if (state is GetListLogFailed) {
           return Text(state.errorMessage);
-        } else if (state is Hp2GetListLogSuccess) {
+        } else if (state is GetListLogSuccess) {
           return SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(16.h),

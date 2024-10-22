@@ -66,8 +66,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
     //     ),
     //   ),
     // );
-    // ..read<Hp2GetListLogBloc>().add(
-    //   Hp2GetListLogAction(
+    // ..read<GetListLogBloc>().add(
+    //   GetListLogAction(
     //     reqData: GetLogVehicleRequestModelV2(
     //       limit: 10,
     //       currentPage: 1,
@@ -103,8 +103,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               action: GetAllVehicleActionEnum.refresh,
             ),
           )
-          ..read<Hp2GetListLogBloc>().add(
-            Hp2GetListLogAction(
+          ..read<GetListLogBloc>().add(
+            GetListLogAction(
               actionType: GetLogVehicleActionEnum.refresh,
               reqData: GetLogVehicleRequestModelV2(
                 limit: 10,
@@ -504,8 +504,8 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
       listener: (context, state) {
         if (state is GetAllVehicleSuccess) {
           if (state.result!.listData!.isNotEmpty) {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
+            context.read<GetListLogBloc>().add(
+                  GetListLogAction(
                     actionType: GetLogVehicleActionEnum.refresh,
                     reqData: GetLogVehicleRequestModelV2(
                       limit: 10,
@@ -636,8 +636,8 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
+            context.read<GetListLogBloc>().add(
+                  GetListLogAction(
                     actionType: GetLogVehicleActionEnum.refresh,
                     reqData: GetLogVehicleRequestModelV2(
                       limit: 10,
