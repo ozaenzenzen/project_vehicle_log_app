@@ -11,20 +11,20 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
-class VehiclePageVersion2 extends StatefulWidget {
-  const VehiclePageVersion2({Key? key}) : super(key: key);
+class VehiclePage extends StatefulWidget {
+  const VehiclePage({Key? key}) : super(key: key);
 
   @override
-  State<VehiclePageVersion2> createState() => _VehiclePageVersion2State();
+  State<VehiclePage> createState() => _VehiclePageState();
 }
 
-class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
+class _VehiclePageState extends State<VehiclePage> {
   @override
   void dispose() {
     super.dispose();
@@ -147,7 +147,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                   ),
                 );
             Get.to(
-              () => DetailVehiclePageVersion2(
+              () => DetailVehiclePage(
                 // indexMeasurement: index,
                 datumVehicle: listDataHere[index],
                 idVehicle: listDataHere[index].id!,

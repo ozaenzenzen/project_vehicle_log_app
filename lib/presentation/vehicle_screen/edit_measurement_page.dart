@@ -17,19 +17,19 @@ import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class EditMeasurementPageVersion2 extends StatefulWidget {
+class EditMeasurementPage extends StatefulWidget {
   final ListDatumLogEntity data;
 
-  const EditMeasurementPageVersion2({
+  const EditMeasurementPage({
     Key? key,
     required this.data,
   }) : super(key: key);
 
   @override
-  State<EditMeasurementPageVersion2> createState() => _EditMeasurementPageVersion2State();
+  State<EditMeasurementPage> createState() => _EditMeasurementPageState();
 }
 
-class _EditMeasurementPageVersion2State extends State<EditMeasurementPageVersion2> {
+class _EditMeasurementPageState extends State<EditMeasurementPage> {
   // final DateFormat formattedDate = DateFormat('yyyy-MM-dd');
   final DateFormat formattedDate = DateFormat('dd MMMM yyyy');
 

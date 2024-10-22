@@ -6,13 +6,13 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class ItemListWidgetVersion2 extends StatefulWidget {
+class ItemListWidget extends StatefulWidget {
   final String? title;
   final StatusLogs? statusLogs;
   final String? value;
   final ListDatumLogEntity? vehicleMeasurementLogModels;
 
-  const ItemListWidgetVersion2({
+  const ItemListWidget({
     Key? key,
     required this.title,
     required this.value,
@@ -20,7 +20,7 @@ class ItemListWidgetVersion2 extends StatefulWidget {
         vehicleMeasurementLogModels = null,
         super(key: key);
 
-  const ItemListWidgetVersion2.logs({
+  const ItemListWidget.logs({
     Key? key,
     required this.title,
     required this.statusLogs,
@@ -29,10 +29,10 @@ class ItemListWidgetVersion2 extends StatefulWidget {
         super(key: key);
 
   @override
-  State<ItemListWidgetVersion2> createState() => _ItemListWidgetVersion2State();
+  State<ItemListWidget> createState() => _ItemListWidgetState();
 }
 
-class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
+class _ItemListWidgetState extends State<ItemListWidget> {
   final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
   Color statusColor = Colors.black;
   String statusTitle = "Add";

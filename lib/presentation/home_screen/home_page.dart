@@ -14,7 +14,7 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
@@ -25,14 +25,14 @@ import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomePageVersion2 extends StatefulWidget {
-  const HomePageVersion2({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePageVersion2> createState() => _HomePageVersion2State();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageVersion2State extends State<HomePageVersion2> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
   // AccountDataUserModel? accountDataUserModelHomePage;
@@ -649,7 +649,7 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
                   ),
                 );
             Get.to(
-              () => DetailMeasurementPageVersion2(
+              () => DetailMeasurementPage(
                 data: data![indexInput],
                 indexMeasurement: index,
                 listMeasurementTitleByGroup: data![indexInput].measurmentTitle,

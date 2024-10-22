@@ -218,7 +218,6 @@ class _SignInPageState extends State<SignInPage> {
                             AppMainButtonWidget(
                               onPressed: () {
                                 Get.to(
-                                  // () => const SignUpPageVersion2(),
                                   () => const SignUpPage(),
                                 );
                               },

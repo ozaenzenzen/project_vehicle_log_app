@@ -9,7 +9,7 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page.dart';
 
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
@@ -17,14 +17,14 @@ import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
-class StatsPageVersion2 extends StatefulWidget {
-  const StatsPageVersion2({Key? key}) : super(key: key);
+class StatsPage extends StatefulWidget {
+  const StatsPage({Key? key}) : super(key: key);
 
   @override
-  State<StatsPageVersion2> createState() => _StatsPageVersion2State();
+  State<StatsPage> createState() => _StatsPageState();
 }
 
-class _StatsPageVersion2State extends State<StatsPageVersion2> {
+class _StatsPageState extends State<StatsPage> {
   // List<DatumVehicle>? dataStats;
   // DatumVehicle? dropDownValue;
   ListDatumVehicleDataEntity? dropDownValue;
@@ -199,7 +199,7 @@ class _StatsPageVersion2State extends State<StatsPageVersion2> {
                         ),
                       );
                   Get.to(
-                    () => DetailMeasurementPageVersion2(
+                    () => DetailMeasurementPage(
                       data: state.result!.listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
                                 return element == dropDownValue;
                               }) <

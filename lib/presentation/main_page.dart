@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/home_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/home_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
-import 'package:project_vehicle_log_app/presentation/stats_screen/stats_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/stats_screen/stats_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_vehicle_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 
@@ -141,9 +141,9 @@ class _MainPageState extends State<MainPage> {
         },
         children: const [
           // HomePage(),
-          HomePageVersion2(),
-          VehiclePageVersion2(),
-          StatsPageVersion2(),
+          HomePage(),
+          VehiclePage(),
+          StatsPage(),
         ],
       ),
     );

@@ -8,34 +8,34 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class SalesDataVersion2 {
-  SalesDataVersion2(this.year, this.sales);
+class SalesData {
+  SalesData(this.year, this.sales);
   final String year;
   final double sales;
 }
 
-class DVPStatsItemWidgetVersion2 extends StatefulWidget {
+class DVPStatsItemWidget extends StatefulWidget {
   final String? title;
   // final CategorizedVehicleLogData? data;
   final List<ListDatumLogEntity>? data;
 
-  const DVPStatsItemWidgetVersion2({
+  const DVPStatsItemWidget({
     Key? key,
     required this.title,
     this.data,
   }) : super(key: key);
 
   @override
-  State<DVPStatsItemWidgetVersion2> createState() => _DVPStatsItemWidgetVersion2State();
+  State<DVPStatsItemWidget> createState() => _DVPStatsItemWidgetState();
 }
 
-class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2> {
+class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
   TooltipBehavior? _tooltipBehavior;
   final formatter = DateFormat('dd MMMM yyyy, HH:mm');
   final formatter2 = DateFormat('dd/MM/yyyy, HH:mm');
@@ -173,7 +173,7 @@ class _DVPStatsItemWidgetVersion2State extends State<DVPStatsItemWidgetVersion2>
                                             onTap: () {
                                               Get.back();
                                               Get.to(
-                                                () => EditMeasurementPageVersion2(
+                                                () => EditMeasurementPage(
                                                   data: newDataDialog[index],
                                                 ),
                                               );
