@@ -12,6 +12,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final bool ignorePointerActive;
   final TextInputType? keyboardType;
   final Function()? onTap;
+  final Function(String value)? onSubmitted;
   final void Function(String)? onChanged;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -20,6 +21,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final Color? fillColor;
   final InputBorder? border;
   final double? radius;
+  final TextInputAction? textInputAction;
 
   const AppTextFieldWidget({
     Key? key,
@@ -29,8 +31,9 @@ class AppTextFieldWidget extends StatefulWidget {
     this.maxLines,
     this.readOnly = false,
     this.ignorePointerActive = false,
-    this.onTap,
     this.keyboardType,
+    this.onTap,
+    this.onSubmitted,
     this.onChanged,
     this.suffixIcon,
     this.prefixIcon,
@@ -39,6 +42,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.fillColor = AppColor.shape_3,
     this.border,
     this.radius,
+    this.textInputAction,
   }) : super(key: key);
 
   @override
@@ -80,6 +84,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
           child: widget.ignorePointerActive
               ? IgnorePointer(
                   child: TextField(
+                    textInputAction: widget.textInputAction,
                     obscureText: widget.obscureText,
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
@@ -115,9 +120,11 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     onChanged: widget.onChanged,
                     readOnly: widget.readOnly,
                     onTap: widget.onTap,
+                    onSubmitted: widget.onSubmitted,
                   ),
                 )
               : TextField(
+                  textInputAction: widget.textInputAction,
                   obscureText: widget.obscureText,
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
@@ -153,6 +160,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   onChanged: widget.onChanged,
                   readOnly: widget.readOnly,
                   onTap: widget.onTap,
+                  onSubmitted: widget.onSubmitted,
                 ),
         ),
       ],
