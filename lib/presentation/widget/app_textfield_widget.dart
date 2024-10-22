@@ -22,6 +22,9 @@ class AppTextFieldWidget extends StatefulWidget {
   final InputBorder? border;
   final double? radius;
   final TextInputAction? textInputAction;
+  final bool autofocus;
+  final FocusNode? focusNode;
+  final ScrollController? scrollController;
 
   const AppTextFieldWidget({
     Key? key,
@@ -43,6 +46,9 @@ class AppTextFieldWidget extends StatefulWidget {
     this.border,
     this.radius,
     this.textInputAction,
+    this.autofocus = true,
+    this.focusNode,
+    this.scrollController,
   }) : super(key: key);
 
   @override
@@ -84,6 +90,9 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
           child: widget.ignorePointerActive
               ? IgnorePointer(
                   child: TextField(
+                    scrollController: widget.scrollController,
+                    focusNode: widget.focusNode,
+                    autofocus: widget.autofocus,
                     textInputAction: widget.textInputAction,
                     obscureText: widget.obscureText,
                     controller: widget.controller,
@@ -119,11 +128,25 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     ),
                     onChanged: widget.onChanged,
                     readOnly: widget.readOnly,
-                    onTap: widget.onTap,
+                    // onTap: widget.onTap,
+                    onTap: () {
+                      if (widget.autofocus) {
+                        Scrollable.ensureVisible(
+                          widget.focusNode?.context ?? context,
+                          // context,
+                          alignment: 0.5,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      }
+                      widget.onTap?.call();
+                    },
                     onSubmitted: widget.onSubmitted,
                   ),
                 )
               : TextField(
+                  scrollController: widget.scrollController,
+                  focusNode: widget.focusNode,
+                  autofocus: widget.autofocus,
                   textInputAction: widget.textInputAction,
                   obscureText: widget.obscureText,
                   controller: widget.controller,
@@ -159,7 +182,17 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   ),
                   onChanged: widget.onChanged,
                   readOnly: widget.readOnly,
-                  onTap: widget.onTap,
+                  onTap: () {
+                    if (widget.autofocus) {
+                      Scrollable.ensureVisible(
+                        widget.focusNode?.context ?? context,
+                        // context,
+                        alignment: 0.5,
+                        duration: const Duration(milliseconds: 100),
+                      );
+                    }
+                    widget.onTap?.call();
+                  },
                   onSubmitted: widget.onSubmitted,
                 ),
         ),

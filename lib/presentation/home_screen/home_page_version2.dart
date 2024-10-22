@@ -18,9 +18,8 @@ import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurem
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
-import 'package:project_vehicle_log_app/support/app_base64converter_helper.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
+import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
@@ -160,7 +159,17 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BlocBuilder<ProfileBloc, ProfileState>(
+              BlocConsumer<ProfileBloc, ProfileState>(
+                listener: (context, state) {
+                  if (state is ProfileFailed) {
+                    AppDialogAction.showFailedPopup(
+                      context: context,
+                      title: "Terjadi kesalahan",
+                      description: state.errorMessage,
+                      buttonTitle: "Kembali",
+                    );
+                  }
+                },
                 builder: (context, state) {
                   String name = "";
                   if (state is ProfileLoading) {
@@ -171,15 +180,7 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                     );
                   }
                   if (state is ProfileFailed) {
-                    return Expanded(
-                      child: Text(
-                        state.errorMessage,
-                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
+                    name = "";
                   }
                   if (state is ProfileSuccess) {
                     name = state.userDataModel.name ?? "";

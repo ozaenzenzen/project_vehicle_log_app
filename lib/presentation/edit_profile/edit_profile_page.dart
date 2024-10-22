@@ -192,7 +192,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         children: [
                           InkWell(
                             onTap: () async {
-                              profilePicture = await AppImagePickerService.getImageAsBase64().then(
+                              profilePicture = await AppImagePickerService().getImageAsBase64().then(
                                 (value) {
                                   setState(() {});
                                   if (value != null) {

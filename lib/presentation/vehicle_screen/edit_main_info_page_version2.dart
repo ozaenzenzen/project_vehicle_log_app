@@ -153,7 +153,7 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
             SizedBox(height: 10.h),
             InkWell(
               onTap: () async {
-                imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
+                imagePickedInBase64 = await AppImagePickerService().getImageAsBase64().then(
                   (value) {
                     setState(() {});
                     return value!;
