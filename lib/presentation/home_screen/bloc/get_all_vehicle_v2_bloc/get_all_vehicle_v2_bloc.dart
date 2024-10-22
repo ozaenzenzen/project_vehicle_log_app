@@ -125,6 +125,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
         action: GetAllVehicleActionEnum.refresh,
       ),
     );
+    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
