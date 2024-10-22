@@ -14,6 +14,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class EditMeasurementPageVersion2 extends StatefulWidget {
@@ -61,10 +62,18 @@ class _EditMeasurementPageVersion2State extends State<EditMeasurementPageVersion
     currentOdoController.text = widget.data.currentOdo ?? "";
     estimateOdoChangingController.text = widget.data.estimateOdoChanging ?? "";
     amountExpensesController.text = widget.data.amountExpenses ?? "";
-    checkpointDateController.text = widget.data.checkpointDate ?? "";
+
+    checkpointDateChosen = DateTime.parse(widget.data.checkpointDate.toString()).toLocal();
+    // checkpointDateController.text = widget.data.checkpointDate ?? "";
+    checkpointDateController.text = formatter.format(checkpointDateChosen!);
+    AppLogger.debugLog("value: ${checkpointDateChosen?.toLocal()}");
+
     notesController.text = widget.data.notes ?? "";
     super.initState();
   }
+
+  DateTime? checkpointDateChosen;
+  final formatter = DateFormat('dd MMMM yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +176,7 @@ class _EditMeasurementPageVersion2State extends State<EditMeasurementPageVersion
                   String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
                   debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
                   //you can implement different kind of Date Format here according to your requirement
+                  checkpointDateChosen = pickedDate;
 
                   setState(() {
                     checkpointDateController.text = formattedDate; //set output date to TextField value.
