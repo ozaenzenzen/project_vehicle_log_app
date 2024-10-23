@@ -318,6 +318,7 @@ class AppDialogAction {
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
       barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
@@ -373,6 +374,7 @@ class AppDialogAction {
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
       barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
@@ -428,6 +430,7 @@ class AppDialogAction {
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
       barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
