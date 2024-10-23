@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
@@ -12,6 +13,7 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_l
 import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page.dart';
 
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
+import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -119,9 +121,36 @@ class _StatsPageState extends State<StatsPage> {
     return const SizedBox();
   }
 
+  Widget newEmptyState({
+    required String title,
+  }) {
+    return Column(
+      children: [
+        SizedBox(height: 100.h),
+        Image.asset(
+          AppAssets.imgEmptyStateBlue,
+          height: 200.h,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
   Widget successView(GetAllVehicleSuccess state) {
     if (state.result!.listData!.isEmpty) {
-      return const SizedBox();
+      // return const SizedBox();
+      return newEmptyState(
+        title: "Anda belum menambahkan data kendaraan",
+      );
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,37 +182,78 @@ class _StatsPageState extends State<StatsPage> {
               ),
             ),
           ),
-          ListView.separated(
-            padding: EdgeInsets.symmetric(
-              vertical: 20.h,
-            ),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: state.result == null
-                ? 0
-                : state
-                    .result!
-                    .listData![(state.result!.listData!.indexWhere((element) {
-                              return element == dropDownValue;
-                            }) <
-                            0
-                        ? 0
-                        : state.result!.listData!.indexWhere((element) {
-                            return element == dropDownValue;
-                          }))]
-                    .measurmentTitle!
-                    .length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  context.read<GetListLogBloc>().add(
-                        GetListLogAction(
-                          actionType: GetLogVehicleActionEnum.refresh,
-                          reqData: GetLogVehicleRequestModelV2(
-                            limit: 10,
-                            currentPage: 1,
-                            sortOrder: "DESC",
-                            vehicleId: state
+          (state
+                  .result!
+                  .listData![(state.result!.listData!.indexWhere((element) {
+                            return element.id == dropDownValue?.id;
+                          }) <
+                          0)
+                      ? 0
+                      : state.result!.listData!.indexWhere((element) {
+                          return element.id == dropDownValue?.id;
+                        })]
+                  .measurmentTitle!
+                  .isEmpty)
+              ? newEmptyState(
+                  title: "Anda belum menambahkan data pengukuran",
+                )
+              : ListView.separated(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20.h,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: state.result == null
+                      ? 0
+                      : state
+                          .result!
+                          .listData![(state.result!.listData!.indexWhere((element) {
+                                    return element == dropDownValue;
+                                  }) <
+                                  0
+                              ? 0
+                              : state.result!.listData!.indexWhere((element) {
+                                  return element == dropDownValue;
+                                }))]
+                          .measurmentTitle!
+                          .length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        context.read<GetListLogBloc>().add(
+                              GetListLogAction(
+                                actionType: GetLogVehicleActionEnum.refresh,
+                                reqData: GetLogVehicleRequestModelV2(
+                                  limit: 10,
+                                  currentPage: 1,
+                                  sortOrder: "DESC",
+                                  vehicleId: state
+                                      .result!
+                                      .listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                                return element == dropDownValue;
+                                              }) <
+                                              0)
+                                          ? 0
+                                          : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                              return element == dropDownValue;
+                                            })]
+                                      .id
+                                      .toString(),
+                                ),
+                              ),
+                            );
+                        Get.to(
+                          () => DetailMeasurementPage(
+                            data: state.result!.listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                      return element == dropDownValue;
+                                    }) <
+                                    0)
+                                ? 0
+                                : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
+                                    return element == dropDownValue;
+                                  })],
+                            indexMeasurement: index,
+                            listMeasurementTitleByGroup: state
                                 .result!
                                 .listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
                                           return element == dropDownValue;
@@ -193,74 +263,48 @@ class _StatsPageState extends State<StatsPage> {
                                     : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
                                         return element == dropDownValue;
                                       })]
-                                .id
-                                .toString(),
+                                .measurmentTitle,
+                          ),
+                        );
+                      },
+                      child: AppContainerBoxWidget(
+                        height: 200.h,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.water_drop,
+                                size: 90.h,
+                                color: AppColor.primary,
+                              ),
+                              SizedBox(height: 10.h),
+                              Text(
+                                state
+                                    .result!
+                                    .listData![(state.result!.listData!.indexWhere((element) {
+                                              return element.id == dropDownValue?.id;
+                                            }) <
+                                            0)
+                                        ? 0
+                                        : state.result!.listData!.indexWhere((element) {
+                                            return element.id == dropDownValue?.id;
+                                          })]
+                                    .measurmentTitle![index],
+                                style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                  Get.to(
-                    () => DetailMeasurementPage(
-                      data: state.result!.listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
-                                return element == dropDownValue;
-                              }) <
-                              0)
-                          ? 0
-                          : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
-                              return element == dropDownValue;
-                            })],
-                      indexMeasurement: index,
-                      listMeasurementTitleByGroup: state
-                          .result!
-                          .listData![(state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
-                                    return element == dropDownValue;
-                                  }) <
-                                  0)
-                              ? 0
-                              : state.result!.listData!.indexWhere((ListDatumVehicleDataEntity element) {
-                                  return element == dropDownValue;
-                                })]
-                          .measurmentTitle,
-                    ),
-                  );
-                },
-                child: AppContainerBoxWidget(
-                  height: 200.h,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.water_drop,
-                          size: 90.h,
-                          color: AppColor.primary,
-                        ),
-                        SizedBox(height: 10.h),
-                        Text(
-                          state
-                              .result!
-                              .listData![(state.result!.listData!.indexWhere((element) {
-                                        return element.id == dropDownValue?.id;
-                                      }) <
-                                      0)
-                                  ? 0
-                                  : state.result!.listData!.indexWhere((element) {
-                                      return element.id == dropDownValue?.id;
-                                    })]
-                              .measurmentTitle![index],
-                          style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 20.h);
+                  },
                 ),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 20.h);
-            },
-          ),
         ],
       );
     }
