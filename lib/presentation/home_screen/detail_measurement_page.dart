@@ -49,7 +49,7 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
         heroTag: const Key("DMPFAB"),
         onPressed: () {
           Get.to(
-            () => AddMeasurementPage(
+            () => AddMeasurementPage.continueData(
               vehicleId: widget.data.id!,
               measurementService: widget.data.measurmentTitle![widget.indexMeasurement],
               listLogVehicleData: listLogVehicleData,

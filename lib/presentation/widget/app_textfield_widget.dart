@@ -25,6 +25,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final bool autofocus;
   final FocusNode? focusNode;
   final ScrollController? scrollController;
+  final List<Widget>? action;
 
   const AppTextFieldWidget({
     Key? key,
@@ -46,9 +47,10 @@ class AppTextFieldWidget extends StatefulWidget {
     this.border,
     this.radius,
     this.textInputAction,
-    this.autofocus = true,
+    this.autofocus = false,
     this.focusNode,
     this.scrollController,
+    this.action,
   }) : super(key: key);
 
   @override
@@ -74,15 +76,31 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // SizedBox(height: 16.h),
-        Text(
-          // "Email",
-          widget.textFieldTitle,
-          style: GoogleFonts.inter(
-            color: const Color(0xff331814),
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        widget.action == null
+            ? Text(
+                // "Email",
+                widget.textFieldTitle,
+                style: GoogleFonts.inter(
+                  color: const Color(0xff331814),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    // "Email",
+                    widget.textFieldTitle,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xff331814),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  if (widget.action != null) ...widget.action!,
+                ],
+              ),
         SizedBox(height: 4.h),
         SizedBox(
           // height: 48.h,

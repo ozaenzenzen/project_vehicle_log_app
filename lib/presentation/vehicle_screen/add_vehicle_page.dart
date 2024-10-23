@@ -15,6 +15,7 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
@@ -110,7 +111,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        LocalTooltip(
+                        AppTooltipWidget(
                           tooltipController: tooltipController,
                           message: "Kami mereduksi ukuran gambar yang Anda pilih untuk pengalaman yang lebih baik",
                           child: InkWell(
@@ -450,47 +451,3 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   }
 }
 
-class LocalTooltip extends StatelessWidget {
-  final SuperTooltipController tooltipController;
-  final Widget child;
-  final String message;
-
-  const LocalTooltip({
-    super.key,
-    required this.tooltipController,
-    required this.child,
-    required this.message,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SuperTooltip(
-      showBarrier: true,
-      controller: tooltipController,
-      // backgroundColor: const Color(0xff2f2d2f),
-      backgroundColor: Colors.black12,
-      content: Text(
-        message,
-        softWrap: true,
-        style: GoogleFonts.inter(
-          color: AppColor.white,
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      child: child,
-      // child: Container(
-      //   width: 40.0,
-      //   height: 40.0,
-      //   decoration: const BoxDecoration(
-      //     shape: BoxShape.circle,
-      //     color: Colors.blue,
-      //   ),
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      // ),
-    );
-  }
-}

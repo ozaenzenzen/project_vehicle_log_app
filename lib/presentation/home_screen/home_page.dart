@@ -501,25 +501,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeListVehicleSection() {
-    return BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
-      listener: (context, state) {
-        if (state is GetAllVehicleSuccess) {
-          if (state.result!.listData!.isNotEmpty) {
-            context.read<GetListLogBloc>().add(
-                  GetListLogAction(
-                    actionType: GetLogVehicleActionEnum.refresh,
-                    reqData: GetLogVehicleRequestModelV2(
-                      limit: 10,
-                      currentPage: 1,
-                      vehicleId: state.result!.listData!.first.id.toString(),
-                    ),
-                  ),
-                );
-          } else {
-            // DO Nothing
-          }
-        }
-      },
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      // listener: (context, state) {
+      //   if (state is GetAllVehicleSuccess) {
+      //     if (state.result!.listData!.isNotEmpty) {
+      //       // context.read<GetListLogBloc>().add(
+      //       //       GetListLogAction(
+      //       //         actionType: GetLogVehicleActionEnum.refresh,
+      //       //         reqData: GetLogVehicleRequestModelV2(
+      //       //           limit: 10,
+      //       //           currentPage: 1,
+      //       //           vehicleId: state.result!.listData!.first.id.toString(),
+      //       //         ),
+      //       //       ),
+      //       //     );
+      //     } else {
+      //       // DO Nothing
+      //     }
+      //   }
+      // },
       builder: (context, state) {
         if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty) {

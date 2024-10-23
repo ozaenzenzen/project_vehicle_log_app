@@ -8,32 +8,44 @@ import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/add_measurement_page_type_enum.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
   final String? measurementService;
   final List<ListDatumLogEntity>? listLogVehicleData;
+  final AddMeasurementPageActionTypeEnum actionType;
 
   const AddMeasurementPage({
     Key? key,
     required this.vehicleId,
+  })  : measurementService = null,
+        listLogVehicleData = null,
+        actionType = AddMeasurementPageActionTypeEnum.newData,
+        super(key: key);
+
+  const AddMeasurementPage.continueData({
+    Key? key,
+    required this.vehicleId,
     this.measurementService,
     this.listLogVehicleData,
-  }) : super(key: key);
+  })  : actionType = AddMeasurementPageActionTypeEnum.continueData,
+        super(key: key);
 
   @override
   State<AddMeasurementPage> createState() => _AddMeasurementPageState();
@@ -46,6 +58,13 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   TextEditingController estimateOdoController = TextEditingController();
   TextEditingController amountExpensesController = TextEditingController();
   TextEditingController notesController = TextEditingController();
+
+  final measurementTitleTooltipController = SuperTooltipController();
+  final checkpointDateTooltipController = SuperTooltipController();
+  final currentOdoTooltipController = SuperTooltipController();
+  final estimateOdoTooltipController = SuperTooltipController();
+  final amountExpensesTooltipController = SuperTooltipController();
+  final notesTooltipController = SuperTooltipController();
 
   AccountDataUserModel? accountDataUserModel;
 
@@ -152,6 +171,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: measurementTitleController,
             readOnly: true,
             ignorePointerActive: true,
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: measurementTitleTooltipController,
+                      message: "Data Anda sebelumnya yaitu: ${measurementTitleController.text}",
+                      child: InkWell(
+                        onTap: () {
+                          measurementTitleTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
@@ -159,6 +195,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: currentOdoTooltipController,
+                      message: "Data Anda sebelumnya: ${currentOdoController.text}",
+                      child: InkWell(
+                        onTap: () {
+                          currentOdoTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
@@ -181,6 +234,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: checkpointDateController,
             readOnly: true,
             suffixIcon: const Icon(Icons.date_range_sharp),
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: checkpointDateTooltipController,
+                      message: "Data Anda sebelumnya: ${formatter.format(DateTime.parse(widget.listLogVehicleData!.first.checkpointDate!))}",
+                      child: InkWell(
+                        onTap: () {
+                          checkpointDateTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                   context: context,
@@ -230,22 +300,17 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                   title: "Berhasil",
                   description: state.createLogVehicleResponseModel.message!,
                   buttonTitle: "Kembali",
+                  barrierDismissible: false,
                   mainButtonAction: () {
-                    context
-                      ..read<ProfileBloc>().add(
-                        GetProfileRemoteAction(
-                          accountRepository: AppAccountReposistory(),
-                        ),
-                      )
-                      ..read<GetAllVehicleBloc>().add(
-                        GetAllVehicleRemoteAction(
-                          reqData: GetAllVehicleRequestModelV2(
-                            limit: 10,
-                            currentPage: 1,
+                    context.read<GetAllVehicleBloc>().add(
+                          GetAllVehicleRemoteAction(
+                            reqData: GetAllVehicleRequestModelV2(
+                              limit: 10,
+                              currentPage: 1,
+                            ),
+                            action: GetAllVehicleActionEnum.refresh,
                           ),
-                          action: GetAllVehicleActionEnum.refresh,
-                        ),
-                      );
+                        );
                     Get.offAll(() => const MainPage());
                   },
                 );
