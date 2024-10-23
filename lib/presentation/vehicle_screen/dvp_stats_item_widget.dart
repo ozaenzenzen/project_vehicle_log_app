@@ -179,6 +179,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                                               );
                                             },
                                             child: Container(
+                                              alignment: Alignment.centerLeft,
                                               padding: EdgeInsets.symmetric(
                                                 vertical: 12.h,
                                                 horizontal: 8.h,
@@ -190,6 +191,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16.sp,
                                                 ),
+                                                textAlign: TextAlign.left,
                                               ),
                                             ),
                                           );
