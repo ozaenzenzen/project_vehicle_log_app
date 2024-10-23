@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
@@ -12,7 +13,9 @@ import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
@@ -108,6 +111,7 @@ class _VehiclePageState extends State<VehiclePage> {
                   }
                   if (state is GetAllVehicleSuccess) {
                     listData = state.result!.listData!;
+                    AppLogger.debugLog("listData: ${listData.length}");
                   }
                   return successView(listData);
                 },
@@ -123,8 +127,37 @@ class _VehiclePageState extends State<VehiclePage> {
     return const SizedBox();
   }
 
+  Widget newEmptyState({
+    required String title,
+  }) {
+    return Column(
+      children: [
+        SizedBox(height: 100.h),
+        Image.asset(
+          AppAssets.imgEmptyStateBlue,
+          height: 200.h,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
   // Widget successView(GetAllVehicleSuccess state) {
   Widget successView(List<ListDatumVehicleDataEntity> listDataHere) {
+    if (listDataHere.isEmpty) {
+      return newEmptyState(
+        title: "Anda belum menambahkan data kendaraan",
+      );
+    }
     return ListView.separated(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
