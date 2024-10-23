@@ -230,7 +230,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
                         estimateOdoChanging: estimateOdoChangingController.text,
                         amountExpenses: amountExpensesController.text,
                         // checkpointDate: checkpointDateController.text,
-                        checkpointDate: "${checkpointDateChosen?.millisecondsSinceEpoch}",
+                        checkpointDate: "${checkpointDateChosen?.toIso8601String()}",
                         notes: notesController.text,
                       ),
                     ),
