@@ -36,7 +36,8 @@ class DVPStatsItemWidget extends StatefulWidget {
 }
 
 class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
-  TooltipBehavior? _tooltipBehavior;
+  TooltipBehavior? _expensesTooltipBehavior;
+  TooltipBehavior? _odoChangesTooltipBehavior;
   final formatter = DateFormat('dd MMMM yyyy, HH:mm');
   final formatter2 = DateFormat('dd/MM/yyyy, HH:mm');
 
@@ -47,7 +48,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
   @override
   void initState() {
     super.initState();
-    _tooltipBehavior = TooltipBehavior(enable: true);
+    _expensesTooltipBehavior = TooltipBehavior(enable: true);
+    _odoChangesTooltipBehavior = TooltipBehavior(enable: true);
     sorting(widget.data);
   }
 
@@ -237,12 +239,12 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
           SfCartesianChart(
             key: const Key("Expenses"),
             primaryXAxis: CategoryAxis(),
-            // Chart title
+            // // Chart title
             title: ChartTitle(text: 'Expenses'),
-            // Enable legend
+            // // Enable legend
             legend: Legend(isVisible: true),
-            // Enable tooltip
-            tooltipBehavior: _tooltipBehavior,
+            // // Enable tooltip
+            tooltipBehavior: _expensesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
                 legendItemText: "Expenses",
@@ -287,7 +289,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             // Enable legend
             legend: Legend(isVisible: true),
             // Enable tooltip
-            tooltipBehavior: _tooltipBehavior,
+            tooltipBehavior: _odoChangesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
                 legendItemText: "Odo Changes",
