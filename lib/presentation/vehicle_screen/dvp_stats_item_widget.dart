@@ -47,17 +47,83 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
   List<ListDatumLogEntity> newData1 = <ListDatumLogEntity>[];
   List<ListDatumLogEntity> newDataDialog = <ListDatumLogEntity>[];
 
+  RefreshController dialogRefreshController = RefreshController(initialRefresh: false);
+
   @override
   void initState() {
     super.initState();
-    _expensesTooltipBehavior = TooltipBehavior(enable: true);
-    _odoChangesTooltipBehavior = TooltipBehavior(enable: true);
-    sorting(widget.data);
+    statsTooltipHandler();
+    sortingHandler(widget.data);
   }
 
-  RefreshController dialogRefreshController = RefreshController(initialRefresh: false);
+  void statsTooltipHandler() {
+    _expensesTooltipBehavior = TooltipBehavior(
+      enable: true,
+      builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        return Container(
+          padding: EdgeInsets.all(10.h),
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Date: ${formatter.format((data as ListDatumLogEntity).createdAt!.toLocal())}',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                'Expenses: ${data.amountExpenses}',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    _odoChangesTooltipBehavior = TooltipBehavior(
+      enable: true,
+      builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
+        return Container(
+          padding: EdgeInsets.all(10.h),
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Date: ${formatter.format((data as ListDatumLogEntity).createdAt!.toLocal())}',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                'Odo Changes: ${data.currentOdo}',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
-  void sorting(List<ListDatumLogEntity>? input) {
+  void sortingHandler(List<ListDatumLogEntity>? input) {
     newData = input!;
     newData = input.where((element) {
       // return element.measurementTitle == widget.title;
@@ -126,7 +192,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                             },
                             builder: (context, state) {
                               if (state is GetListLogSuccess) {
-                                sorting(state.result?.listData);
+                                sortingHandler(state.result?.listData);
                               }
                               return AlertDialog(
                                 title: Text(
