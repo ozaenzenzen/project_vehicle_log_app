@@ -72,45 +72,6 @@ class AppVehicleReposistory {
     }
   }
 
-  Future<GetAllVehicleDataResponseModel?> getAllVehicleData(String token) async {
-    try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
-        AppApiPath.getAllVehicle,
-        method: MethodRequest.get,
-        header: {"token": token},
-      );
-      return GetAllVehicleDataResponseModel.fromJson(response.data);
-    } on DioError catch (e) {
-      return GetAllVehicleDataResponseModel(
-        status: e.response?.data['status'],
-        message: e.response?.data['Message'],
-      );
-      // if (e.response?.data is Map) {
-      //   return DataState.error(
-      //     exception: e,
-      //     stackTrace: e.stackTrace,
-      //     message: e.response?.data['Message'] ?? "Error",
-      //     code: int.tryParse('${e.response?.data['StatusCode']}'),
-      //   );
-      // }
-    } catch (errorMessage) {
-      return null;
-    }
-  }
-
-  Future<GetLogVehicleDataResponseModel> getLogVehicleData(String id) async {
-    final response = await AppApiService(
-      EnvironmentConfig.baseUrl(),
-    ).call(
-      AppApiPath.getLogVehicle,
-      method: MethodRequest.get,
-      header: {"usd": id},
-    );
-    return GetLogVehicleDataResponseModel.fromJson(response.data);
-  }
-
   Future<CreateVehicleResponseModel?> createVehicleData({
     required CreateVehicleRequestModel createVehicleRequestModel,
     required String token,
