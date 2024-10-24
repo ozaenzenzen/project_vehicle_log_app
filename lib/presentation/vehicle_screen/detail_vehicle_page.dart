@@ -390,6 +390,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                               //   return element.measurementTitle == widget.datumVehicle.measurmentTitle![widget.index];
                               // })].measurementTitle,
                               title: widget.listMeasurementTitleByGroup![index],
+                              vehicleId: widget.idVehicle.toString(),
                               // title: "Test Title",
                               data: state.result!.listData!,
                             );

@@ -182,6 +182,7 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
                   //       )]
                   //         .measurementTitle,
                   title: widget.data.measurmentTitle?[widget.indexMeasurement],
+                  vehicleId: widget.data.id.toString(),
 
                   // data: state.result!.listData![state.result!.listData!.indexWhere(
                   //   (element) {

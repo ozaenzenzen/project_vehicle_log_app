@@ -10,6 +10,7 @@ import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -22,12 +23,14 @@ class SalesData {
 
 class DVPStatsItemWidget extends StatefulWidget {
   final String? title;
+  final String? vehicleId;
   // final CategorizedVehicleLogData? data;
   final List<ListDatumLogEntity>? data;
 
   const DVPStatsItemWidget({
     Key? key,
     required this.title,
+    required this.vehicleId,
     this.data,
   }) : super(key: key);
 
@@ -58,7 +61,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
   void sorting(List<ListDatumLogEntity>? input) {
     newData = input!;
     newData = input.where((element) {
-      return element.measurementTitle == widget.title;
+      // return element.measurementTitle == widget.title;
+      return (element.measurementTitle == widget.title && element.vehicleId.toString() == widget.vehicleId);
     }).toList();
     newData.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
@@ -66,22 +70,21 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
 
     newData1 = input;
     newData1 = input.where((element) {
-      return element.measurementTitle == widget.title;
+      return (element.measurementTitle == widget.title && element.vehicleId.toString() == widget.vehicleId);
     }).toList();
     newData1.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
     });
+    // AppLogger.debugLog("newData11: ${newData1.map((e) => AppLogger.debugLog("element here: ${e.toJson()}"))}");
 
     newDataDialog = input;
     newDataDialog = input.where((element) {
-      return element.measurementTitle == widget.title;
+      return (element.measurementTitle == widget.title && element.vehicleId.toString() == widget.vehicleId);
     }).toList();
     newDataDialog.sort((a, b) {
       return b.createdAt!.compareTo(a.createdAt!);
     });
-    // AppLogger.debugLog("Output: ${newDataDialog?.map((e) => AppLogger.debugLog("e0: ${e.currentOdo}}")).toList()}");
-    // AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e1: ${e.currentOdo}}")).toList()}");
-    // AppLogger.debugLog("Output: ${newData?.map((e) => AppLogger.debugLog("e: ${jsonEncode(e.toJson())}")).toList()}");
+    // AppLogger.debugLog("newDataDialog1: ${newDataDialog.map((e) => AppLogger.debugLog("element here1: ${e.toJson()}"))}");
   }
 
   @override
