@@ -213,51 +213,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         ),
                       );
                     } else if (state is ProfileSuccess) {
-                      if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
-                        // return FutureBuilder<Uint8List>(
-                        //   future: AppBase64ConverterHelper().decodeBase64(state.userDataModel.profilePicture!),
-                        //   builder: (context, snapshot) {
-                        //     if (snapshot.hasData) {
-                        //       if (snapshot.data == null) {
-                        //         return CircleAvatar(
-                        //           radius: 36.h,
-                        //           backgroundColor: AppColor.primary,
-                        //         );
-                        //       }
-                        //       if (snapshot.data!.isEmpty) {
-                        //         return ClipOval(
-                        //           child: SkeletonAvatar(
-                        //             style: SkeletonAvatarStyle(
-                        //               height: 80.h,
-                        //               width: 80.h,
-                        //             ),
-                        //           ),
-                        //         );
-                        //       }
-                        //       if (snapshot.data!.isNotEmpty) {
-                        //         return ClipOval(
-                        //           child: Image.memory(
-                        //             snapshot.data!,
-                        //             // base64Decode(state.userDataModel.profilePicture!),
-                        //             height: 80.h,
-                        //             width: 80.h,
-                        //             fit: BoxFit.cover,
-                        //           ),
-                        //         );
-                        //       }
-                        //     }
-                        //     if (snapshot.hasError) {
-                        //       return CircleAvatar(
-                        //         radius: 36.h,
-                        //         backgroundColor: AppColor.primary,
-                        //       );
-                        //     }
-                        //     return CircleAvatar(
-                        //       radius: 36.h,
-                        //       backgroundColor: AppColor.primary,
-                        //     );
-                        //   },
-                        // );
+                      if (state.dataProfilePicture != null) {
+                        profilePictureData = state.dataProfilePicture;
+                        //Version RnD
+                        return ClipOval(
+                          child: Image.memory(
+                            profilePictureData!,
+                            height: 80.h,
+                            width: 80.h,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      }
+                      /* if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
+                        // Version Stable
                         profilePictureData = base64Decode(state.userDataModel.profilePicture!);
                         return ClipOval(
                           child: Image.memory(
@@ -268,7 +237,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             fit: BoxFit.cover,
                           ),
                         );
-                      } else {
+                      } */
+                      else {
                         return CircleAvatar(
                           radius: 36.h,
                           backgroundColor: AppColor.primary,

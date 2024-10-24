@@ -1,11 +1,14 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/get_userdata_response_models.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/support/app_base64converter_helper.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
@@ -40,11 +43,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
       if (getUserDataResponseModel != null) {
         if (getUserDataResponseModel.status == 200) {
-          UserDataEntity? data = getUserDataResponseModel.toUserDataEntityWithoutToken();
-          await AccountLocalRepository().setLocalAccountData(data: data!);
+          UserDataEntity? dataEntity = getUserDataResponseModel.toUserDataEntityWithoutToken();
+          await AccountLocalRepository().setLocalAccountData(data: dataEntity!);
+          Uint8List? dataProfilePicture;
+          if (dataEntity.profilePicture != null && dataEntity.profilePicture!.length > 40) {
+            dataProfilePicture = await AppBase64ConverterHelper().decodeBase64(dataEntity.profilePicture.toString());
+          }
           emit(
             ProfileSuccess(
-              userDataModel: data,
+              userDataModel: dataEntity,
+              dataProfilePicture: dataProfilePicture,
             ),
           );
         } else {
@@ -74,8 +82,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       UserDataEntity? dataEntity = await localRepository.getLocalAccountData();
       if (dataEntity != null) {
+        Uint8List? dataProfilePicture;
+        if (dataEntity.profilePicture != null && dataEntity.profilePicture!.length > 40) {
+          dataProfilePicture = await AppBase64ConverterHelper().decodeBase64(dataEntity.profilePicture.toString());
+        }
         emit(ProfileSuccess(
           userDataModel: dataEntity,
+          dataProfilePicture: dataProfilePicture,
         ));
       } else {
         emit(
