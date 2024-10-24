@@ -19,6 +19,7 @@ import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
@@ -81,6 +82,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
+
+  int countVehicle = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -277,9 +280,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeVehicleSummarySection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is GetAllVehicleSuccess) {
+        if (state is GetListLogSuccess) {
           return AppContainerBoxWidget(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -294,22 +297,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                   SizedBox(height: 10.h),
+                  BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+                    builder: (context, state) {
+                      if (state is GetAllVehicleSuccess) {
+                        if (state.result != null) {
+                          countVehicle = state.result!.totalItems!;
+                        } else {
+                          countVehicle = 0;
+                        }
+                      } else {
+                        countVehicle = 0;
+                      }
+                      return Text(
+                        "Number of Vehicle: $countVehicle",
+                        // "Number of Vehicle: ${state.result?.totalItems}",
+                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.black54,
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 5.h),
                   Text(
-                    "Number of Vehicle: 8",
+                    "Measurement: ${state.result?.collectionLogData?.measurementTitles}",
+                    // "Measurement: Oil, Water",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
                     ),
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "Critical: Oil, Water",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Last Update: 16 Nov 2022",
+                    "Last Update: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
+                    // "Last Update: 16 Nov 2022",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
                     ),
@@ -368,7 +387,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             ),
           );
-        } else if (state is GetAllVehicleLoading) {
+        } else if (state is GetListLogLoading) {
           return SkeletonAvatar(
             style: SkeletonAvatarStyle(
               width: MediaQuery.of(context).size.width,
@@ -376,94 +395,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           );
         } else {
-          return AppContainerBoxWidget(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Summary",
-                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "Number of Vehicle: 8",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Critical: Oil, Water",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Last Update: 16 Nov 2022",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
+          return const SizedBox();
         }
       },
     );
@@ -471,7 +403,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   Widget homeListVehicleSection() {
     return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+      // listener: (context, state) {
+      //   if (state is GetAllVehicleSuccess) {
+      //     setState(() {
+      //       countVehicle = state.result!.totalItems ?? 0;
+      //       debugPrint("countVehicle $countVehicle");
+      //     });
+      //   }
+      // },
       builder: (context, state) {
+        AppLogger.debugLog("State here: $state");
         if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty) {
             return const SizedBox();

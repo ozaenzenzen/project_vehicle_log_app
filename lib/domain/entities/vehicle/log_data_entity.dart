@@ -3,6 +3,7 @@ class LogDataEntity {
   int? nextPage;
   int? totalPages;
   int? totalItems;
+  CollectionLogDataEntity? collectionLogData;
   List<ListDatumLogEntity>? listData;
 
   LogDataEntity({
@@ -10,6 +11,7 @@ class LogDataEntity {
     this.nextPage,
     this.totalPages,
     this.totalItems,
+    this.collectionLogData,
     this.listData,
   });
 
@@ -18,6 +20,7 @@ class LogDataEntity {
         nextPage: json["next_page"],
         totalPages: json["total_pages"],
         totalItems: json["total_items"],
+        collectionLogData: json["collection_log_data"] == null ? null : CollectionLogDataEntity.fromJson(json["collection_log_data"]),
         listData: json["list_data"] == null ? [] : List<ListDatumLogEntity>.from(json["list_data"]!.map((x) => ListDatumLogEntity.fromJson(x))),
       );
 
@@ -26,7 +29,52 @@ class LogDataEntity {
         "next_page": nextPage,
         "total_pages": totalPages,
         "total_items": totalItems,
+        "collection_log_data": collectionLogData?.toJson(),
         "list_data": listData == null ? [] : List<dynamic>.from(listData!.map((x) => x.toJson())),
+      };
+}
+
+class CollectionLogDataEntity {
+  int? totalExpenses;
+  DateTime? lastCreatedAt;
+  String? avgExpensesPerMeas;
+  double? avgOdoChange;
+  double? avgServiceFreq;
+  String? mostFrequentTitles;
+  String? costBreakdown;
+  List<String>? measurementTitles;
+
+  CollectionLogDataEntity({
+    this.totalExpenses,
+    this.lastCreatedAt,
+    this.avgExpensesPerMeas,
+    this.avgOdoChange,
+    this.avgServiceFreq,
+    this.mostFrequentTitles,
+    this.costBreakdown,
+    this.measurementTitles,
+  });
+
+  factory CollectionLogDataEntity.fromJson(Map<String, dynamic> json) => CollectionLogDataEntity(
+        totalExpenses: json["total_expenses"],
+        lastCreatedAt: json["last_created_at"] == null ? null : DateTime.parse(json["last_created_at"]),
+        avgExpensesPerMeas: json["avg_expenses_per_meas"],
+        avgOdoChange: json["avg_odo_change"]?.toDouble(),
+        avgServiceFreq: json["avg_service_freq"]?.toDouble(),
+        mostFrequentTitles: json["most_frequent_titles"],
+        costBreakdown: json["cost_breakdown"],
+        measurementTitles: json["measurement_titles"] == null ? [] : List<String>.from(json["measurement_titles"]!.map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "total_expenses": totalExpenses,
+        "last_created_at": lastCreatedAt?.toIso8601String(),
+        "avg_expenses_per_meas": avgExpensesPerMeas,
+        "avg_odo_change": avgOdoChange,
+        "avg_service_freq": avgServiceFreq,
+        "most_frequent_titles": mostFrequentTitles,
+        "cost_breakdown": costBreakdown,
+        "measurement_titles": measurementTitles == null ? [] : List<dynamic>.from(measurementTitles!.map((x) => x)),
       };
 }
 

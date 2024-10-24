@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/home_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
@@ -13,6 +16,7 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_vehicle_
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -65,20 +69,50 @@ class _MainPageState extends State<MainPage> {
             accountRepository: AppAccountReposistory(),
           ),
         );
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await context.read<GetAllVehicleBloc>().stream.firstWhere(
-            (state) => state is GetAllVehicleSuccess || state is GetAllVehicleFailed,
-          );
-      // ignore: use_build_context_synchronously
-      context.read<GetAllVehicleBloc>().add(
-            GetAllVehicleLocalAction(
-              reqData: GetAllVehicleRequestModelV2(
-                limit: 10,
-                currentPage: 1,
-              ),
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (_) async {
+    //     AppLogger.debugLog("Call Here");
+    //     var dataState = await context.read<GetAllVehicleBloc>().stream.firstWhere(
+    //       (state) {
+    //         AppLogger.debugLog("Herexxx1: $state");
+    //         // return state is GetAllVehicleInitial || state is GetAllVehicleSuccess || state is GetAllVehicleFailed;
+    //         return state is GetAllVehicleInitial || state is GetAllVehicleSuccess;
+    //         // return state;
+    //       },
+    //     );
+    //     AppLogger.debugLog("Herexxx2: $dataState");
+    //     if (dataState is GetAllVehicleInitial || dataState is GetAllVehicleSuccess) {
+    //       // ignore: use_build_context_synchronously
+    //       context.read<GetAllVehicleBloc>().add(
+    //             GetAllVehicleLocalAction(
+    //               reqData: GetAllVehicleRequestModelV2(
+    //                 limit: 10,
+    //                 currentPage: 1,
+    //               ),
+    //             ),
+    //           );
+    //     }
+    //   },
+    // );
+    context.read<GetAllVehicleBloc>().add(
+          GetAllVehicleLocalAction(
+            reqData: GetAllVehicleRequestModelV2(
+              limit: 10,
+              currentPage: 1,
             ),
-          );
-    });
+          ),
+        );
+    context.read<GetListLogBloc>().add(
+          GetListLogAction(
+            actionType: GetLogVehicleActionEnum.refresh,
+            reqData: GetLogVehicleRequestModelV2(
+              limit: 10,
+              currentPage: 1,
+              sortOrder: "DESC",
+              vehicleId: null,
+            ),
+          ),
+        );
   }
 
   @override
