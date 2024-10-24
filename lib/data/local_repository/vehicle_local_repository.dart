@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/model/local/vehicle_local_data_model.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
@@ -28,7 +29,7 @@ class VehicleLocalRepository {
     required VehicleDataEntity data,
   }) async {
     try {
-      await LocalService.instance.box.write(vehicleDataV2, data.toJson());
+      await LocalService.instance.box.write(vehicleDataV2, jsonEncode(data.toJson()));
       debugPrint("[saveLocalVehicleDataV2] vehicleData saved");
     } catch (e) {
       AppLogger.debugLog("[setocalVehicleDataV2][error] $e");
@@ -38,14 +39,12 @@ class VehicleLocalRepository {
 
   Future<VehicleDataEntity?> getLocalVehicleDataV2() async {
     try {
-      VehicleDataEntity? vehicleData = VehicleDataEntity.fromJson(
-        LocalService.instance.box.read(vehicleDataV2),
-      );
-      // ignore: unnecessary_null_comparison, unrelated_type_equality_checks
-      if (vehicleData == null || vehicleData == [] || vehicleData == "") {
-        return null;
-      } else {
+      var output = await LocalService.instance.box.read(vehicleDataV2);
+      if (output != null) {
+        VehicleDataEntity? vehicleData = VehicleDataEntity.fromJson(jsonDecode(output));
         return vehicleData;
+      } else {
+        return null;
       }
     } catch (e) {
       AppLogger.debugLog("[getLocalVehicleDataV2][error] $e");
