@@ -18,7 +18,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class SignInPage extends StatefulWidget {
@@ -123,7 +122,6 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     onSubmitted: (String value) {
-                      AppLogger.debugLog("value here: $value");
                       context.read<SigninBloc>().add(
                             SigninAction(
                               signInRequestModel: SignInRequestModel(
@@ -176,6 +174,9 @@ class _SignInPageState extends State<SignInPage> {
                                 action: GetAllVehicleActionEnum.refresh,
                               ),
                             );
+                        // await context.read<GetAllVehicleBloc>().stream.firstWhere(
+                        //       (state) => state is GetAllVehicleSuccess || state is GetAllVehicleFailed,
+                        //     );
                         Get.offAll(
                           () => const MainPage(),
                         );

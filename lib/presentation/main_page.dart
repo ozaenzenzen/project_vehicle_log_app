@@ -65,14 +65,20 @@ class _MainPageState extends State<MainPage> {
             accountRepository: AppAccountReposistory(),
           ),
         );
-    context.read<GetAllVehicleBloc>().add(
-          GetAllVehicleLocalAction(
-            reqData: GetAllVehicleRequestModelV2(
-              limit: 10,
-              currentPage: 1,
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<GetAllVehicleBloc>().stream.firstWhere(
+            (state) => state is GetAllVehicleSuccess || state is GetAllVehicleFailed,
+          );
+      // ignore: use_build_context_synchronously
+      context.read<GetAllVehicleBloc>().add(
+            GetAllVehicleLocalAction(
+              reqData: GetAllVehicleRequestModelV2(
+                limit: 10,
+                currentPage: 1,
+              ),
             ),
-          ),
-        );
+          );
+    });
   }
 
   @override
