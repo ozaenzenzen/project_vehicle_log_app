@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_vehicle_request_model.dart';
@@ -7,8 +6,6 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_measureme
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_measurement_log_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_response_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_all_vehicle_data_response_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/get_log_vehicle_data_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
