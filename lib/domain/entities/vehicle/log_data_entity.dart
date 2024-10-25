@@ -41,6 +41,7 @@ class CollectionLogDataEntity {
   double? avgOdoChange;
   double? avgServiceFreq;
   String? mostFrequentTitles;
+  String? countFrequentTitles;
   String? costBreakdown;
   List<String>? measurementTitles;
 
@@ -51,6 +52,7 @@ class CollectionLogDataEntity {
     this.avgOdoChange,
     this.avgServiceFreq,
     this.mostFrequentTitles,
+    this.countFrequentTitles,
     this.costBreakdown,
     this.measurementTitles,
   });
@@ -62,6 +64,7 @@ class CollectionLogDataEntity {
         avgOdoChange: json["avg_odo_change"]?.toDouble(),
         avgServiceFreq: json["avg_service_freq"]?.toDouble(),
         mostFrequentTitles: json["most_frequent_titles"],
+        countFrequentTitles: json["count_frequent_titles"],
         costBreakdown: json["cost_breakdown"],
         measurementTitles: json["measurement_titles"] == null ? [] : List<String>.from(json["measurement_titles"]!.map((x) => x)),
       );
@@ -73,6 +76,7 @@ class CollectionLogDataEntity {
         "avg_odo_change": avgOdoChange,
         "avg_service_freq": avgServiceFreq,
         "most_frequent_titles": mostFrequentTitles,
+        "count_frequent_titles": countFrequentTitles,
         "cost_breakdown": costBreakdown,
         "measurement_titles": measurementTitles == null ? [] : List<dynamic>.from(measurementTitles!.map((x) => x)),
       };
