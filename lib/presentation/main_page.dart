@@ -69,6 +69,25 @@ class _MainPageState extends State<MainPage> {
             accountRepository: AppAccountReposistory(),
           ),
         );
+    context.read<GetAllVehicleBloc>().add(
+          GetAllVehicleLocalAction(
+            reqData: GetAllVehicleRequestModelV2(
+              limit: 10,
+              currentPage: 1,
+            ),
+          ),
+        );
+    context.read<GetListLogBloc>().add(
+          GetListLogAction(
+            actionType: GetLogVehicleActionEnum.refresh,
+            reqData: GetLogVehicleRequestModelV2(
+              limit: 10,
+              currentPage: 1,
+              sortOrder: "DESC",
+              vehicleId: null,
+            ),
+          ),
+        );
     // WidgetsBinding.instance.addPostFrameCallback(
     //   (_) async {
     //     AppLogger.debugLog("Call Here");
@@ -94,25 +113,6 @@ class _MainPageState extends State<MainPage> {
     //     }
     //   },
     // );
-    context.read<GetAllVehicleBloc>().add(
-          GetAllVehicleLocalAction(
-            reqData: GetAllVehicleRequestModelV2(
-              limit: 10,
-              currentPage: 1,
-            ),
-          ),
-        );
-    context.read<GetListLogBloc>().add(
-          GetListLogAction(
-            actionType: GetLogVehicleActionEnum.refresh,
-            reqData: GetLogVehicleRequestModelV2(
-              limit: 10,
-              currentPage: 1,
-              sortOrder: "DESC",
-              vehicleId: null,
-            ),
-          ),
-        );
   }
 
   @override
