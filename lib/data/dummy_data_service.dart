@@ -39,5 +39,10 @@ class MeasurementServiceDummyData {
       description: "Battery",
       icons: Icons.battery_5_bar_outlined,
     ),
+    MeasurementServiceModel(
+      title: "Disc",
+      description: "Disc",
+      icons: Icons.disc_full,
+    ),
   ];
 }
