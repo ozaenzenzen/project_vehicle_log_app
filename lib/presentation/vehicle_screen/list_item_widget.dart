@@ -33,7 +33,8 @@ class ItemListWidget extends StatefulWidget {
 }
 
 class _ItemListWidgetState extends State<ItemListWidget> {
-  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+  // final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm');
   Color statusColor = Colors.black;
   String statusTitle = "Add";
 
@@ -68,7 +69,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    handleStatus(widget.statusLogs);
+    // handleStatus(widget.statusLogs);
     if (widget.statusLogs == null) {
       return Container(
         height: 40.h,
@@ -128,18 +129,18 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(width: 10.w),
-                  Text(
-                    // "(${widget.statusLogs.toString()})",
-                    "(${statusTitle.toString()})",
-                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                      // color: AppColor.text_4,
-                      // color: Colors.black,
-                      // color: handleStatusColor(widget.statusLogs),
-                      color: statusColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  // SizedBox(width: 10.w),
+                  // Text(
+                  //   // "(${widget.statusLogs.toString()})",
+                  //   "(${statusTitle.toString()})",
+                  //   style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+                  //     // color: AppColor.text_4,
+                  //     // color: Colors.black,
+                  //     // color: handleStatusColor(widget.statusLogs),
+                  //     color: statusColor,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
               Expanded(
