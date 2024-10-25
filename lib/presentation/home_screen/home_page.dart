@@ -36,7 +36,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
-  // AccountDataUserModel? accountDataUserModelHomePage;
   UserDataEntity? accountDataUserModelHomePage;
 
   DateFormat formattedDate = DateFormat("dd MMM yyyy");
@@ -48,47 +47,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late List<_ChartData> data;
   late TooltipBehavior _tooltipA;
   late TooltipBehavior _tooltipB;
-  late TooltipBehavior _tooltipC;
 
   Uint8List? profilePictureData;
 
   @override
   void initState() {
-    // context
-    // ..read<ProfileBloc>().add(
-    //   GetProfileRemoteAction(
-    //     accountRepository: AppAccountReposistory(),
-    //   ),
-    // )
-    // ..read<GetAllVehicleBloc>().add(
-    //   GetAllVehicleLocalAction(
-    //     reqData: GetAllVehicleRequestModelV2(
-    //       limit: 10,
-    //       currentPage: 1,
-    //     ),
-    //   ),
-    // );
-    // ..read<GetListLogBloc>().add(
-    //   GetListLogAction(
-    //     reqData: GetLogVehicleRequestModelV2(
-    //       limit: 10,
-    //       currentPage: 1,
-    //     ),
-    //   ),
-    // );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
-      // _ChartData('Jack', 34),
-      // _ChartData('Others', 52),
     ];
     _tooltipA = TooltipBehavior(enable: true);
     _tooltipB = TooltipBehavior(enable: true);
-    _tooltipC = TooltipBehavior(enable: true);
     super.initState();
   }
 
-  int countVehicle = 0;
+  String countVehicle = "";
 
   @override
   Widget build(BuildContext context) {
@@ -308,12 +281,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     builder: (context, state) {
                       if (state is GetAllVehicleSuccess) {
                         if (state.result != null) {
-                          countVehicle = state.result!.totalItems!;
+                          countVehicle = "${state.result!.totalItems!}";
                         } else {
-                          countVehicle = 0;
+                          countVehicle = "";
                         }
                       } else {
-                        countVehicle = 0;
+                        countVehicle = "";
                       }
                       return Text(
                         "Number of Vehicle: $countVehicle",
@@ -350,6 +323,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           title: ChartTitle(
                             text: "Frequent Measurment",
                             textStyle: GoogleFonts.inter(
+                              color: Colors.black38,
                               fontSize: 10.sp,
                             ),
                           ),
@@ -371,6 +345,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           title: ChartTitle(
                             text: "Cost Breakdown",
                             textStyle: GoogleFonts.inter(
+                              color: Colors.black38,
                               fontSize: 10.sp,
                             ),
                           ),
