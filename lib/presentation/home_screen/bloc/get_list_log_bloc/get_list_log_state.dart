@@ -15,9 +15,15 @@ class GetListLogLoading extends GetListLogState {
 class GetListLogSuccess extends GetListLogState {
   final LogDataEntity? result;
   final GetLogVehicleActionEnum actionType;
+  // final Map<String, dynamic>? dataCountFrequentTitle;
+  // final Map<String, dynamic>? dataCostBreakdown;
+  final List<ChartData>? dataCountFrequentTitle;
+  final List<ChartData>? dataCostBreakdown;
   GetListLogSuccess({
     this.result,
     required this.actionType,
+    this.dataCountFrequentTitle,
+    this.dataCostBreakdown,
   });
 }
 

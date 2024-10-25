@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
@@ -45,7 +46,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   );
 
   late List<_ChartData> data;
-  late TooltipBehavior _tooltip;
+  late TooltipBehavior _tooltipA;
+  late TooltipBehavior _tooltipB;
+  late TooltipBehavior _tooltipC;
 
   Uint8List? profilePictureData;
 
@@ -79,7 +82,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       // _ChartData('Jack', 34),
       // _ChartData('Others', 52),
     ];
-    _tooltip = TooltipBehavior(enable: true);
+    _tooltipA = TooltipBehavior(enable: true);
+    _tooltipB = TooltipBehavior(enable: true);
+    _tooltipC = TooltipBehavior(enable: true);
     super.initState();
   }
 
@@ -292,8 +297,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 children: [
                   Text(
                     "Summary",
-                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                    style: GoogleFonts.inter(
                       color: Colors.black54,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: 10.h),
@@ -337,50 +344,62 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        height: 100.h,
-                        width: 100.h,
+                        height: 170.h,
+                        width: 170.h,
                         child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
+                          title: ChartTitle(
+                            text: "Frequent Measurment",
+                            textStyle: GoogleFonts.inter(
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          tooltipBehavior: _tooltipA,
+                          series: <CircularSeries<ChartData, String>>[
+                            DoughnutSeries<ChartData, String>(
+                              dataSource: state.dataCountFrequentTitle,
+                              xValueMapper: (ChartData data, ints) => data.x,
+                              yValueMapper: (ChartData data, ints) => data.y,
+                              name: 'Most Frequent Measurment',
                             )
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: 100.h,
-                        width: 100.h,
+                        height: 170.h,
+                        width: 170.h,
                         child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
+                          title: ChartTitle(
+                            text: "Cost Breakdown",
+                            textStyle: GoogleFonts.inter(
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          tooltipBehavior: _tooltipB,
+                          series: <CircularSeries<ChartData, String>>[
+                            DoughnutSeries<ChartData, String>(
+                              dataSource: state.dataCostBreakdown,
+                              xValueMapper: (ChartData data, ints) => data.x,
+                              yValueMapper: (ChartData data, ints) => data.y,
+                              name: 'Cost Breakdown',
                             )
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 100.h,
+                      //   width: 100.h,
+                      //   child: SfCircularChart(
+                      //     tooltipBehavior: _tooltipC,
+                      //     series: <CircularSeries<_ChartData, String>>[
+                      //       DoughnutSeries<_ChartData, String>(
+                      //         dataSource: data,
+                      //         xValueMapper: (_ChartData data, ints) => data.x,
+                      //         yValueMapper: (_ChartData data, ints) => data.y,
+                      //         name: 'Gold',
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
@@ -412,7 +431,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       //   }
       // },
       builder: (context, state) {
-        AppLogger.debugLog("State here: $state");
+        // AppLogger.debugLog("State here: $state");
         if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty) {
             return const SizedBox();
@@ -580,7 +599,8 @@ class ChartData {
     this.color,
   ]);
   final String x;
-  final double y;
+  final dynamic y;
+  // final num y;
   final Color? color;
 }
 
