@@ -5,7 +5,7 @@ enum AppConnectivityStatus { wifi, cellular, offline }
 class AppConnectivityService {
   static AppConnectivityStatus connectionStatus = AppConnectivityStatus.offline;
 
-  static init() async {
+  static Future<void> init() async {
     connectionStatus = _connectionStatus(await Connectivity().checkConnectivity());
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       connectionStatus = _connectionStatus(result);
