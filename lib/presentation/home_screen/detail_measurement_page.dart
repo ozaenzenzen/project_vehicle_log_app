@@ -8,7 +8,7 @@ import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_ent
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
