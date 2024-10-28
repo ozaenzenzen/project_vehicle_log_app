@@ -128,6 +128,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             buttonTitle: "Kembali",
           );
         } else if (state is EditProfileSuccess) {
+          FocusManager.instance.primaryFocus?.unfocus();
           AppDialogAction.showSuccessPopup(
             context: context,
             title: "Berhasil",

@@ -15,7 +15,6 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_l
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
 import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
@@ -111,7 +110,6 @@ class _VehiclePageState extends State<VehiclePage> {
                   }
                   if (state is GetAllVehicleSuccess) {
                     listData = state.result!.listData!;
-                    AppLogger.debugLog("listData: ${listData.length}");
                   }
                   return successView(listData);
                 },

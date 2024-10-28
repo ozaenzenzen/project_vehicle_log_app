@@ -6,8 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
@@ -115,6 +118,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
           );
         }
         if (state is EditVehicleSuccess) {
+          FocusManager.instance.primaryFocus?.unfocus();
           AppDialogAction.showSuccessPopup(
             context: context,
             title: 'Berhasil mengubah data kendaraan',
@@ -122,6 +126,15 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             buttonTitle: 'Kembali',
             barrierDismissible: false,
             mainButtonAction: () {
+              context.read<GetAllVehicleBloc>().add(
+                    GetAllVehicleRemoteAction(
+                      reqData: GetAllVehicleRequestModelV2(
+                        limit: 10,
+                        currentPage: 1,
+                      ),
+                      action: GetAllVehicleActionEnum.refresh,
+                    ),
+                  );
               Get.offAll(() => const MainPage());
             },
           );
@@ -131,7 +144,6 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
         return AppBottomNavBarButtonWidget(
           title: "Update Vehicle",
           onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
             context.read<EditVehicleBloc>().add(
                   EditVehicleAction(
                     appVehicleReposistory: AppVehicleReposistory(),

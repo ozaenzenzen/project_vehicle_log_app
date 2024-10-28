@@ -7,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
@@ -93,6 +96,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
           );
         }
         if (state is CreateVehicleSuccess) {
+          FocusManager.instance.primaryFocus?.unfocus();
           AppDialogAction.showSuccessPopup(
             context: context,
             title: "Berhasil menambahkan kendaraan",
@@ -100,6 +104,15 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             buttonTitle: "Kembali",
             barrierDismissible: false,
             mainButtonAction: () {
+              context.read<GetAllVehicleBloc>().add(
+                    GetAllVehicleRemoteAction(
+                      reqData: GetAllVehicleRequestModelV2(
+                        limit: 10,
+                        currentPage: 1,
+                      ),
+                      action: GetAllVehicleActionEnum.refresh,
+                    ),
+                  );
               Get.off(() => const MainPage());
             },
           );
@@ -125,7 +138,6 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 buttonTitle: "Back",
               );
             } else {
-              FocusManager.instance.primaryFocus?.unfocus();
               context.read<CreateVehicleBloc>().add(
                     CreateVehicleAction(
                       createVehicleRequestModel: CreateVehicleRequestModel(

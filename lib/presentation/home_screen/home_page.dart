@@ -20,7 +20,6 @@ import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
@@ -399,7 +398,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
         if (state is GetAllVehicleLoading) {
-          AppLogger.debugLog("Kepanggil loading ngga? 1");
           return SkeletonLine(
             style: SkeletonLineStyle(
               width: MediaQuery.of(context).size.width,
@@ -458,7 +456,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
         if (state is GetAllVehicleLoading) {
-          AppLogger.debugLog("Kepanggil loading ngga? 2");
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
