@@ -325,18 +325,21 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
               textFieldTitle: "Year",
               textFieldHintText: "Year",
               controller: yearController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Engine Capacity (cc)",
               textFieldHintText: "ex: 250",
               controller: engineCapacityController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Tank Capacity (Litre)",
               textFieldHintText: "ex: 250",
               controller: tankCapacityController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
