@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_measurement_log_request_model.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/edit_measurement_log_bloc/edit_measurement_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_secondarybutton_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
@@ -31,11 +29,7 @@ class EditMeasurementPage extends StatefulWidget {
 }
 
 class _EditMeasurementPageState extends State<EditMeasurementPage> {
-  // final DateFormat formattedDate = DateFormat('yyyy-MM-dd');
-  final DateFormat formattedDate = DateFormat('dd MMMM yyyy');
-
   TextEditingController checkpointDateController = TextEditingController();
-
   TextEditingController measurementTitleController = TextEditingController();
   TextEditingController currentOdoController = TextEditingController();
   TextEditingController estimateOdoChangingController = TextEditingController();
@@ -44,21 +38,22 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
 
   late EditMeasurementLogBloc editMeasurementLogBloc;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    editMeasurementLogBloc = EditMeasurementLogBloc();
-  }
+  DateTime? checkpointDateChosen;
+
+  final DateFormat formattedDate = DateFormat('dd MMMM yyyy');
+
+  bool isLoadingActive = false;
 
   @override
   void dispose() {
     super.dispose();
     editMeasurementLogBloc.close();
-    debugPrint('disposed');
   }
 
   @override
   void initState() {
+    editMeasurementLogBloc = EditMeasurementLogBloc();
+
     measurementTitleController.text = widget.data.measurementTitle ?? "";
     currentOdoController.text = widget.data.currentOdo ?? "";
     estimateOdoChangingController.text = widget.data.estimateOdoChanging ?? "";
@@ -66,55 +61,103 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
 
     checkpointDateChosen = DateTime.parse(widget.data.checkpointDate.toString()).toLocal();
     // checkpointDateController.text = widget.data.checkpointDate ?? "";
-    checkpointDateController.text = formatter.format(checkpointDateChosen!);
+    checkpointDateController.text = formattedDate.format(checkpointDateChosen!);
     AppLogger.debugLog("value: ${checkpointDateChosen?.toLocal()}");
 
     notesController.text = widget.data.notes ?? "";
     super.initState();
   }
 
-  DateTime? checkpointDateChosen;
-  final formatter = DateFormat('dd MMMM yyyy');
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => editMeasurementLogBloc,
-      child: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-          appBar: const AppBarWidget(
-            title: "Edit Measurement",
-          ),
-          body: Stack(
-            children: [
-              formView(),
-              BlocBuilder<EditMeasurementLogBloc, EditMeasurementLogState>(
-                builder: (context, state) {
-                  if (state is EditMeasurementLogLoading) {
-                    return loadingView();
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Scaffold(
+              appBar: const AppBarWidget(
+                title: "Edit Measurement",
               ),
-            ],
+              body: bodySection(),
+              bottomSheet: bottomSheetSection(),
+            ),
           ),
-          bottomSheet: bottomSheetSection(),
-        ),
+          BlocListener<EditMeasurementLogBloc, EditMeasurementLogState>(
+            listener: (context, state) {
+              if (state is EditMeasurementLogLoading) {
+                isLoadingActive = true;
+              } else {
+                isLoadingActive = false;
+              }
+              setState(() {});
+            },
+            child: (isLoadingActive) ? const AppOverlayLoading2Widget() : const SizedBox(),
+          ),
+        ],
       ),
     );
   }
 
-  Widget formView() {
+  Widget bottomSheetSection() {
+    return BlocConsumer<EditMeasurementLogBloc, EditMeasurementLogState>(
+      listener: (context, state) {
+        if (state is EditMeasurementLogFailed) {
+          AppDialogAction.showFailedPopup(
+            context: context,
+            title: "Terjadi Kesalahan",
+            description: state.errorMessage,
+            buttonTitle: "Kembali",
+          );
+        }
+        if (state is EditMeasurementLogSuccess) {
+          AppDialogAction.showSuccessPopup(
+            context: context,
+            title: "Berhasil mengubah log data kendaraan",
+            description: state.editMeasurementLogResponseModel.message,
+            buttonTitle: "Kembali",
+            barrierDismissible: false,
+            mainButtonAction: () {
+              Get.offAll(const MainPage());
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return AppBottomNavBarButtonWidget(
+          title: "Update Measurement",
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+            editMeasurementLogBloc.add(
+              UpdateMeasurementAction(
+                editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
+                  id: widget.data.id,
+                  vehicleId: widget.data.vehicleId,
+                  measurementTitle: measurementTitleController.text,
+                  currentOdo: currentOdoController.text,
+                  estimateOdoChanging: estimateOdoChangingController.text,
+                  amountExpenses: amountExpensesController.text,
+                  // checkpointDate: checkpointDateController.text,
+                  checkpointDate: "${checkpointDateChosen?.toIso8601String()}",
+                  notes: notesController.text,
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget bodySection() {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(16.h),
         child: Column(
           children: [
-            // SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -196,97 +239,8 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
             ),
             SizedBox(height: 25.h),
             SizedBox(height: kToolbarHeight + 30.h),
-            // SizedBox(height: 10.h),
-            // AppSecondaryButtonWidget.error(
-            //   onPressed: () {
-            //     // Get.back();
-            //     AppDialogAction.showWarningPopup(
-            //       context: context,
-            //       title: "Informasi",
-            //       description: "Fitur ini belum tersedia",
-            //       buttonTitle: "Kembali",
-            //     );
-            //   },
-            //   text: "Delete",
-            // ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget bottomSheetSection() {
-    return BlocListener<EditMeasurementLogBloc, EditMeasurementLogState>(
-      listener: (context, state) {
-        if (state is EditMeasurementLogFailed) {
-          AppDialogAction.showFailedPopup(
-            context: context,
-            title: "Terjadi Kesalahan",
-            description: state.errorMessage,
-            buttonTitle: "Kembali",
-            mainButtonAction: () {
-              Get.back();
-            },
-          );
-        } else if (state is EditMeasurementLogSuccess) {
-          AppDialogAction.showSuccessPopup(
-            context: context,
-            title: "Berhasil",
-            description: state.editMeasurementLogResponseModel.message,
-            buttonTitle: "Kembali",
-            mainButtonAction: () {
-              Get.offAll(const MainPage());
-            },
-          );
-        }
-      },
-      child: AppBottomNavBarButtonWidget(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          editMeasurementLogBloc.add(
-            UpdateMeasurementAction(
-              editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
-                id: widget.data.id,
-                vehicleId: widget.data.vehicleId,
-                measurementTitle: measurementTitleController.text,
-                currentOdo: currentOdoController.text,
-                estimateOdoChanging: estimateOdoChangingController.text,
-                amountExpenses: amountExpensesController.text,
-                // checkpointDate: checkpointDateController.text,
-                checkpointDate: "${checkpointDateChosen?.toIso8601String()}",
-                notes: notesController.text,
-              ),
-            ),
-          );
-        },
-        title: "Update",
-      ),
-    );
-  }
-
-  Widget loadingView() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: Colors.black38,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50.h,
-            width: 50.h,
-            child: const CircularProgressIndicator(),
-          ),
-          SizedBox(height: 24.h),
-          Text(
-            'Proses sedang berlangsung',
-            style: GoogleFonts.inter(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
-            ),
-          ),
-        ],
       ),
     );
   }
