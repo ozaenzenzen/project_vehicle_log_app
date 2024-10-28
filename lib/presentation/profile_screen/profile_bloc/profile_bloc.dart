@@ -17,7 +17,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(AccountLocalRepository localRepository) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {
       if (event is GetProfileLocalAction) {
-        _getProfileDataAction(localRepository);
+        _getProfileLocalAction(localRepository);
       }
       if (event is GetProfileRemoteAction) {
         _getProfileRemoteAction(event.accountRepository);
@@ -74,7 +74,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
-  Future<void> _getProfileDataAction(
+  Future<void> _getProfileLocalAction(
     AccountLocalRepository localRepository,
   ) async {
     emit(ProfileLoading());

@@ -30,20 +30,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // late ProfileBloc profileBloc;
-
   @override
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(
           GetProfileLocalAction(),
         );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // profileBloc = ProfileBloc(AccountLocalRepository());
   }
 
   String profilePicture = "";
