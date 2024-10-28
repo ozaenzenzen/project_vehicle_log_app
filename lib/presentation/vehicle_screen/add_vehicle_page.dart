@@ -48,9 +48,65 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
   var machineNumberFocusNode = FocusNode();
   var chassisNumberFocusNode = FocusNode();
 
+  var vehicleNameGlobalKey = GlobalKey();
+  var yearGlobalKey = GlobalKey();
+  var engineCapacityGlobalKey = GlobalKey();
+  var tankCapacityGlobalKey = GlobalKey();
+  var colorGlobalKey = GlobalKey();
+  var machineNumberGlobalKey = GlobalKey();
+  var chassisNumberGlobalKey = GlobalKey();
+
   final tooltipController = SuperTooltipController();
 
   bool isLoadingActive = false;
+
+  final _scrollController = ScrollController();
+
+  void scrollToFocusedTextField(FocusNode focusNode) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients && focusNode.hasFocus) {
+        _scrollController.position.ensureVisible(
+          focusNode.context!.findRenderObject()!,
+          alignment: 0.3, // Adjust alignment as needed
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  void scrollToFocusedTextFieldOld() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent - 100,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+
+  Future<void> ensureVisibleOnTextArea({
+    required GlobalKey textfieldKey,
+  }) async {
+    final keyContext = textfieldKey.currentContext;
+    if (keyContext != null) {
+      await Future.delayed(const Duration(milliseconds: 300)).then(
+        (value) => Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.decelerate,
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +218,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
 
   Widget bodySection(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       physics: const ScrollPhysics(),
       padding: EdgeInsets.only(
         top: 16.h,
@@ -334,20 +391,25 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
+              key: vehicleNameGlobalKey,
               textFieldTitle: "Vehicle Name",
               textFieldHintText: "Vehicle Name",
               controller: vehicleNameController,
               focusNode: vehicleNameFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(vehicleNameFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
+              key: yearGlobalKey,
               textFieldTitle: "Year",
               textFieldHintText: "Year",
               controller: yearController,
               focusNode: yearFocusNode,
               keyboardType: TextInputType.number,
               onTap: () {
-                yearFocusNode.requestFocus();
+                scrollToFocusedTextField(yearFocusNode);
               },
             ),
             SizedBox(height: 15.h),
@@ -357,6 +419,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               controller: engineCapacityController,
               focusNode: engineCapacityFocusNode,
               keyboardType: TextInputType.number,
+              onTap: () {
+                scrollToFocusedTextField(engineCapacityFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
@@ -365,6 +430,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               controller: tankCapacityController,
               focusNode: tankCapacityFocusNode,
               keyboardType: TextInputType.number,
+              onTap: () {
+                scrollToFocusedTextField(tankCapacityFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
@@ -372,6 +440,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               textFieldHintText: "Color",
               controller: colorController,
               focusNode: colorFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(colorFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
@@ -379,6 +450,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               textFieldHintText: "Machine Number",
               controller: machineNumberController,
               focusNode: machineNumberFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(machineNumberFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
@@ -386,6 +460,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               textFieldHintText: "Chassis Number",
               controller: chassisNumberController,
               focusNode: chassisNumberFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(chassisNumberFocusNode);
+              },
             ),
             SizedBox(height: kToolbarHeight + 30.h),
           ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
@@ -51,24 +50,46 @@ class AddMeasurementPage extends StatefulWidget {
 
 class _AddMeasurementPageState extends State<AddMeasurementPage> {
   TextEditingController measurementTitleController = TextEditingController();
-  TextEditingController checkpointDateController = TextEditingController();
   TextEditingController currentOdoController = TextEditingController();
   TextEditingController estimateOdoController = TextEditingController();
   TextEditingController amountExpensesController = TextEditingController();
+  TextEditingController checkpointDateController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
   final measurementTitleTooltipController = SuperTooltipController();
-  final checkpointDateTooltipController = SuperTooltipController();
   final currentOdoTooltipController = SuperTooltipController();
   final estimateOdoTooltipController = SuperTooltipController();
   final amountExpensesTooltipController = SuperTooltipController();
+  final checkpointDateTooltipController = SuperTooltipController();
   final notesTooltipController = SuperTooltipController();
+
+  final measurementTitleFocusNode = FocusNode();
+  final currentOdoFocusNode = FocusNode();
+  final estimateOdoFocusNode = FocusNode();
+  final amountExpensesFocusNode = FocusNode();
+  final checkpointDateFocusNode = FocusNode();
+  final notesFocusNode = FocusNode();
 
   DateTime? checkpointDateChosen;
 
   final formatter = DateFormat('dd MMMM yyyy');
 
   bool isLoadingActive = false;
+
+  final _scrollController = ScrollController();
+
+  void scrollToFocusedTextField(FocusNode focusNode) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients && focusNode.hasFocus) {
+        _scrollController.position.ensureVisible(
+          focusNode.context!.findRenderObject()!,
+          alignment: 0.3, // Adjust alignment as needed
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -179,6 +200,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
   Widget bodySection(BuildContext context) {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Column(
         children: [
           SizedBox(height: 16.h),
@@ -217,6 +239,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: measurementTitleFocusNode,
             textFieldTitle: "Measurement Title",
             textFieldHintText: "ex: Oil",
             controller: measurementTitleController,
@@ -242,10 +265,14 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: currentOdoFocusNode,
             textFieldTitle: "Current Odo (km)",
             textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
+            onTap: () {
+              scrollToFocusedTextField(currentOdoFocusNode);
+            },
             action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
                 ? [
                     AppTooltipWidget(
@@ -266,20 +293,29 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: estimateOdoFocusNode,
             textFieldTitle: "Estimate Odo Changing (km)",
             textFieldHintText: "ex: 14000",
             controller: estimateOdoController,
             keyboardType: TextInputType.number,
+            onTap: () {
+              scrollToFocusedTextField(estimateOdoFocusNode);
+            },
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: amountExpensesFocusNode,
             textFieldTitle: "Amount Expenses (Rp)",
             textFieldHintText: "ex: 40000",
             controller: amountExpensesController,
             keyboardType: TextInputType.number,
+            onTap: () {
+              scrollToFocusedTextField(amountExpensesFocusNode);
+            },
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: checkpointDateFocusNode,
             textFieldTitle: "Checkpoint Date",
             textFieldHintText: formatter.format(DateTime.now()),
             controller: checkpointDateController,
@@ -327,10 +363,14 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
+            focusNode: notesFocusNode,
             textFieldTitle: "Notes",
             textFieldHintText: "notes",
             maxLines: 4,
             controller: notesController,
+            onTap: () {
+              scrollToFocusedTextField(notesFocusNode);
+            },
           ),
           SizedBox(height: 25.h),
           SizedBox(height: kToolbarHeight + 30.h),
@@ -435,33 +475,6 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget loadingView() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: Colors.black38,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50.h,
-            width: 50.h,
-            child: const CircularProgressIndicator(),
-          ),
-          SizedBox(height: 24.h),
-          Text(
-            'Proses sedang berlangsung',
-            style: GoogleFonts.inter(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
