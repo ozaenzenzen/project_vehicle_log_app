@@ -11,14 +11,14 @@ import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/notification_screen/notification_bloc/notification_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/signup/signup_bloc/signup_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/signin_screen/signin_bloc/signin_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
+import 'package:project_vehicle_log_app/presentation/signup_screen/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'presentation/signin/signin_page.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -11,8 +11,8 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
-import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/signup/signup_page.dart';
+import 'package:project_vehicle_log_app/presentation/signin_screen/signin_bloc/signin_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/signup_screen/signup_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';

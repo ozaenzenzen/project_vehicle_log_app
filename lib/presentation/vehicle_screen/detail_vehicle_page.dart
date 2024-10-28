@@ -9,12 +9,12 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_vehicle_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/list_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/dvp_stats_item_widget.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/list_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/support/app_assets.dart';
