@@ -48,7 +48,7 @@ class VehicleLocalRepository {
       }
     } catch (e) {
       AppLogger.debugLog("[getLocalVehicleDataV2][error] $e");
-      rethrow;
+      return null;
     }
   }
 }

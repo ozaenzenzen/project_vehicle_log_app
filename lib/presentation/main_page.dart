@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
@@ -70,13 +72,17 @@ class _MainPageState extends State<MainPage> {
           ),
         );
     context.read<GetAllVehicleBloc>().add(
-          GetAllVehicleLocalAction(
-            reqData: GetAllVehicleRequestModelV2(
-              limit: 10,
-              currentPage: 1,
-            ),
-          ),
+          GetAllVehicleLocalAction(),
         );
+    // context.read<GetAllVehicleBloc>().add(
+    //       GetAllVehicleRemoteAction(
+    //         reqData: GetAllVehicleRequestModelV2(
+    //           limit: 10,
+    //           currentPage: 1,
+    //         ),
+    //         action: GetAllVehicleActionEnum.refresh,
+    //       ),
+    //     );
     context.read<GetListLogBloc>().add(
           GetListLogAction(
             actionType: GetLogVehicleActionEnum.refresh,
@@ -88,31 +94,6 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         );
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //   (_) async {
-    //     AppLogger.debugLog("Call Here");
-    //     var dataState = await context.read<GetAllVehicleBloc>().stream.firstWhere(
-    //       (state) {
-    //         AppLogger.debugLog("Herexxx1: $state");
-    //         // return state is GetAllVehicleInitial || state is GetAllVehicleSuccess || state is GetAllVehicleFailed;
-    //         return state is GetAllVehicleInitial || state is GetAllVehicleSuccess;
-    //         // return state;
-    //       },
-    //     );
-    //     AppLogger.debugLog("Herexxx2: $dataState");
-    //     if (dataState is GetAllVehicleInitial || dataState is GetAllVehicleSuccess) {
-    //       // ignore: use_build_context_synchronously
-    //       context.read<GetAllVehicleBloc>().add(
-    //             GetAllVehicleLocalAction(
-    //               reqData: GetAllVehicleRequestModelV2(
-    //                 limit: 10,
-    //                 currentPage: 1,
-    //               ),
-    //             ),
-    //           );
-    //     }
-    //   },
-    // );
   }
 
   @override

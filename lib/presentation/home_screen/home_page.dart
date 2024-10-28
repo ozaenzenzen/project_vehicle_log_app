@@ -396,18 +396,30 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeListVehicleSection() {
-    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
-      // listener: (context, state) {
-      //   if (state is GetAllVehicleSuccess) {
-      //     setState(() {
-      //       countVehicle = state.result!.totalItems ?? 0;
-      //       debugPrint("countVehicle $countVehicle");
-      //     });
-      //   }
-      // },
+    return BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
+      listener: (context, state) {
+        if (state is GetAllVehicleLoading) {
+          AppLogger.debugLog("Listen loading ngga? 1");
+          setState(() {});
+        }
+        // if (state is GetAllVehicleSuccess) {
+        //   setState(() {
+        //     countVehicle = state.result!.totalItems ?? 0;
+        //     debugPrint("countVehicle $countVehicle");
+        //   });
+        // }
+      },
       builder: (context, state) {
-        // AppLogger.debugLog("State here: $state");
-        if (state is GetAllVehicleSuccess) {
+        AppLogger.debugLog("State here: $state");
+        if (state is GetAllVehicleLoading) {
+          AppLogger.debugLog("Kepanggil loading ngga? 1");
+          return SkeletonLine(
+            style: SkeletonLineStyle(
+              width: MediaQuery.of(context).size.width,
+              height: 20.h,
+            ),
+          );
+        } else if (state is GetAllVehicleSuccess) {
           if (state.result == null || state.result!.listData!.isEmpty) {
             return const SizedBox();
           }
@@ -448,13 +460,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               },
             ),
           );
-        } else if (state is GetAllVehicleLoading) {
-          return SkeletonLine(
-            style: SkeletonLineStyle(
-              width: MediaQuery.of(context).size.width,
-              height: 20.h,
-            ),
-          );
         } else {
           return const SizedBox();
         }
@@ -466,6 +471,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
         if (state is GetAllVehicleLoading) {
+          AppLogger.debugLog("Kepanggil loading ngga? 2");
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,

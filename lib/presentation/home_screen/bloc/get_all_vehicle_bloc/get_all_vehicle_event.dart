@@ -6,7 +6,7 @@ abstract class GetAllVehicleEvent {}
 class GetAllVehicleRemoteAction extends GetAllVehicleEvent {
   final GetAllVehicleRequestModelV2 reqData;
   final GetAllVehicleActionEnum action;
-  
+
   GetAllVehicleRemoteAction({
     required this.reqData,
     required this.action,
@@ -14,6 +14,5 @@ class GetAllVehicleRemoteAction extends GetAllVehicleEvent {
 }
 
 class GetAllVehicleLocalAction extends GetAllVehicleEvent {
-  final GetAllVehicleRequestModelV2 reqData;
-  GetAllVehicleLocalAction({required this.reqData});
+  GetAllVehicleLocalAction();
 }
