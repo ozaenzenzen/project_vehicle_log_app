@@ -8,6 +8,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_measureme
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/edit_measurement_log_bloc/edit_measurement_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_secondarybutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
@@ -101,6 +102,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
               ),
             ],
           ),
+          bottomSheet: bottomSheetSection(),
         ),
       ),
     );
@@ -193,67 +195,71 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
               controller: notesController,
             ),
             SizedBox(height: 25.h),
-            BlocListener<EditMeasurementLogBloc, EditMeasurementLogState>(
-              listener: (context, state) {
-                if (state is EditMeasurementLogFailed) {
-                  AppDialogAction.showFailedPopup(
-                    context: context,
-                    title: "Terjadi Kesalahan",
-                    description: state.errorMessage,
-                    buttonTitle: "Kembali",
-                    mainButtonAction: () {
-                      Get.back();
-                    },
-                  );
-                } else if (state is EditMeasurementLogSuccess) {
-                  AppDialogAction.showSuccessPopup(
-                    context: context,
-                    title: "Berhasil",
-                    description: state.editMeasurementLogResponseModel.message,
-                    buttonTitle: "Kembali",
-                    mainButtonAction: () {
-                      Get.offAll(const MainPage());
-                    },
-                  );
-                }
-              },
-              child: AppMainButtonWidget(
-                onPressed: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  editMeasurementLogBloc.add(
-                    UpdateMeasurementAction(
-                      editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
-                        id: widget.data.id,
-                        vehicleId: widget.data.vehicleId,
-                        measurementTitle: measurementTitleController.text,
-                        currentOdo: currentOdoController.text,
-                        estimateOdoChanging: estimateOdoChangingController.text,
-                        amountExpenses: amountExpensesController.text,
-                        // checkpointDate: checkpointDateController.text,
-                        checkpointDate: "${checkpointDateChosen?.toIso8601String()}",
-                        notes: notesController.text,
-                      ),
-                    ),
-                  );
-                },
-                text: "Update",
-              ),
-            ),
-            SizedBox(height: 10.h),
-            AppSecondaryButtonWidget.error(
-              onPressed: () {
-                // Get.back();
-                AppDialogAction.showWarningPopup(
-                  context: context,
-                  title: "Informasi",
-                  description: "Fitur ini belum tersedia",
-                  buttonTitle: "Kembali",
-                );
-              },
-              text: "Delete",
-            ),
+            SizedBox(height: kToolbarHeight + 30.h),
+            // SizedBox(height: 10.h),
+            // AppSecondaryButtonWidget.error(
+            //   onPressed: () {
+            //     // Get.back();
+            //     AppDialogAction.showWarningPopup(
+            //       context: context,
+            //       title: "Informasi",
+            //       description: "Fitur ini belum tersedia",
+            //       buttonTitle: "Kembali",
+            //     );
+            //   },
+            //   text: "Delete",
+            // ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget bottomSheetSection() {
+    return BlocListener<EditMeasurementLogBloc, EditMeasurementLogState>(
+      listener: (context, state) {
+        if (state is EditMeasurementLogFailed) {
+          AppDialogAction.showFailedPopup(
+            context: context,
+            title: "Terjadi Kesalahan",
+            description: state.errorMessage,
+            buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
+          );
+        } else if (state is EditMeasurementLogSuccess) {
+          AppDialogAction.showSuccessPopup(
+            context: context,
+            title: "Berhasil",
+            description: state.editMeasurementLogResponseModel.message,
+            buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.offAll(const MainPage());
+            },
+          );
+        }
+      },
+      child: AppBottomNavBarButtonWidget(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+          editMeasurementLogBloc.add(
+            UpdateMeasurementAction(
+              editMeasurementLogRequestModel: EditMeasurementLogRequestModel(
+                id: widget.data.id,
+                vehicleId: widget.data.vehicleId,
+                measurementTitle: measurementTitleController.text,
+                currentOdo: currentOdoController.text,
+                estimateOdoChanging: estimateOdoChangingController.text,
+                amountExpenses: amountExpensesController.text,
+                // checkpointDate: checkpointDateController.text,
+                checkpointDate: "${checkpointDateChosen?.toIso8601String()}",
+                notes: notesController.text,
+              ),
+            ),
+          );
+        },
+        title: "Update",
       ),
     );
   }
