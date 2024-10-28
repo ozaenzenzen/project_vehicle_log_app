@@ -24,7 +24,6 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     EditProfileAction editProfileAction,
   ) async {
     emit(EditProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 200));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {

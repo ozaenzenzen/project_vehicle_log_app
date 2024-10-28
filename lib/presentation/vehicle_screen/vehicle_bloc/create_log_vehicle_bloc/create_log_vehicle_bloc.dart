@@ -24,7 +24,6 @@ class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleS
     CreateLogVehicleAction event,
   ) async {
     emit(CreateLogVehicleLoading());
-    await Future.delayed(const Duration(milliseconds: 300));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {

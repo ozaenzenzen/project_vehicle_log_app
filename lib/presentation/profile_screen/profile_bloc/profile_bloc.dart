@@ -28,7 +28,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     AppAccountReposistory accountRepository,
   ) async {
     emit(ProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
