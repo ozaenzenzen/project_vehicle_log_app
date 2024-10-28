@@ -15,6 +15,7 @@ import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/add_measurement_page_type_enum.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
@@ -122,6 +123,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                   ],
                 ),
               ),
+              bottomSheet: bottomSheetSection(),
             ),
           ),
         ),
@@ -136,6 +138,80 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           },
         ),
       ],
+    );
+  }
+
+  Widget bottomSheetSection() {
+    return BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
+      listener: (context, state) {
+        if (state is CreateLogVehicleFailed) {
+          AppDialogAction.showFailedPopup(
+            context: context,
+            title: "Terjadi kesalahan",
+            description: state.errorMessage,
+            buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
+          );
+        } else if (state is CreateLogVehicleSuccess) {
+          AppDialogAction.showSuccessPopup(
+            context: context,
+            title: "Berhasil",
+            description: state.createLogVehicleResponseModel.message!,
+            buttonTitle: "Kembali",
+            barrierDismissible: false,
+            mainButtonAction: () {
+              context.read<GetAllVehicleBloc>().add(
+                    GetAllVehicleRemoteAction(
+                      reqData: GetAllVehicleRequestModelV2(
+                        limit: 10,
+                        currentPage: 1,
+                      ),
+                      action: GetAllVehicleActionEnum.refresh,
+                    ),
+                  );
+              Get.offAll(() => const MainPage());
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return AppBottomNavBarButtonWidget(
+          onTap: () {
+            if (measurementTitleController.text.isEmpty ||
+                currentOdoController.text.isEmpty ||
+                estimateOdoController.text.isEmpty ||
+                amountExpensesController.text.isEmpty ||
+                checkpointDateController.text.isEmpty ||
+                notesController.text.isEmpty) {
+              AppDialogAction.showFailedPopup(
+                context: context,
+                title: "Error",
+                description: "field can't be empty",
+                buttonTitle: "Back",
+              );
+            } else {
+              context.read<CreateLogVehicleBloc>().add(
+                    CreateLogVehicleAction(
+                      createLogVehicleRequestModel: CreateLogVehicleRequestModel(
+                        // userId: accountDataUserModel!.userId!,
+                        vehicleId: widget.vehicleId,
+                        measurementTitle: measurementTitleController.text,
+                        currentOdo: currentOdoController.text,
+                        estimateOdoChanging: estimateOdoController.text,
+                        amountExpenses: amountExpensesController.text,
+                        checkpointDate: checkpointDateChosen!.toIso8601String(),
+                        notes: notesController.text,
+                      ),
+                    ),
+                  );
+            }
+            // Get.back();
+          },
+          title: "Add",
+        );
+      },
     );
   }
 
@@ -282,78 +358,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: notesController,
           ),
           SizedBox(height: 25.h),
-          BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
-            listener: (context, state) {
-              if (state is CreateLogVehicleFailed) {
-                AppDialogAction.showFailedPopup(
-                  context: context,
-                  title: "Terjadi kesalahan",
-                  description: state.errorMessage,
-                  buttonTitle: "Kembali",
-                  mainButtonAction: () {
-                    Get.back();
-                  },
-                );
-              } else if (state is CreateLogVehicleSuccess) {
-                AppDialogAction.showSuccessPopup(
-                  context: context,
-                  title: "Berhasil",
-                  description: state.createLogVehicleResponseModel.message!,
-                  buttonTitle: "Kembali",
-                  barrierDismissible: false,
-                  mainButtonAction: () {
-                    context.read<GetAllVehicleBloc>().add(
-                          GetAllVehicleRemoteAction(
-                            reqData: GetAllVehicleRequestModelV2(
-                              limit: 10,
-                              currentPage: 1,
-                            ),
-                            action: GetAllVehicleActionEnum.refresh,
-                          ),
-                        );
-                    Get.offAll(() => const MainPage());
-                  },
-                );
-              }
-            },
-            builder: (context, state) {
-              return AppMainButtonWidget(
-                onPressed: () {
-                  if (measurementTitleController.text.isEmpty ||
-                      currentOdoController.text.isEmpty ||
-                      estimateOdoController.text.isEmpty ||
-                      amountExpensesController.text.isEmpty ||
-                      checkpointDateController.text.isEmpty ||
-                      notesController.text.isEmpty) {
-                    AppDialogAction.showFailedPopup(
-                      context: context,
-                      title: "Error",
-                      description: "field can't be empty",
-                      buttonTitle: "Back",
-                    );
-                  } else {
-                    context.read<CreateLogVehicleBloc>().add(
-                          CreateLogVehicleAction(
-                            createLogVehicleRequestModel: CreateLogVehicleRequestModel(
-                              // userId: accountDataUserModel!.userId!,
-                              vehicleId: widget.vehicleId,
-                              measurementTitle: measurementTitleController.text,
-                              currentOdo: currentOdoController.text,
-                              estimateOdoChanging: estimateOdoController.text,
-                              amountExpenses: amountExpensesController.text,
-                              checkpointDate: checkpointDateChosen!.toIso8601String(),
-                              notes: notesController.text,
-                            ),
-                          ),
-                        );
-                  }
-                  // Get.back();
-                },
-                text: "Add",
-              );
-            },
-          ),
-          SizedBox(height: 16.h),
+          SizedBox(height: kToolbarHeight + 30.h),
         ],
       ),
     );
