@@ -200,18 +200,21 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
               textFieldTitle: "Current Odo (km)",
               textFieldHintText: "ex: 12000",
               controller: currentOdoController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Estimate Odo Changing (km)",
               textFieldHintText: "ex: 14000",
               controller: estimateOdoChangingController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Amount Expenses (Rp)",
               textFieldHintText: "ex: 40000",
               controller: amountExpensesController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
