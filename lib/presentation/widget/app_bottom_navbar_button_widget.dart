@@ -4,13 +4,13 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/support/app_color.dart';
 
 class AppBottomNavBarButtonWidget extends StatefulWidget {
-  final Function() onTap;
   final String title;
+  final Function() onTap;
 
   const AppBottomNavBarButtonWidget({
     Key? key,
-    required this.onTap,
     required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   @override
