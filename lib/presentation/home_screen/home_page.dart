@@ -396,21 +396,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   Widget homeListVehicleSection() {
-    return BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
-      listener: (context, state) {
-        if (state is GetAllVehicleLoading) {
-          AppLogger.debugLog("Listen loading ngga? 1");
-          setState(() {});
-        }
-        // if (state is GetAllVehicleSuccess) {
-        //   setState(() {
-        //     countVehicle = state.result!.totalItems ?? 0;
-        //     debugPrint("countVehicle $countVehicle");
-        //   });
-        // }
-      },
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        AppLogger.debugLog("State here: $state");
         if (state is GetAllVehicleLoading) {
           AppLogger.debugLog("Kepanggil loading ngga? 1");
           return SkeletonLine(

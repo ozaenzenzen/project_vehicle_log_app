@@ -74,15 +74,6 @@ class _MainPageState extends State<MainPage> {
     context.read<GetAllVehicleBloc>().add(
           GetAllVehicleLocalAction(),
         );
-    // context.read<GetAllVehicleBloc>().add(
-    //       GetAllVehicleRemoteAction(
-    //         reqData: GetAllVehicleRequestModelV2(
-    //           limit: 10,
-    //           currentPage: 1,
-    //         ),
-    //         action: GetAllVehicleActionEnum.refresh,
-    //       ),
-    //     );
     context.read<GetListLogBloc>().add(
           GetListLogAction(
             actionType: GetLogVehicleActionEnum.refresh,

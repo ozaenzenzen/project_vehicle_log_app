@@ -84,9 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               children: [
                 BlocListener<ProfileBloc, ProfileState>(
                   listener: (context, state) {
-                    debugPrint('state now : $state');
                     if (state is ProfileSuccess) {
-                      debugPrint('state now inise : $state');
                       profilePicture = state.userDataModel.profilePicture ?? "";
                       nameController.text = state.userDataModel.name ?? "";
                       emailController.text = state.userDataModel.email ?? "";

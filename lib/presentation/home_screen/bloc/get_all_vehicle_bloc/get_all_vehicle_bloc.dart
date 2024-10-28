@@ -16,7 +16,6 @@ part 'get_all_vehicle_state.dart';
 class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
     on<GetAllVehicleEvent>((event, emit) {
-      AppLogger.debugLog("event in: $event");
       if (event is GetAllVehicleLocalAction) {
         _getAllVehicleLocalActionV2(
           appVehicleReposistory,
@@ -133,7 +132,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
         action: GetAllVehicleActionEnum.refresh,
       ),
     );
-    await Future.delayed(const Duration(milliseconds: 3000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     try {
       // VehicleDataEntity? result = await event.vehicleLocalRepository.getLocalVehicleDataV2();
       VehicleDataEntity? result = await VehicleLocalRepository().getLocalVehicleDataV2();
