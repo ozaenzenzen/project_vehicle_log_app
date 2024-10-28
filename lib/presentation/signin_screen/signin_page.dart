@@ -9,10 +9,10 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_al
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
-import 'package:project_vehicle_log_app/presentation/signin/signin_bloc/signin_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/signup/signup_page.dart';
+import 'package:project_vehicle_log_app/presentation/signin_screen/signin_bloc/signin_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/signup_screen/signup_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
@@ -44,27 +44,34 @@ class _SignInPageState extends State<SignInPage> {
       child: Scaffold(
         body: Stack(
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FutureBuilder(
-                    future: AppInfo.showAppVersion(),
-                    builder: (context, snapshot) {
-                      return Text(
-                        // "Vehicle Log Apps Version 1.0.0+1",
-                        // "Vehicle Log Apps Version ${AppInfo.appVersion}",
-                        "Vehicle Log Apps Version ${snapshot.data}",
-                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 10.sp,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      );
-                    }),
-              ),
-            ),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height,
+            //   child: Align(
+            //     alignment: Alignment.bottomCenter,
+            //     child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         FutureBuilder(
+            //           future: AppInfo.showAppVersion(),
+            //           builder: (context, snapshot) {
+            //             return Text(
+            //               // "Vehicle Log Apps Version 1.0.0+1",
+            //               // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+            //               "Vehicle Log Apps Version ${snapshot.data}",
+            //               style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+            //                 fontSize: 10.sp,
+            //                 color: Colors.grey,
+            //                 fontWeight: FontWeight.w400,
+            //               ),
+            //             );
+            //           },
+            //         ),
+            //         SizedBox(height: 10.h),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SingleChildScrollView(
               padding: EdgeInsets.all(16.h),
               child: Column(
@@ -103,6 +110,7 @@ class _SignInPageState extends State<SignInPage> {
                     textFieldHintText: "*****",
                     controller: passwordTextFieldController,
                     obscureText: isHidePassword,
+                    textInputAction: TextInputAction.go,
                     suffixIcon: InkWell(
                       onTap: () {
                         setState(() {
@@ -113,42 +121,23 @@ class _SignInPageState extends State<SignInPage> {
                         isHidePassword ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
+                    onSubmitted: (String value) {
+                      context.read<SigninBloc>().add(
+                            SigninAction(
+                              signInRequestModel: SignInRequestModel(
+                                email: emailTextFieldController.text,
+                                password: passwordTextFieldController.text,
+                              ),
+                              appVehicleReposistory: AppVehicleReposistory(),
+                              vehicleLocalRepository: VehicleLocalRepository(),
+                            ),
+                          );
+                    },
                   ),
                   SizedBox(height: 10.h),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            keepLogin = !keepLogin;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 24.h,
-                              width: 24.h,
-                              child: Checkbox(
-                                value: keepLogin,
-                                onChanged: (onChanged) {
-                                  setState(() {
-                                    keepLogin = !keepLogin;
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 10.w),
-                            Text(
-                              "Remember Me",
-                              style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                                fontSize: 14.sp,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
                       InkWell(
                         onTap: () {
                           Get.to(() => const ForgotPasswordScreen());
@@ -176,8 +165,8 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       } else if (state is SigninSuccess) {
                         FocusManager.instance.primaryFocus?.unfocus();
-                        context.read<GetAllVehicleV2Bloc>().add(
-                              GetAllVehicleV2RemoteAction(
+                        context.read<GetAllVehicleBloc>().add(
+                              GetAllVehicleRemoteAction(
                                 reqData: GetAllVehicleRequestModelV2(
                                   limit: 10,
                                   currentPage: 1,
@@ -185,6 +174,9 @@ class _SignInPageState extends State<SignInPage> {
                                 action: GetAllVehicleActionEnum.refresh,
                               ),
                             );
+                        // await context.read<GetAllVehicleBloc>().stream.firstWhere(
+                        //       (state) => state is GetAllVehicleSuccess || state is GetAllVehicleFailed,
+                        //     );
                         Get.offAll(
                           () => const MainPage(),
                         );
@@ -227,7 +219,6 @@ class _SignInPageState extends State<SignInPage> {
                             AppMainButtonWidget(
                               onPressed: () {
                                 Get.to(
-                                  // () => const SignUpPageVersion2(),
                                   () => const SignUpPage(),
                                 );
                               },
@@ -238,6 +229,25 @@ class _SignInPageState extends State<SignInPage> {
                         );
                       }
                     },
+                  ),
+                  SizedBox(height: 150.h),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FutureBuilder(
+                      future: AppInfo.showAppVersion(),
+                      builder: (context, snapshot) {
+                        return Text(
+                          // "Vehicle Log Apps Version 1.0.0+1",
+                          // "Vehicle Log Apps Version ${AppInfo.appVersion}",
+                          "Vehicle Log Apps Version ${snapshot.data}",
+                          style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 10.sp,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   // const Spacer(),
                 ],

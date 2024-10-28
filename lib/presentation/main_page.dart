@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/home_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/home_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
-import 'package:project_vehicle_log_app/presentation/stats_screen/stats_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/stats_screen/stats_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_vehicle_page.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 
@@ -60,20 +62,25 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    context
-      ..read<ProfileBloc>().add(
-        GetProfileRemoteAction(
-          accountRepository: AppAccountReposistory(),
-        ),
-      )
-      ..read<GetAllVehicleV2Bloc>().add(
-        GetAllVehicleV2LocalAction(
-          reqData: GetAllVehicleRequestModelV2(
-            limit: 10,
-            currentPage: 1,
+    context.read<ProfileBloc>().add(
+          GetProfileRemoteAction(
+            accountRepository: AppAccountReposistory(),
           ),
-        ),
-      );
+        );
+    context.read<GetAllVehicleBloc>().add(
+          GetAllVehicleLocalAction(),
+        );
+    context.read<GetListLogBloc>().add(
+          GetListLogAction(
+            actionType: GetLogVehicleActionEnum.refresh,
+            reqData: GetLogVehicleRequestModelV2(
+              limit: 10,
+              currentPage: 1,
+              sortOrder: "DESC",
+              vehicleId: null,
+            ),
+          ),
+        );
   }
 
   @override
@@ -81,6 +88,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton(
+        key: const Key("MainFAB"),
+        heroTag: const Key("MainFAB"),
         shape: const CircleBorder(),
         onPressed: () {
           Get.to(() => const AddVehiclePage());
@@ -140,9 +149,9 @@ class _MainPageState extends State<MainPage> {
         },
         children: const [
           // HomePage(),
-          HomePageVersion2(),
-          VehiclePageVersion2(),
-          StatsPageVersion2(),
+          HomePage(),
+          VehiclePage(),
+          StatsPage(),
         ],
       ),
     );

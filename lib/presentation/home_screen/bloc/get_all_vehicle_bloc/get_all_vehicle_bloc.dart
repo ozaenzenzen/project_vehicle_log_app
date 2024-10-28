@@ -9,13 +9,19 @@ import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart'
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 
-part 'get_all_vehicle_v2_event.dart';
-part 'get_all_vehicle_v2_state.dart';
+part 'get_all_vehicle_event.dart';
+part 'get_all_vehicle_state.dart';
 
-class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2State> {
-  GetAllVehicleV2Bloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleV2Initial()) {
-    on<GetAllVehicleV2Event>((event, emit) {
-      if (event is GetAllVehicleV2RemoteAction) {
+class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
+  GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
+    on<GetAllVehicleEvent>((event, emit) {
+      if (event is GetAllVehicleLocalAction) {
+        _getAllVehicleLocalActionV2(
+          appVehicleReposistory,
+          event,
+        );
+      }
+      if (event is GetAllVehicleRemoteAction) {
         if (event.action == GetAllVehicleActionEnum.refresh) {
           currentPage = 1;
           responseData.listData = [];
@@ -33,16 +39,13 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
             );
           } else {
             emit(
-              GetAllVehicleV2Success(
+              GetAllVehicleSuccess(
                 result: responseData,
                 action: GetAllVehicleActionEnum.loadMore,
               ),
             );
           }
         }
-      }
-      if (event is GetAllVehicleV2LocalAction) {
-        _getAllVehicleLocalActionV2(appVehicleReposistory, event);
       }
     });
   }
@@ -53,10 +56,10 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
 
   Future<void> _getAllVehicleRemoteActionV2(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleV2RemoteAction event,
+    GetAllVehicleRemoteAction event,
   ) async {
     emit(
-      GetAllVehicleV2Loading(
+      GetAllVehicleLoading(
         action: event.action,
       ),
     );
@@ -65,7 +68,7 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
         emit(
-          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
+          GetAllVehicleFailed(errorMessage: "Failed To Get Support Data"),
         );
         return;
       }
@@ -73,39 +76,47 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
       GetAllVehicleRequestModelV2 dataRequest = event.reqData;
       dataRequest.currentPage = currentPage;
 
-      GetAllVehicleResponseModelV2? result = await appVehicleReposistory.getAllVehicleDataV2(
+      GetAllVehicleResponseModelV2? result = await AppVehicleReposistory().getAllVehicleDataV2(
         userToken,
         dataRequest,
       );
-      if (result != null) {
-        if (result.status == 200) {
-          await VehicleLocalRepository().setLocalVehicleDataV2(
-            data: result.toVehicleDataEntity()!,
-          );
-          emit(
-            GetAllVehicleV2Success(
-              result: result.toVehicleDataEntity(),
-              action: event.action,
-            ),
-          );
-        } else {
-          emit(
-            GetAllVehicleV2Failed(
-              errorMessage: result.message.toString(),
-            ),
-          );
-        }
-      } else {
+      if (result == null) {
         emit(
-          GetAllVehicleV2Failed(
+          GetAllVehicleFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
+          ),
+        );
+        return;
+      }
+      if (result.status != 200) {
+        emit(
+          GetAllVehicleFailed(
+            errorMessage: "${result.message}",
+          ),
+        );
+        return;
+      }
+      if (result.data != null) {
+        responseData = result.toVehicleDataEntity()!;
+        listResponseData?.addAll(result.toVehicleDataEntity()!.listData!);
+        responseData.listData = listResponseData;
+        await VehicleLocalRepository().setLocalVehicleDataV2(
+          data: responseData,
+        );
+        // await VehicleLocalRepository().setLocalVehicleDataV2(
+        //   data: result.toVehicleDataEntity()!,
+        // );
+        emit(
+          GetAllVehicleSuccess(
+            result: responseData,
+            action: event.action,
           ),
         );
       }
     } catch (errorMessage) {
       emit(
-        GetAllVehicleV2Failed(
-          errorMessage: errorMessage.toString(),
+        GetAllVehicleFailed(
+          errorMessage: "$errorMessage",
         ),
       );
     }
@@ -113,40 +124,34 @@ class GetAllVehicleV2Bloc extends Bloc<GetAllVehicleV2Event, GetAllVehicleV2Stat
 
   Future<void> _getAllVehicleLocalActionV2(
     AppVehicleReposistory appVehicleReposistory,
-    GetAllVehicleV2LocalAction event,
+    GetAllVehicleLocalAction event,
   ) async {
     emit(
-      GetAllVehicleV2Loading(
+      GetAllVehicleLoading(
         action: GetAllVehicleActionEnum.refresh,
       ),
     );
+    await Future.delayed(const Duration(milliseconds: 2000));
     try {
-      String? userToken = await AccountLocalRepository().getUserToken();
-      if (userToken == null) {
-        emit(
-          GetAllVehicleV2Failed(errorMessage: "Failed To Get Support Data"),
-        );
-        return;
-      }
-
+      // VehicleDataEntity? result = await event.vehicleLocalRepository.getLocalVehicleDataV2();
       VehicleDataEntity? result = await VehicleLocalRepository().getLocalVehicleDataV2();
       if (result != null) {
         emit(
-          GetAllVehicleV2Success(
+          GetAllVehicleSuccess(
             result: result,
             action: GetAllVehicleActionEnum.refresh,
           ),
         );
       } else {
         emit(
-          GetAllVehicleV2Failed(
+          GetAllVehicleFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
       }
     } catch (errorMessage) {
       emit(
-        GetAllVehicleV2Failed(
+        GetAllVehicleFailed(
           errorMessage: errorMessage.toString(),
         ),
       );

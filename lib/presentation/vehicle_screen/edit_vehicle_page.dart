@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/edit_vehicle_bloc/edit_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
@@ -19,19 +22,19 @@ import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_image_picker.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class EditMainInfoPageVersion2 extends StatefulWidget {
+class EditVehiclePage extends StatefulWidget {
   final ListDatumVehicleDataEntity data;
 
-  const EditMainInfoPageVersion2({
+  const EditVehiclePage({
     Key? key,
     required this.data,
   }) : super(key: key);
 
   @override
-  State<EditMainInfoPageVersion2> createState() => _EditMainInfoPageVersion2State();
+  State<EditVehiclePage> createState() => _EditVehiclePageState();
 }
 
-class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
+class _EditVehiclePageState extends State<EditVehiclePage> {
   int? vehicleId;
 
   String imagePickedInBase64 = "";
@@ -44,6 +47,14 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
   TextEditingController chassisNumberController = TextEditingController();
 
   late EditVehicleBloc editVehicleBloc;
+
+  bool isLoadingActive = false;
+
+  @override
+  void dispose() {
+    super.dispose();
+    editVehicleBloc.close();
+  }
 
   @override
   void initState() {
@@ -65,57 +76,97 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => editVehicleBloc,
-      child: BlocListener<EditVehicleBloc, EditVehicleState>(
-        listener: (context, state) {
-          if (state is EditVehicleSuccess) {
-            AppDialogAction.showSuccessPopup(
-              context: context,
-              title: 'Berhasil',
-              description: state.editVehicleResponseModel.message,
-              buttonTitle: 'Kembali',
-              mainButtonAction: () {
-                Get.offAll(const MainPage());
-              },
-            );
-          }
-          if (state is EditVehicleFailed) {
-            AppDialogAction.showFailedPopup(
-              context: context,
-              title: 'Terjadi kesalahan',
-              description: state.errorMessage,
-              buttonTitle: 'Kembali',
-            );
-          }
-        },
-        child: GestureDetector(
-          onTap: () {
-            FocusManager.instance.primaryFocus?.unfocus();
-          },
-          child: Scaffold(
-            appBar: const AppBarWidget(
-              title: "Edit Vehicle",
-            ),
-            body: Stack(
-              children: [
-                bodyView(),
-                BlocBuilder<EditVehicleBloc, EditVehicleState>(
-                  builder: (context, state) {
-                    if (state is EditVehicleLoading) {
-                      return loadingView();
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-              ],
+      child: Stack(
+        children: [
+          GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Scaffold(
+              appBar: const AppBarWidget(
+                title: "Edit Vehicle",
+              ),
+              body: bodySection(),
+              bottomSheet: bottomSheetSection(),
             ),
           ),
-        ),
+          BlocListener<EditVehicleBloc, EditVehicleState>(
+            listener: (context, state) {
+              if (state is EditVehicleLoading) {
+                isLoadingActive = true;
+              } else {
+                isLoadingActive = false;
+              }
+              setState(() {});
+            },
+            child: (isLoadingActive) ? const AppOverlayLoading2Widget() : const SizedBox(),
+          ),
+        ],
       ),
     );
   }
 
-  Widget bodyView() {
+  Widget bottomSheetSection() {
+    return BlocConsumer<EditVehicleBloc, EditVehicleState>(
+      listener: (context, state) {
+        if (state is EditVehicleFailed) {
+          AppDialogAction.showFailedPopup(
+            context: context,
+            title: 'Terjadi kesalahan',
+            description: state.errorMessage,
+            buttonTitle: 'Kembali',
+          );
+        }
+        if (state is EditVehicleSuccess) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          AppDialogAction.showSuccessPopup(
+            context: context,
+            title: 'Berhasil mengubah data kendaraan',
+            description: state.editVehicleResponseModel.message,
+            buttonTitle: 'Kembali',
+            barrierDismissible: false,
+            mainButtonAction: () {
+              context.read<GetAllVehicleBloc>().add(
+                    GetAllVehicleRemoteAction(
+                      reqData: GetAllVehicleRequestModelV2(
+                        limit: 10,
+                        currentPage: 1,
+                      ),
+                      action: GetAllVehicleActionEnum.refresh,
+                    ),
+                  );
+              Get.offAll(() => const MainPage());
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return AppBottomNavBarButtonWidget(
+          title: "Update Vehicle",
+          onTap: () {
+            context.read<EditVehicleBloc>().add(
+                  EditVehicleAction(
+                    appVehicleReposistory: AppVehicleReposistory(),
+                    editVehicleRequestModel: EditVehicleRequestModel(
+                      vehicleId: vehicleId!,
+                      vehicleName: vehicleNameController.text,
+                      vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
+                      year: yearController.text,
+                      engineCapacity: engineCapacityController.text,
+                      tankCapacity: tankCapacityController.text,
+                      color: colorController.text,
+                      machineNumber: machineNumberController.text,
+                      chassisNumber: chassisNumberController.text,
+                    ),
+                  ),
+                );
+          },
+        );
+      },
+    );
+  }
+
+  Widget bodySection() {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -153,7 +204,7 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
             SizedBox(height: 10.h),
             InkWell(
               onTap: () async {
-                imagePickedInBase64 = await AppImagePickerService.getImageAsBase64().then(
+                imagePickedInBase64 = await AppImagePickerService().getImageAsBase64().then(
                   (value) {
                     setState(() {});
                     return value!;
@@ -306,61 +357,9 @@ class _EditMainInfoPageVersion2State extends State<EditMainInfoPageVersion2> {
               controller: chassisNumberController,
             ),
             SizedBox(height: 20.h),
-            BlocBuilder<EditVehicleBloc, EditVehicleState>(
-              builder: (context, state) {
-                return AppMainButtonWidget(
-                  onPressed: () {
-                    // Get.off(() => const MainPage());
-                    context.read<EditVehicleBloc>().add(
-                          EditVehicleAction(
-                            appVehicleReposistory: AppVehicleReposistory(),
-                            editVehicleRequestModel: EditVehicleRequestModel(
-                              vehicleId: vehicleId!,
-                              vehicleName: vehicleNameController.text,
-                              vehicleImage: imagePickedInBase64 == "" ? null : imagePickedInBase64,
-                              year: yearController.text,
-                              engineCapacity: engineCapacityController.text,
-                              tankCapacity: tankCapacityController.text,
-                              color: colorController.text,
-                              machineNumber: machineNumberController.text,
-                              chassisNumber: chassisNumberController.text,
-                            ),
-                          ),
-                        );
-                  },
-                  text: "Edit Vehicle",
-                );
-              },
-            ),
+            SizedBox(height: kToolbarHeight + 30.h),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget loadingView() {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      color: Colors.black38,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 50.h,
-            width: 50.h,
-            child: const CircularProgressIndicator(),
-          ),
-          SizedBox(height: 24.h),
-          Text(
-            'Proses sedang berlangsung',
-            style: GoogleFonts.inter(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 18.sp,
-            ),
-          ),
-        ],
       ),
     );
   }

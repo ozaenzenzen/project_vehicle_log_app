@@ -1,0 +1,1 @@
+enum AddMeasurementPageActionTypeEnum { newData, continueData }

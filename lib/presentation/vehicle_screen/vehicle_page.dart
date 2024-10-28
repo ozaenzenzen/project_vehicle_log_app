@@ -4,27 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
-class VehiclePageVersion2 extends StatefulWidget {
-  const VehiclePageVersion2({Key? key}) : super(key: key);
+class VehiclePage extends StatefulWidget {
+  const VehiclePage({Key? key}) : super(key: key);
 
   @override
-  State<VehiclePageVersion2> createState() => _VehiclePageVersion2State();
+  State<VehiclePage> createState() => _VehiclePageState();
 }
 
-class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
+class _VehiclePageState extends State<VehiclePage> {
   @override
   void dispose() {
     super.dispose();
@@ -41,8 +43,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
       enablePullUp: true,
       controller: refreshController,
       onRefresh: () {
-        context.read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2RemoteAction(
+        context.read<GetAllVehicleBloc>().add(
+              GetAllVehicleRemoteAction(
                 reqData: GetAllVehicleRequestModelV2(
                   limit: 10,
                   currentPage: 1,
@@ -52,8 +54,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
             );
       },
       onLoading: () {
-        context.read<GetAllVehicleV2Bloc>().add(
-              GetAllVehicleV2RemoteAction(
+        context.read<GetAllVehicleBloc>().add(
+              GetAllVehicleRemoteAction(
                 reqData: GetAllVehicleRequestModelV2(
                   limit: 10,
                   currentPage: 1,
@@ -86,23 +88,27 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                 ),
               ),
               SizedBox(height: 20.h),
-              BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+              BlocConsumer<GetAllVehicleBloc, GetAllVehicleState>(
                 listener: (context, state) {
-                  if (state is GetAllVehicleV2Success) {
+                  if (state is GetAllVehicleSuccess) {
                     if (state.action == GetAllVehicleActionEnum.refresh) {
                       refreshController.refreshCompleted();
                     } else {
                       refreshController.loadComplete();
                     }
                   }
+                  if (state is GetAllVehicleFailed) {
+                    refreshController.refreshCompleted();
+                    refreshController.loadComplete();
+                  }
                 },
                 builder: (context, state) {
-                  if (state is GetAllVehicleV2Loading) {
+                  if (state is GetAllVehicleLoading) {
                     if (state.action == GetAllVehicleActionEnum.refresh) {
                       return loadingView();
                     }
                   }
-                  if (state is GetAllVehicleV2Success) {
+                  if (state is GetAllVehicleSuccess) {
                     listData = state.result!.listData!;
                   }
                   return successView(listData);
@@ -119,8 +125,37 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
     return const SizedBox();
   }
 
-  // Widget successView(GetAllVehicleV2Success state) {
+  Widget newEmptyState({
+    required String title,
+  }) {
+    return Column(
+      children: [
+        SizedBox(height: 100.h),
+        Image.asset(
+          AppAssets.imgEmptyStateBlue,
+          height: 200.h,
+        ),
+        SizedBox(height: 12.h),
+        Text(
+          title,
+          style: GoogleFonts.inter(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 18.sp,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  // Widget successView(GetAllVehicleSuccess state) {
   Widget successView(List<ListDatumVehicleDataEntity> listDataHere) {
+    if (listDataHere.isEmpty) {
+      return newEmptyState(
+        title: "Anda belum menambahkan data kendaraan",
+      );
+    }
     return ListView.separated(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
@@ -131,8 +166,8 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
+            context.read<GetListLogBloc>().add(
+                  GetListLogAction(
                     reqData: GetLogVehicleRequestModelV2(
                       limit: 10,
                       currentPage: 1,
@@ -143,7 +178,7 @@ class _VehiclePageVersion2State extends State<VehiclePageVersion2> {
                   ),
                 );
             Get.to(
-              () => DetailVehiclePageVersion2(
+              () => DetailVehiclePage(
                 // indexMeasurement: index,
                 datumVehicle: listDataHere[index],
                 idVehicle: listDataHere[index].id!,

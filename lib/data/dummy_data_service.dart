@@ -30,14 +30,29 @@ class MeasurementServiceDummyData {
       icons: Icons.oil_barrel_outlined,
     ),
     MeasurementServiceModel(
-      title: "Odo",
-      description: "Odo",
-      icons: Icons.numbers_rounded,
-    ),
-    MeasurementServiceModel(
       title: "Battery",
       description: "Battery",
       icons: Icons.battery_5_bar_outlined,
+    ),
+    MeasurementServiceModel(
+      title: "Disc Brake",
+      description: "Disc",
+      icons: Icons.disc_full,
+    ),
+    MeasurementServiceModel(
+      title: "Oil Brake",
+      description: "Disc",
+      icons: Icons.water_drop,
+    ),
+    MeasurementServiceModel(
+      title: "Caliper",
+      description: "Disc",
+      icons: Icons.tire_repair_outlined,
+    ),
+    MeasurementServiceModel(
+      title: "Brake Shoe",
+      description: "Disc",
+      icons: Icons.two_wheeler,
     ),
   ];
 }

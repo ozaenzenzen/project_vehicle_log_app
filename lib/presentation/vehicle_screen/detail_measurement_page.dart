@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page_version2.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_measurement_page.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehicle_page.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/dvp_stats_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class DetailMeasurementPageVersion2 extends StatefulWidget {
+class DetailMeasurementPage extends StatefulWidget {
   // final String title;
   // final VehicleDataModel data;
   // final DatumVehicle data;
@@ -22,7 +25,7 @@ class DetailMeasurementPageVersion2 extends StatefulWidget {
   final int indexMeasurement;
   final List<String>? listMeasurementTitleByGroup;
 
-  const DetailMeasurementPageVersion2({
+  const DetailMeasurementPage({
     Key? key,
     // required this.title,
     required this.data,
@@ -31,14 +34,37 @@ class DetailMeasurementPageVersion2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DetailMeasurementPageVersion2> createState() => _DetailMeasurementPageVersion2State();
+  State<DetailMeasurementPage> createState() => _DetailMeasurementPageState();
 }
 
-class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVersion2> {
+class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
+  List<ListDatumLogEntity>? listLogVehicleData;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
+      floatingActionButton: FloatingActionButton.extended(
+        key: const Key("DMPFAB"),
+        heroTag: const Key("DMPFAB"),
+        onPressed: () {
+          Get.to(
+            () => AddMeasurementPage.continueData(
+              vehicleId: widget.data.id!,
+              measurementService: widget.data.measurmentTitle![widget.indexMeasurement],
+              listLogVehicleData: listLogVehicleData,
+            ),
+          );
+        },
+        label: Text(
+          "Add Measurement",
+          style: GoogleFonts.inter(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+            fontSize: 14.sp,
+          ),
+        ),
+      ),
       appBar: AppBarWidget(
         title: "${widget.data.vehicleName}: ${widget.data.measurmentTitle![widget.indexMeasurement]}",
       ),
@@ -83,15 +109,16 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
   }
 
   statsView() {
-    return BlocBuilder<Hp2GetListLogBloc, Hp2GetListLogState>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is Hp2GetListLogLoading) {
+        if (state is GetListLogLoading) {
           return const Center(
             child: AppLoadingIndicator(),
           );
-        } else if (state is Hp2GetListLogFailed) {
+        } else if (state is GetListLogFailed) {
           return Text(state.errorMessage);
-        } else if (state is Hp2GetListLogSuccess) {
+        } else if (state is GetListLogSuccess) {
+          listLogVehicleData = state.result?.listData;
           return Container(
             padding: EdgeInsets.all(16.h),
             child: Column(
@@ -112,7 +139,7 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
                 AppMainButtonWidget(
                   onPressed: () {
                     Get.to(
-                      () => DetailVehiclePageVersion2(
+                      () => DetailVehiclePage(
                         // index: state.result!.listData!.indexWhere(
                         //   (element) {
                         //     return element.vehicleId == widget.data.id;
@@ -141,17 +168,21 @@ class _DetailMeasurementPageVersion2State extends State<DetailMeasurementPageVer
                   ],
                 ),
                 SizedBox(height: 10.h),
-                DVPStatsItemWidgetVersion2(
+                DVPStatsItemWidget(
                   // title: "Test Title",
                   // title: state.result!.listData![widget.index].measurementTitle,
-                  title: state
-                      .result!
-                      .listData![state.result!.listData!.indexWhere(
-                    (element) {
-                      return element.measurementTitle == widget.data.measurmentTitle?[widget.indexMeasurement];
-                    },
-                  )]
-                      .measurementTitle,
+                  // title: (state.result == null || state.result!.listData == null || state.result!.listData!.isEmpty)
+                  //     ? ""
+                  //     : state
+                  //         .result!
+                  //         .listData![state.result!.listData!.indexWhere(
+                  //         (element) {
+                  //           return element.measurementTitle == widget.data.measurmentTitle?[widget.indexMeasurement];
+                  //         },
+                  //       )]
+                  //         .measurementTitle,
+                  title: widget.data.measurmentTitle?[widget.indexMeasurement],
+                  vehicleId: widget.data.id.toString(),
 
                   // data: state.result!.listData![state.result!.listData!.indexWhere(
                   //   (element) {

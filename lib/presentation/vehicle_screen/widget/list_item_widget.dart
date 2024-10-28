@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
+import 'package:project_vehicle_log_app/presentation/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
-class ItemListWidgetVersion2 extends StatefulWidget {
+class ItemListWidget extends StatefulWidget {
   final String? title;
   final StatusLogs? statusLogs;
   final String? value;
   final ListDatumLogEntity? vehicleMeasurementLogModels;
 
-  const ItemListWidgetVersion2({
+  const ItemListWidget({
     Key? key,
     required this.title,
     required this.value,
@@ -20,7 +20,7 @@ class ItemListWidgetVersion2 extends StatefulWidget {
         vehicleMeasurementLogModels = null,
         super(key: key);
 
-  const ItemListWidgetVersion2.logs({
+  const ItemListWidget.logs({
     Key? key,
     required this.title,
     required this.statusLogs,
@@ -29,11 +29,12 @@ class ItemListWidgetVersion2 extends StatefulWidget {
         super(key: key);
 
   @override
-  State<ItemListWidgetVersion2> createState() => _ItemListWidgetVersion2State();
+  State<ItemListWidget> createState() => _ItemListWidgetState();
 }
 
-class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
-  final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+class _ItemListWidgetState extends State<ItemListWidget> {
+  // final formatter = DateFormat('dd MMMM yyyy, HH:mm:ss');
+  final formatter = DateFormat('dd MMMM yyyy, HH:mm');
   Color statusColor = Colors.black;
   String statusTitle = "Add";
 
@@ -68,7 +69,7 @@ class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
 
   @override
   Widget build(BuildContext context) {
-    handleStatus(widget.statusLogs);
+    // handleStatus(widget.statusLogs);
     if (widget.statusLogs == null) {
       return Container(
         height: 40.h,
@@ -128,18 +129,18 @@ class _ItemListWidgetVersion2State extends State<ItemListWidgetVersion2> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(width: 10.w),
-                  Text(
-                    // "(${widget.statusLogs.toString()})",
-                    "(${statusTitle.toString()})",
-                    style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                      // color: AppColor.text_4,
-                      // color: Colors.black,
-                      // color: handleStatusColor(widget.statusLogs),
-                      color: statusColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  // SizedBox(width: 10.w),
+                  // Text(
+                  //   // "(${widget.statusLogs.toString()})",
+                  //   "(${statusTitle.toString()})",
+                  //   style: AppTheme.theme.textTheme.titleLarge?.copyWith(
+                  //     // color: AppColor.text_4,
+                  //     // color: Colors.black,
+                  //     // color: handleStatusColor(widget.statusLogs),
+                  //     color: statusColor,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
               Expanded(

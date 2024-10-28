@@ -5,29 +5,45 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
-import 'package:project_vehicle_log_app/data/model/local/account_user_data_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
+import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
+import 'package:project_vehicle_log_app/presentation/enum/add_measurement_page_type_enum.dart';
+import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
-import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
+import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
+  final String? measurementService;
+  final List<ListDatumLogEntity>? listLogVehicleData;
+  final AddMeasurementPageActionTypeEnum actionType;
 
   const AddMeasurementPage({
     Key? key,
     required this.vehicleId,
-  }) : super(key: key);
+  })  : measurementService = null,
+        listLogVehicleData = null,
+        actionType = AddMeasurementPageActionTypeEnum.newData,
+        super(key: key);
+
+  const AddMeasurementPage.continueData({
+    Key? key,
+    required this.vehicleId,
+    this.measurementService,
+    this.listLogVehicleData,
+  })  : actionType = AddMeasurementPageActionTypeEnum.continueData,
+        super(key: key);
 
   @override
   State<AddMeasurementPage> createState() => _AddMeasurementPageState();
@@ -41,71 +57,136 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   TextEditingController amountExpensesController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
-  AccountDataUserModel? accountDataUserModel;
+  final measurementTitleTooltipController = SuperTooltipController();
+  final checkpointDateTooltipController = SuperTooltipController();
+  final currentOdoTooltipController = SuperTooltipController();
+  final estimateOdoTooltipController = SuperTooltipController();
+  final amountExpensesTooltipController = SuperTooltipController();
+  final notesTooltipController = SuperTooltipController();
 
-  late ProfileBloc profileBloc;
-
-  // @override
-  // void initState() {
-  //   profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
-  //   super.initState();
-  // }
-
-  @override
-  void didChangeDependencies() {
-    profileBloc = BlocProvider.of(context)..add(GetProfileLocalAction());
-    super.didChangeDependencies();
-  }
+  DateTime? checkpointDateChosen;
 
   final formatter = DateFormat('dd MMMM yyyy');
+
+  bool isLoadingActive = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.measurementService != null) {
+      measurementTitleController.text = widget.measurementService!;
+      currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        BlocListener<ProfileBloc, ProfileState>(
-          listener: (context, state) {
-            if (state is ProfileSuccess) {
-              accountDataUserModel = AccountDataUserModel.fromJson(
-                state.userDataModel.toJson(),
-              );
-            }
+        GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
           },
-          child: GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus();
-            },
-            child: Scaffold(
-              resizeToAvoidBottomInset: true,
-              appBar: const AppBarWidget(
-                title: "Add Measurement",
-              ),
-              body: SingleChildScrollView(
-                // physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  // mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(height: 16.h),
-                    selectServiceSection(),
-                    SizedBox(height: 20.h),
-                    fieldSection(context),
-                  ],
-                ),
-              ),
+          child: Scaffold(
+            appBar: const AppBarWidget(
+              title: "Add Measurement",
             ),
+            body: bodySection(context),
+            bottomSheet: bottomSheetSection(),
+            resizeToAvoidBottomInset: true,
           ),
         ),
-        BlocBuilder<CreateLogVehicleBloc, CreateLogVehicleState>(
-          builder: (context, state) {
+        BlocListener<CreateLogVehicleBloc, CreateLogVehicleState>(
+          listener: (context, state) {
             if (state is CreateLogVehicleLoading) {
-              // return loadingView();
-              return const AppOverlayLoading2Widget();
+              isLoadingActive = true;
             } else {
-              return const SizedBox();
+              isLoadingActive = false;
             }
+            setState(() {});
           },
+          child: (isLoadingActive) ? const AppOverlayLoading2Widget() : const SizedBox(),
         ),
       ],
+    );
+  }
+
+  Widget bottomSheetSection() {
+    return BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
+      listener: (context, state) {
+        if (state is CreateLogVehicleFailed) {
+          AppDialogAction.showFailedPopup(
+            context: context,
+            title: "Terjadi kesalahan",
+            description: state.errorMessage,
+            buttonTitle: "Kembali",
+          );
+        } else if (state is CreateLogVehicleSuccess) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          AppDialogAction.showSuccessPopup(
+            context: context,
+            title: "Berhasil menambah log data kendaraan",
+            description: state.createLogVehicleResponseModel.message!,
+            buttonTitle: "Kembali",
+            barrierDismissible: false,
+            mainButtonAction: () {
+              context.read<GetAllVehicleBloc>().add(
+                    GetAllVehicleRemoteAction(
+                      reqData: GetAllVehicleRequestModelV2(
+                        limit: 10,
+                        currentPage: 1,
+                      ),
+                      action: GetAllVehicleActionEnum.refresh,
+                    ),
+                  );
+              Get.offAll(() => const MainPage());
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return AppBottomNavBarButtonWidget(
+          title: "Add Measurement",
+          onTap: () {
+            if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
+              AppDialogAction.showFailedPopup(
+                context: context,
+                title: "Error",
+                description: "field can't be empty",
+                buttonTitle: "Back",
+              );
+            } else {
+              context.read<CreateLogVehicleBloc>().add(
+                    CreateLogVehicleAction(
+                      createLogVehicleRequestModel: CreateLogVehicleRequestModel(
+                        // userId: accountDataUserModel!.userId!,
+                        vehicleId: widget.vehicleId,
+                        measurementTitle: measurementTitleController.text,
+                        currentOdo: currentOdoController.text,
+                        estimateOdoChanging: estimateOdoController.text,
+                        amountExpenses: amountExpensesController.text,
+                        checkpointDate: checkpointDateChosen!.toIso8601String(),
+                        notes: notesController.text,
+                      ),
+                    ),
+                  );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget bodySection(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 16.h),
+          selectServiceSection(),
+          SizedBox(height: 20.h),
+          fieldSection(context),
+        ],
+      ),
     );
   }
 
@@ -141,6 +222,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: measurementTitleController,
             readOnly: true,
             ignorePointerActive: true,
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: measurementTitleTooltipController,
+                      message: "Data Anda sebelumnya yaitu: ${measurementTitleController.text}",
+                      child: InkWell(
+                        onTap: () {
+                          measurementTitleTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
@@ -148,6 +246,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: currentOdoTooltipController,
+                      message: "Data Anda sebelumnya: ${currentOdoController.text}",
+                      child: InkWell(
+                        onTap: () {
+                          currentOdoTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
           ),
           SizedBox(height: 15.h),
           AppTextFieldWidget(
@@ -170,6 +285,23 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: checkpointDateController,
             readOnly: true,
             suffixIcon: const Icon(Icons.date_range_sharp),
+            action: widget.actionType == AddMeasurementPageActionTypeEnum.continueData
+                ? [
+                    AppTooltipWidget(
+                      tooltipController: checkpointDateTooltipController,
+                      message: "Data Anda sebelumnya: ${formatter.format(DateTime.parse(widget.listLogVehicleData!.first.checkpointDate!))}",
+                      child: InkWell(
+                        onTap: () {
+                          checkpointDateTooltipController.showTooltip();
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 24.h,
+                        ),
+                      ),
+                    ),
+                  ]
+                : null,
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                   context: context,
@@ -179,7 +311,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
 
               if (pickedDate != null) {
                 debugPrint(pickedDate.toString()); //pickedDate output format => 2021-03-10 00:00:00.000
-                String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                // String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                String formattedDate = formatter.format(pickedDate);
+                checkpointDateChosen = pickedDate;
                 debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
                 //you can implement different kind of Date Format here according to your requirement
 
@@ -199,82 +333,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             controller: notesController,
           ),
           SizedBox(height: 25.h),
-          BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
-            listener: (context, state) {
-              if (state is CreateLogVehicleFailed) {
-                AppDialogAction.showFailedPopup(
-                  context: context,
-                  title: "Terjadi kesalahan",
-                  description: state.errorMessage,
-                  buttonTitle: "Kembali",
-                  mainButtonAction: () {
-                    Get.back();
-                  },
-                );
-              } else if (state is CreateLogVehicleSuccess) {
-                AppDialogAction.showSuccessPopup(
-                  context: context,
-                  title: "Berhasil",
-                  description: state.createLogVehicleResponseModel.message!,
-                  buttonTitle: "Kembali",
-                  mainButtonAction: () {
-                    context
-                      ..read<ProfileBloc>().add(
-                        GetProfileRemoteAction(
-                          accountRepository: AppAccountReposistory(),
-                        ),
-                      )
-                      ..read<GetAllVehicleV2Bloc>().add(
-                        GetAllVehicleV2LocalAction(
-                          reqData: GetAllVehicleRequestModelV2(
-                            limit: 10,
-                            currentPage: 1,
-                          ),
-                        ),
-                      );
-                    Get.offAll(() => const MainPage());
-                  },
-                );
-              }
-            },
-            builder: (context, state) {
-              return AppMainButtonWidget(
-                onPressed: () {
-                  if (measurementTitleController.text.isEmpty ||
-                      currentOdoController.text.isEmpty ||
-                      estimateOdoController.text.isEmpty ||
-                      amountExpensesController.text.isEmpty ||
-                      checkpointDateController.text.isEmpty ||
-                      notesController.text.isEmpty) {
-                    AppDialogAction.showFailedPopup(
-                      context: context,
-                      title: "Error",
-                      description: "field can't be empty",
-                      buttonTitle: "Back",
-                    );
-                  } else {
-                    context.read<CreateLogVehicleBloc>().add(
-                          CreateLogVehicleAction(
-                            createLogVehicleRequestModel: CreateLogVehicleRequestModel(
-                              // userId: accountDataUserModel!.userId!,
-                              vehicleId: widget.vehicleId,
-                              measurementTitle: measurementTitleController.text,
-                              currentOdo: currentOdoController.text,
-                              estimateOdoChanging: estimateOdoController.text,
-                              amountExpenses: amountExpensesController.text,
-                              checkpointDate: checkpointDateController.text,
-                              notes: notesController.text,
-                            ),
-                          ),
-                        );
-                  }
-                  // Get.back();
-                },
-                text: "Add",
-              );
-            },
-          ),
-          SizedBox(height: 16.h),
+          SizedBox(height: kToolbarHeight + 30.h),
         ],
       ),
     );

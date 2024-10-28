@@ -192,17 +192,17 @@ class AppDialogAction {
           mainButtonAction == null
               ? const SizedBox()
               : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 24.h),
-                  AppMainButtonWidget(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 24.h),
+                    AppMainButtonWidget(
                       onPressed: mainButtonAction,
                       text: buttonTitle,
                       fontSize: buttonTextSize ?? 18.sp,
                       height: buttonHeight ?? 48.h,
                     ),
-                ],
-              ),
+                  ],
+                ),
         ],
       ),
       barrierDismissible: barrierDismissible,
@@ -285,7 +285,8 @@ class AppDialogAction {
               child: Container(
                 margin: EdgeInsets.all(30.h),
                 padding: padding,
-                width: double.infinity,
+                // width: double.infinity,
+                width: double.maxFinite,
                 decoration: BoxDecoration(
                   color: color ?? const Color(0xffFFFFFF),
                   borderRadius: BorderRadius.circular(radius),
@@ -308,6 +309,7 @@ class AppDialogAction {
     double radius = 10,
     double? buttonHeight,
     double? buttonTextSize,
+    bool barrierDismissible = true,
   }) async {
     await showMainPopup(
       context: context,
@@ -315,6 +317,8 @@ class AppDialogAction {
       radius: radius,
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
+      barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
@@ -345,7 +349,9 @@ class AppDialogAction {
       buttonTitle: buttonTitle,
       mainButtonAction: mainButtonAction ??
           () {
-            Get.back();
+            if (barrierDismissible) {
+              Get.back();
+            }
           },
     );
   }
@@ -359,6 +365,7 @@ class AppDialogAction {
     double radius = 10,
     double? buttonHeight,
     double? buttonTextSize,
+    bool barrierDismissible = true,
   }) async {
     await showMainPopup(
       context: context,
@@ -366,6 +373,8 @@ class AppDialogAction {
       radius: radius,
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
+      barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
@@ -396,7 +405,9 @@ class AppDialogAction {
       buttonTitle: buttonTitle,
       mainButtonAction: mainButtonAction ??
           () {
-            Get.back();
+            if (barrierDismissible) {
+              Get.back();
+            }
           },
     );
   }
@@ -410,6 +421,7 @@ class AppDialogAction {
     double radius = 10,
     double? buttonHeight,
     double? buttonTextSize,
+    bool barrierDismissible = true,
   }) async {
     await showMainPopup(
       context: context,
@@ -417,6 +429,8 @@ class AppDialogAction {
       radius: radius,
       buttonHeight: buttonHeight,
       buttonTextSize: buttonTextSize,
+      barrierDismissible: barrierDismissible,
+      useButtonBack: false,
       content: Column(
         children: [
           Image.asset(
@@ -447,7 +461,9 @@ class AppDialogAction {
       buttonTitle: buttonTitle,
       mainButtonAction: mainButtonAction ??
           () {
-            Get.back();
+            if (barrierDismissible) {
+              Get.back();
+            }
           },
     );
   }

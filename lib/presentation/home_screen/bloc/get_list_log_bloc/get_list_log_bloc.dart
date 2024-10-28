@@ -1,5 +1,7 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
@@ -8,14 +10,15 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_l
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/home_page.dart';
 
-part 'hp2_get_list_log_event.dart';
-part 'hp2_get_list_log_state.dart';
+part 'get_list_log_event.dart';
+part 'get_list_log_state.dart';
 
-class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
-  Hp2GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(Hp2GetListLogInitial()) {
-    on<Hp2GetListLogEvent>((event, emit) {
-      if (event is Hp2GetListLogAction) {
+class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
+  GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(GetListLogInitial()) {
+    on<GetListLogEvent>((event, emit) {
+      if (event is GetListLogAction) {
         if (event.actionType == GetLogVehicleActionEnum.refresh) {
           currentPage = 1;
           responseData.listData = [];
@@ -33,7 +36,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
             );
           } else {
             emit(
-              Hp2GetListLogSuccess(
+              GetListLogSuccess(
                 result: responseData,
                 actionType: GetLogVehicleActionEnum.loadMore,
               ),
@@ -50,10 +53,10 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
 
   Future<void> _hp2GetListLog(
     AppVehicleReposistory vehicleReposistory,
-    Hp2GetListLogAction event,
+    GetListLogAction event,
   ) async {
     emit(
-      Hp2GetListLogLoading(
+      GetListLogLoading(
         actionType: event.actionType,
       ),
     );
@@ -62,7 +65,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "Failed To Get Support Data",
           ),
         );
@@ -78,7 +81,7 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       );
       if (result == null) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "Terjadi kesalahan, data kosong",
           ),
         );
@@ -86,26 +89,43 @@ class Hp2GetListLogBloc extends Bloc<Hp2GetListLogEvent, Hp2GetListLogState> {
       }
       if (result.status != 200) {
         emit(
-          Hp2GetListLogFailed(
+          GetListLogFailed(
             errorMessage: "${result.message}",
           ),
         );
         return;
       }
       if (result.data != null) {
-        // AppLogger.debugLog("result.data: ${jsonEncode(result.toJson())}");
+        responseData = result.toLogDataEntity()!;
+        listResponseData?.addAll(result.toLogDataEntity()!.listData!);
+        responseData.listData = listResponseData;
+
+        Map<String, dynamic> dataCountFrequentTitle = jsonDecode(responseData.collectionLogData!.countFrequentTitles!);
+        Map<String, dynamic> dataCostBreakdown = jsonDecode(responseData.collectionLogData!.costBreakdown!);
+        // AppLogger.debugLog("dataCountFrequentTitle: $dataCountFrequentTitle");
+        // AppLogger.debugLog("dataCostBreakdown: $dataCostBreakdown");
+
+        List<ChartData> dataListCountFrequentTitle = dataCountFrequentTitle.entries.map((e) => ChartData(e.key, e.value)).toList();
+        List<ChartData> dataListCostBreakdown = dataCostBreakdown.entries.map((e) => ChartData(e.key, e.value)).toList();
+        // AppLogger.debugLog("dataListCountFrequentTitle: $dataListCountFrequentTitle");
+        // AppLogger.debugLog("dataListCostBreakdown: $dataListCostBreakdown");
+
         emit(
-          Hp2GetListLogSuccess(
-            result: result.toLogDataEntity(),
+          GetListLogSuccess(
+            result: responseData,
             actionType: event.actionType,
+            // dataCountFrequentTitle: dataCountFrequentTitle,
+            // dataCostBreakdown: dataCostBreakdown,
+            dataCountFrequentTitle: dataListCountFrequentTitle,
+            dataCostBreakdown: dataListCostBreakdown,
           ),
         );
         return;
       }
-    } catch (e) {
+    } catch (errorMessage) {
       emit(
-        Hp2GetListLogFailed(
-          errorMessage: "$e",
+        GetListLogFailed(
+          errorMessage: "$errorMessage",
         ),
       );
     }

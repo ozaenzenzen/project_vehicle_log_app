@@ -1,9 +1,10 @@
-import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
@@ -11,29 +12,29 @@ import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/detail_measurement_page_version2.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomePageVersion2 extends StatefulWidget {
-  const HomePageVersion2({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePageVersion2> createState() => _HomePageVersion2State();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageVersion2State extends State<HomePageVersion2> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int indexClicked = 0;
   Color vehicleListColor = Colors.black38;
-  // AccountDataUserModel? accountDataUserModelHomePage;
   UserDataEntity? accountDataUserModelHomePage;
 
   DateFormat formattedDate = DateFormat("dd MMM yyyy");
@@ -43,46 +44,23 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   );
 
   late List<_ChartData> data;
-  late TooltipBehavior _tooltip;
+  late TooltipBehavior _tooltipA;
+  late TooltipBehavior _tooltipB;
+
+  Uint8List? profilePictureData;
 
   @override
   void initState() {
-    // context
-    // ..read<ProfileBloc>().add(
-    //   GetProfileRemoteAction(
-    //     accountRepository: AppAccountReposistory(),
-    //   ),
-    // )
-    // ..read<GetAllVehicleV2Bloc>().add(
-    //   GetAllVehicleV2LocalAction(
-    //     reqData: GetAllVehicleRequestModelV2(
-    //       limit: 10,
-    //       currentPage: 1,
-    //     ),
-    //   ),
-    // );
-    // ..read<Hp2GetListLogBloc>().add(
-    //   Hp2GetListLogAction(
-    //     reqData: GetLogVehicleRequestModelV2(
-    //       limit: 10,
-    //       currentPage: 1,
-    //     ),
-    //   ),
-    // )
-    // ..read<GetAllVehicleBloc>().add(
-    //   GetProfileDataVehicleAction(
-    //     localRepository: AccountLocalRepository(),
-    //   ),
-    // );
     data = [
       _ChartData('David', 25),
       _ChartData('Steve', 38),
-      // _ChartData('Jack', 34),
-      // _ChartData('Others', 52),
     ];
-    _tooltip = TooltipBehavior(enable: true);
+    _tooltipA = TooltipBehavior(enable: true);
+    _tooltipB = TooltipBehavior(enable: true);
     super.initState();
   }
+
+  String countVehicle = "";
 
   @override
   Widget build(BuildContext context) {
@@ -94,29 +72,24 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               accountRepository: AppAccountReposistory(),
             ),
           )
-          ..read<GetAllVehicleV2Bloc>().add(
-            GetAllVehicleV2RemoteAction(
+          ..read<GetAllVehicleBloc>().add(
+            GetAllVehicleRemoteAction(
               reqData: GetAllVehicleRequestModelV2(
                 limit: 10,
                 currentPage: 1,
               ),
               action: GetAllVehicleActionEnum.refresh,
             ),
+          )
+          ..read<GetListLogBloc>().add(
+            GetListLogAction(
+              actionType: GetLogVehicleActionEnum.refresh,
+              reqData: GetLogVehicleRequestModelV2(
+                limit: 10,
+                currentPage: 1,
+              ),
+            ),
           );
-        // ..read<Hp2GetListLogBloc>().add(
-        //   Hp2GetListLogAction(
-        //     reqData: GetLogVehicleRequestModelV2(
-        //       limit: 10,
-        //       currentPage: 1,
-        //     ),
-        //   ),
-        // )
-        // ..read<GetAllVehicleBloc>().add(
-        //   GetAllVehicleDataRemoteAction(
-        //     id: accountDataUserModelHomePage!.id.toString(),
-        //     vehicleLocalRepository: VehicleLocalRepository(),
-        //   ),
-        // );
       },
       child: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -165,35 +138,42 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BlocBuilder<ProfileBloc, ProfileState>(
+              BlocConsumer<ProfileBloc, ProfileState>(
+                listener: (context, state) {
+                  if (state is ProfileFailed) {
+                    AppDialogAction.showFailedPopup(
+                      context: context,
+                      title: "Terjadi kesalahan",
+                      description: state.errorMessage,
+                      buttonTitle: "Kembali",
+                    );
+                  }
+                },
                 builder: (context, state) {
+                  String name = "";
                   if (state is ProfileLoading) {
                     return SizedBox(
                       height: 40.h,
                       width: 150.w,
                       child: const SkeletonLine(),
                     );
-                  } else if (state is ProfileFailed) {
-                    return Text(state.errorMessage);
-                  } else if (state is ProfileSuccess) {
-                    return Expanded(
-                      child: Text(
-                        "Hi, ${state.userDataModel.name}",
-                        style: AppTheme.theme.textTheme.displayLarge?.copyWith(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Text(
-                      "Hi, User",
+                  }
+                  if (state is ProfileFailed) {
+                    name = "";
+                  }
+                  if (state is ProfileSuccess) {
+                    name = state.userDataModel.name ?? "";
+                  }
+                  return Expanded(
+                    child: Text(
+                      "Hi, $name",
+                      // "Hi, ${state.userDataModel.name}",
                       style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                         color: Colors.black38,
                         fontWeight: FontWeight.w500,
                       ),
-                    );
-                  }
+                    ),
+                  );
                 },
               ),
               InkWell(
@@ -212,16 +192,32 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                         ),
                       );
                     } else if (state is ProfileSuccess) {
-                      if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
+                      if (state.dataProfilePicture != null) {
+                        profilePictureData = state.dataProfilePicture;
+                        //Version RnD
                         return ClipOval(
                           child: Image.memory(
-                            base64Decode(state.userDataModel.profilePicture!),
+                            profilePictureData!,
                             height: 80.h,
                             width: 80.h,
                             fit: BoxFit.cover,
                           ),
                         );
-                      } else {
+                      }
+                      /* if (state.userDataModel.profilePicture != null && state.userDataModel.profilePicture!.length > 30) {
+                        // Version Stable
+                        profilePictureData = base64Decode(state.userDataModel.profilePicture!);
+                        return ClipOval(
+                          child: Image.memory(
+                            profilePictureData!,
+                            // base64Decode(state.userDataModel.profilePicture!),
+                            height: 80.h,
+                            width: 80.h,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      } */
+                      else {
                         return CircleAvatar(
                           radius: 36.h,
                           backgroundColor: AppColor.primary,
@@ -261,9 +257,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeVehicleSummarySection() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
+        if (state is GetListLogSuccess) {
           return AppContainerBoxWidget(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -273,27 +269,45 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                 children: [
                   Text(
                     "Summary",
-                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                    style: GoogleFonts.inter(
                       color: Colors.black54,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(height: 10.h),
+                  BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+                    builder: (context, state) {
+                      if (state is GetAllVehicleSuccess) {
+                        if (state.result != null) {
+                          countVehicle = "${state.result!.totalItems!}";
+                        } else {
+                          countVehicle = "";
+                        }
+                      } else {
+                        countVehicle = "";
+                      }
+                      return Text(
+                        "Number of Vehicle: $countVehicle",
+                        // "Number of Vehicle: ${state.result?.totalItems}",
+                        style: AppTheme.theme.textTheme.bodySmall?.copyWith(
+                          color: Colors.black54,
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 5.h),
                   Text(
-                    "Number of Vehicle: 8",
+                    "Measurement: ${state.result?.collectionLogData?.measurementTitles}",
+                    // "Measurement: Oil, Water",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
                     ),
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "Critical: Oil, Water",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Last Update: 16 Nov 2022",
+                    "Last Update: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
+                    // "Last Update: 16 Nov 2022",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
                     ),
@@ -302,57 +316,71 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        height: 100.h,
-                        width: 100.h,
+                        height: 170.h,
+                        width: 170.h,
                         child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
+                          title: ChartTitle(
+                            text: "Frequent Measurment",
+                            textStyle: GoogleFonts.inter(
+                              color: Colors.black38,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          tooltipBehavior: _tooltipA,
+                          series: <CircularSeries<ChartData, String>>[
+                            DoughnutSeries<ChartData, String>(
+                              dataSource: state.dataCountFrequentTitle,
+                              xValueMapper: (ChartData data, ints) => data.x,
+                              yValueMapper: (ChartData data, ints) => data.y,
+                              name: 'Most Frequent Measurment',
                             )
                           ],
                         ),
                       ),
                       SizedBox(
-                        height: 100.h,
-                        width: 100.h,
+                        height: 170.h,
+                        width: 170.h,
                         child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
+                          title: ChartTitle(
+                            text: "Cost Breakdown",
+                            textStyle: GoogleFonts.inter(
+                              color: Colors.black38,
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                          tooltipBehavior: _tooltipB,
+                          series: <CircularSeries<ChartData, String>>[
+                            DoughnutSeries<ChartData, String>(
+                              dataSource: state.dataCostBreakdown,
+                              xValueMapper: (ChartData data, ints) => data.x,
+                              yValueMapper: (ChartData data, ints) => data.y,
+                              name: 'Cost Breakdown',
                             )
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: 100.h,
+                      //   width: 100.h,
+                      //   child: SfCircularChart(
+                      //     tooltipBehavior: _tooltipC,
+                      //     series: <CircularSeries<_ChartData, String>>[
+                      //       DoughnutSeries<_ChartData, String>(
+                      //         dataSource: data,
+                      //         xValueMapper: (_ChartData data, ints) => data.x,
+                      //         yValueMapper: (_ChartData data, ints) => data.y,
+                      //         name: 'Gold',
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
               ),
             ),
           );
-        } else if (state is GetAllVehicleV2Loading) {
+        } else if (state is GetListLogLoading) {
           return SkeletonAvatar(
             style: SkeletonAvatarStyle(
               width: MediaQuery.of(context).size.width,
@@ -360,130 +388,32 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
             ),
           );
         } else {
-          return AppContainerBoxWidget(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Summary",
-                    style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text(
-                    "Number of Vehicle: 8",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Critical: Oil, Water",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    "Last Update: 16 Nov 2022",
-                    style: AppTheme.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.black54,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 100.h,
-                        width: 100.h,
-                        child: SfCircularChart(
-                          tooltipBehavior: _tooltip,
-                          series: <CircularSeries<_ChartData, String>>[
-                            DoughnutSeries<_ChartData, String>(
-                              dataSource: data,
-                              xValueMapper: (_ChartData data, ints) => data.x,
-                              yValueMapper: (_ChartData data, ints) => data.y,
-                              name: 'Gold',
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
+          return const SizedBox();
         }
       },
     );
   }
 
   Widget homeListVehicleSection() {
-    return BlocConsumer<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
-      listener: (context, state) {
-        if (state is GetAllVehicleV2Success) {
-          if (state.result!.listData!.isNotEmpty) {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
-                    actionType: GetLogVehicleActionEnum.refresh,
-                    reqData: GetLogVehicleRequestModelV2(
-                      limit: 10,
-                      currentPage: 1,
-                      vehicleId: state.result!.listData!.first.id.toString(),
-                    ),
-                  ),
-                );
-          } else {
-            // DO Nothing
-          }
-        }
-      },
-      // return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
-          // if (state is GetAllVehicleSuccess) {
+        if (state is GetAllVehicleLoading) {
+          return SkeletonLine(
+            style: SkeletonLineStyle(
+              width: MediaQuery.of(context).size.width,
+              height: 20.h,
+            ),
+          );
+        } else if (state is GetAllVehicleSuccess) {
+          if (state.result == null || state.result!.listData!.isEmpty) {
+            return const SizedBox();
+          }
           return SizedBox(
             height: 40.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: state.result?.listData?.length,
-              // itemCount: state.getAllVehicleDataResponseModel!.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
@@ -515,14 +445,6 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               },
             ),
           );
-        } else if (state is GetAllVehicleV2Loading) {
-          // } else if (state is GetAllVehicleLoading) {
-          return SkeletonLine(
-            style: SkeletonLineStyle(
-              width: MediaQuery.of(context).size.width,
-              height: 20.h,
-            ),
-          );
         } else {
           return const SizedBox();
         }
@@ -531,18 +453,9 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
   }
 
   Widget homeListMeasurementSection() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Success) {
-          if (state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
-            return const SizedBox();
-          } else {
-            return ListMeasurementWidgetV2(
-              data: state.result!.listData!,
-              indexInput: indexClicked,
-            );
-          }
-        } else if (state is GetAllVehicleV2Loading) {
+        if (state is GetAllVehicleLoading) {
           return GridView.builder(
             padding: EdgeInsets.zero,
             shrinkWrap: true,
@@ -557,6 +470,15 @@ class _HomePageVersion2State extends State<HomePageVersion2> with TickerProvider
               return const SkeletonAvatar();
             },
           );
+        } else if (state is GetAllVehicleSuccess) {
+          if (state.result == null || state.result!.listData!.isEmpty || state.result!.listData![indexClicked].measurmentTitle!.isEmpty) {
+            return const SizedBox();
+          } else {
+            return ListMeasurementWidgetV2(
+              data: state.result!.listData!,
+              indexInput: indexClicked,
+            );
+          }
         } else {
           return const SizedBox();
         }
@@ -591,8 +513,8 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.read<Hp2GetListLogBloc>().add(
-                  Hp2GetListLogAction(
+            context.read<GetListLogBloc>().add(
+                  GetListLogAction(
                     actionType: GetLogVehicleActionEnum.refresh,
                     reqData: GetLogVehicleRequestModelV2(
                       limit: 10,
@@ -603,7 +525,7 @@ class ListMeasurementWidgetV2 extends StatelessWidget {
                   ),
                 );
             Get.to(
-              () => DetailMeasurementPageVersion2(
+              () => DetailMeasurementPage(
                 data: data![indexInput],
                 indexMeasurement: index,
                 listMeasurementTitleByGroup: data![indexInput].measurmentTitle,
@@ -642,7 +564,8 @@ class ChartData {
     this.color,
   ]);
   final String x;
-  final double y;
+  final dynamic y;
+  // final num y;
   final Color? color;
 }
 

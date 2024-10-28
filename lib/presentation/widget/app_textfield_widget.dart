@@ -12,6 +12,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final bool ignorePointerActive;
   final TextInputType? keyboardType;
   final Function()? onTap;
+  final Function(String value)? onSubmitted;
   final void Function(String)? onChanged;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -20,6 +21,11 @@ class AppTextFieldWidget extends StatefulWidget {
   final Color? fillColor;
   final InputBorder? border;
   final double? radius;
+  final TextInputAction? textInputAction;
+  final bool autofocus;
+  final FocusNode? focusNode;
+  final ScrollController? scrollController;
+  final List<Widget>? action;
 
   const AppTextFieldWidget({
     Key? key,
@@ -29,8 +35,9 @@ class AppTextFieldWidget extends StatefulWidget {
     this.maxLines,
     this.readOnly = false,
     this.ignorePointerActive = false,
-    this.onTap,
     this.keyboardType,
+    this.onTap,
+    this.onSubmitted,
     this.onChanged,
     this.suffixIcon,
     this.prefixIcon,
@@ -39,6 +46,11 @@ class AppTextFieldWidget extends StatefulWidget {
     this.fillColor = AppColor.shape_3,
     this.border,
     this.radius,
+    this.textInputAction,
+    this.autofocus = false,
+    this.focusNode,
+    this.scrollController,
+    this.action,
   }) : super(key: key);
 
   @override
@@ -64,15 +76,31 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // SizedBox(height: 16.h),
-        Text(
-          // "Email",
-          widget.textFieldTitle,
-          style: GoogleFonts.inter(
-            color: const Color(0xff331814),
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        widget.action == null
+            ? Text(
+                // "Email",
+                widget.textFieldTitle,
+                style: GoogleFonts.inter(
+                  color: const Color(0xff331814),
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    // "Email",
+                    widget.textFieldTitle,
+                    style: GoogleFonts.inter(
+                      color: const Color(0xff331814),
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  if (widget.action != null) ...widget.action!,
+                ],
+              ),
         SizedBox(height: 4.h),
         SizedBox(
           // height: 48.h,
@@ -80,6 +108,10 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
           child: widget.ignorePointerActive
               ? IgnorePointer(
                   child: TextField(
+                    scrollController: widget.scrollController,
+                    focusNode: widget.focusNode,
+                    autofocus: widget.autofocus,
+                    textInputAction: widget.textInputAction,
                     obscureText: widget.obscureText,
                     controller: widget.controller,
                     keyboardType: widget.keyboardType,
@@ -114,10 +146,26 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     ),
                     onChanged: widget.onChanged,
                     readOnly: widget.readOnly,
-                    onTap: widget.onTap,
+                    // onTap: widget.onTap,
+                    onTap: () {
+                      if (widget.autofocus) {
+                        Scrollable.ensureVisible(
+                          widget.focusNode?.context ?? context,
+                          // context,
+                          alignment: 0.5,
+                          duration: const Duration(milliseconds: 100),
+                        );
+                      }
+                      widget.onTap?.call();
+                    },
+                    onSubmitted: widget.onSubmitted,
                   ),
                 )
               : TextField(
+                  scrollController: widget.scrollController,
+                  focusNode: widget.focusNode,
+                  autofocus: widget.autofocus,
+                  textInputAction: widget.textInputAction,
                   obscureText: widget.obscureText,
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
@@ -152,7 +200,18 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   ),
                   onChanged: widget.onChanged,
                   readOnly: widget.readOnly,
-                  onTap: widget.onTap,
+                  onTap: () {
+                    if (widget.autofocus) {
+                      Scrollable.ensureVisible(
+                        widget.focusNode?.context ?? context,
+                        // context,
+                        alignment: 0.5,
+                        duration: const Duration(milliseconds: 100),
+                      );
+                    }
+                    widget.onTap?.call();
+                  },
+                  onSubmitted: widget.onSubmitted,
                 ),
         ),
       ],

@@ -8,12 +8,12 @@ class AppInitConfig {
   static Future<void> init() async {
     // AppTheme.appThemeInit();
     await GetStorage.init();
-    AppInfo.appInfoInit();
-    AppConnectivityService.init();
-    AppLocalStorage.init();
+    await AppInfo.appInfoInit();
+    await AppConnectivityService.init();
+    await AppLocalStorage.init();
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
 
-    EnvironmentConfig.customBaseUrl = "https://87c8-114-10-42-123.ngrok-free.app"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "https://f4f4-114-10-42-123.ngrok-free.app"; // for ngrok
 
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS

@@ -9,12 +9,12 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_v2_bloc/get_all_vehicle_v2_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/home_screen/bloc/hp2_get_list_log_bloc/hp2_get_list_log_bloc.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/dvp_stats_item_widget_version2.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_main_info_page_version2.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/enum/status_logs_enum.dart';
-import 'package:project_vehicle_log_app/presentation/vehicle_screen/list_item_widget_version2.dart';
+import 'package:project_vehicle_log_app/presentation/enum/status_logs_enum.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_vehicle_page.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/dvp_stats_item_widget.dart';
+import 'package:project_vehicle_log_app/presentation/vehicle_screen/widget/list_item_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/support/app_assets.dart';
@@ -27,13 +27,13 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_measurem
 
 // enum StatusLogs { add, update, delete }
 
-class DetailVehiclePageVersion2 extends StatefulWidget {
+class DetailVehiclePage extends StatefulWidget {
   // final int indexMeasurement;
   final int idVehicle;
   final ListDatumVehicleDataEntity datumVehicle;
   final List<String>? listMeasurementTitleByGroup;
 
-  const DetailVehiclePageVersion2({
+  const DetailVehiclePage({
     Key? key,
     // required this.indexMeasurement,
     required this.idVehicle,
@@ -42,28 +42,19 @@ class DetailVehiclePageVersion2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<DetailVehiclePageVersion2> createState() => _DetailVehiclePageVersion2State();
+  State<DetailVehiclePage> createState() => _DetailVehiclePageState();
 }
 
-class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> with TickerProviderStateMixin {
+class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProviderStateMixin {
   late TabController tabController;
 
   TooltipBehavior? tooltipBehavior;
 
-  // late GetAllVehicleBloc getAllVehicleBloc;
-
-  // List<VehicleMeasurementLogModel> sortedListLogs = [];
   List<ListDatumLogEntity> sortedListLogs = [];
 
   @override
   void initState() {
     super.initState();
-    // getAllVehicleBloc = BlocProvider.of(context)
-    //   ..add(
-    //     GetAllVehicleDataLocalAction(
-    //       vehicleLocalRepository: VehicleLocalRepository(),
-    //     ),
-    //   );
     tooltipBehavior = TooltipBehavior(enable: true);
     tabController = TabController(
       vsync: this,
@@ -73,12 +64,6 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
 
   @override
   void didChangeDependencies() {
-    // getAllVehicleBloc = BlocProvider.of(context)
-    //   ..add(
-    //     GetAllVehicleDataLocalAction(
-    //       vehicleLocalRepository: VehicleLocalRepository(),
-    //     ),
-    //   );
     super.didChangeDependencies();
   }
 
@@ -113,14 +98,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
       );
 
   infoView() {
-    return BlocBuilder<GetAllVehicleV2Bloc, GetAllVehicleV2State>(
-      // bloc: getAllVehicleBloc,
+    return BlocBuilder<GetAllVehicleBloc, GetAllVehicleState>(
       builder: (context, state) {
-        if (state is GetAllVehicleV2Loading) {
+        if (state is GetAllVehicleLoading) {
           return const AppLoadingIndicator();
-        } else if (state is GetAllVehicleV2Failed) {
+        } else if (state is GetAllVehicleFailed) {
           return Text(state.errorMessage);
-        } else if (state is GetAllVehicleV2Success) {
+        } else if (state is GetAllVehicleSuccess) {
           int newIndex = state.result!.listData!.indexWhere((element) {
             return element.id == widget.datumVehicle.id;
           });
@@ -171,7 +155,7 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                       InkWell(
                         onTap: () {
                           Get.to(
-                            () => EditMainInfoPageVersion2(
+                            () => EditVehiclePage(
                               data: state.result!.listData!.firstWhere((element) => element.id == widget.idVehicle),
                             ),
                           );
@@ -185,32 +169,32 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                     ],
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Year",
                     value: state.result!.listData![newIndex].year,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Engine Capacity (cc)",
                     value: state.result!.listData![newIndex].engineCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Tank Capacity (Litre)",
                     value: state.result!.listData![newIndex].tankCapacity,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Color",
                     value: state.result!.listData![newIndex].color,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Machine Number",
                     value: state.result!.listData![newIndex].machineNumber,
                   ),
                   SizedBox(height: 10.h),
-                  ItemListWidgetVersion2(
+                  ItemListWidget(
                     title: "Chassis Number",
                     value: state.result!.listData![newIndex].chassisNumber,
                   ),
@@ -234,8 +218,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
       enablePullDown: true,
       enablePullUp: true,
       onRefresh: () {
-        context.read<Hp2GetListLogBloc>().add(
-              Hp2GetListLogAction(
+        context.read<GetListLogBloc>().add(
+              GetListLogAction(
                 actionType: GetLogVehicleActionEnum.refresh,
                 reqData: GetLogVehicleRequestModelV2(
                   limit: 10,
@@ -246,8 +230,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
             );
       },
       onLoading: () {
-        context.read<Hp2GetListLogBloc>().add(
-              Hp2GetListLogAction(
+        context.read<GetListLogBloc>().add(
+              GetListLogAction(
                 actionType: GetLogVehicleActionEnum.loadMore,
                 reqData: GetLogVehicleRequestModelV2(
                   limit: 10,
@@ -257,9 +241,9 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
               ),
             );
       },
-      child: BlocConsumer<Hp2GetListLogBloc, Hp2GetListLogState>(
+      child: BlocConsumer<GetListLogBloc, GetListLogState>(
         listener: (context, state) {
-          if (state is Hp2GetListLogSuccess) {
+          if (state is GetListLogSuccess) {
             if (state.actionType == GetLogVehicleActionEnum.refresh) {
               logsViewRefreshController.refreshCompleted();
             } else {
@@ -268,13 +252,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
           }
         },
         builder: (context, state) {
-          if (state is Hp2GetListLogLoading) {
+          if (state is GetListLogLoading) {
             if (state.actionType == GetLogVehicleActionEnum.refresh) {
               // return const AppLoadingIndicator();
               return loadingSkeletonState();
             }
           }
-          if (state is Hp2GetListLogSuccess) {
+          if (state is GetListLogSuccess) {
             listData = state.result!.listData!;
           }
           sortedListLogs = listData;
@@ -307,7 +291,7 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                           // itemCount: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels.length,
                           itemCount: sortedListLogs.length,
                           itemBuilder: (context, index) {
-                            return ItemListWidgetVersion2.logs(
+                            return ItemListWidget.logs(
                               // title: state.getAllVehicleDataResponseModel.data![widget.index].vehicleMeasurementLogModels[index].measurementTitle,
                               title: sortedListLogs[index].measurementTitle,
                               statusLogs: StatusLogs.add,
@@ -363,13 +347,13 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
   }
 
   statsView() {
-    return BlocBuilder<Hp2GetListLogBloc, Hp2GetListLogState>(
+    return BlocBuilder<GetListLogBloc, GetListLogState>(
       builder: (context, state) {
-        if (state is Hp2GetListLogLoading) {
+        if (state is GetListLogLoading) {
           return const AppLoadingIndicator();
-        } else if (state is Hp2GetListLogFailed) {
+        } else if (state is GetListLogFailed) {
           return Text(state.errorMessage);
-        } else if (state is Hp2GetListLogSuccess) {
+        } else if (state is GetListLogSuccess) {
           return SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(16.h),
@@ -399,13 +383,14 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
                           // itemCount: widget.indexMeasurement + 1,
                           itemCount: widget.listMeasurementTitleByGroup!.length,
                           itemBuilder: (context, index) {
-                            return DVPStatsItemWidgetVersion2(
+                            return DVPStatsItemWidget(
                               // title: state
                               //     .result!
                               //     .listData![state.result!.listData!.indexWhere((element) {
                               //   return element.measurementTitle == widget.datumVehicle.measurmentTitle![widget.index];
                               // })].measurementTitle,
                               title: widget.listMeasurementTitleByGroup![index],
+                              vehicleId: widget.idVehicle.toString(),
                               // title: "Test Title",
                               data: state.result!.listData!,
                             );
@@ -494,6 +479,8 @@ class _DetailVehiclePageVersion2State extends State<DetailVehiclePageVersion2> w
     return Scaffold(
       backgroundColor: AppColor.shape,
       floatingActionButton: FloatingActionButton.extended(
+        key: const Key("DVPFAB"),
+        heroTag: const Key("DVPFAB"),
         onPressed: () {
           Get.to(
             () => AddMeasurementPage(

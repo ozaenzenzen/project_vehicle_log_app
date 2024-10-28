@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_request_model.dart';
 import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/notification/notification_data_entity.dart';
-import 'package:project_vehicle_log_app/presentation/notification_screen/notification_action_enum.dart';
+import 'package:project_vehicle_log_app/presentation/enum/notification_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/notification_screen/notification_bloc/notification_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
