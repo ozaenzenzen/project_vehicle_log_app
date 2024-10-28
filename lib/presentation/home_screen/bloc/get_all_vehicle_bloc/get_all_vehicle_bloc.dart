@@ -8,7 +8,6 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_a
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 
 part 'get_all_vehicle_event.dart';
 part 'get_all_vehicle_state.dart';
