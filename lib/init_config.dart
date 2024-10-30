@@ -28,6 +28,8 @@ class AppInitConfig {
 
     EnvironmentConfig.customBaseUrl = "https://0b5b-114-10-42-123.ngrok-free.app"; // for ngrok
 
+    tokenDataEntity = await AccountLocalRepository().getDataToken();
+
     appApiService = AppApiService(EnvironmentConfig.baseUrl());
 
     appApiService.dio.interceptors.add(
