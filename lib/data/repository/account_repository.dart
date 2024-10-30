@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/get_userdata_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_request_models.dart';
@@ -89,6 +90,28 @@ class AppAccountReposistory {
       return EditProfileResponseModel.fromJson(response.data);
     } catch (errorMessage) {
       debugPrint("[AppAccountReposistory][editProfile] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<RefreshTokenResponseModel?> refreshToken({
+    required String refreshToken,
+    required String token,
+  }) async {
+    try {
+      final response = await AppApiService(
+        EnvironmentConfig.baseUrl(),
+      ).call(
+        AppApiPath.refreshToken,
+        method: MethodRequest.get,
+        header: <String, String>{
+          'token': token,
+          'refreshToken': refreshToken,
+        },
+      );
+      return RefreshTokenResponseModel.fromJson(response.data);
+    } catch (errorMessage) {
+      debugPrint("[AppAccountReposistory][refreshToken] errorMessage $errorMessage");
       return null;
     }
   }
