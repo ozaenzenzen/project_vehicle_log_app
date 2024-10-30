@@ -9,12 +9,15 @@ part 'signout_event.dart';
 part 'signout_state.dart';
 
 class SignoutBloc extends Bloc<SignoutEvent, SignoutState> {
-  SignoutBloc() : super(SignoutInitial()) {
+  SignoutBloc(
+    AccountLocalRepository accountLocalRepository,
+    VehicleLocalRepository vehicleLocalRepository,
+  ) : super(SignoutInitial()) {
     on<SignoutEvent>((event, emit) {
       if (event is SignoutAction) {
         _signOutAction(
-          accountLocalRepository: event.accountLocalRepository,
-          vehicleLocalRepository: event.vehicleLocalRepository,
+          accountLocalRepository: accountLocalRepository,
+          vehicleLocalRepository: vehicleLocalRepository,
         );
       }
     });

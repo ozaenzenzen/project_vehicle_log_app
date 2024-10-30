@@ -146,10 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         return InkWell(
           onTap: () {
-            context.read<SignoutBloc>().add(SignoutAction(
-                  accountLocalRepository: AccountLocalRepository(),
-                  vehicleLocalRepository: VehicleLocalRepository(),
-                ));
+            context.read<SignoutBloc>().add(SignoutAction());
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
