@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SigninBloc(AppAccountReposistory(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => SignoutBloc()),
+        BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
         BlocProvider(create: (context) => SignupBloc(AppAccountReposistory(AppInitConfig.appApiService))),
         BlocProvider(
             create: (context) => ProfileBloc(
