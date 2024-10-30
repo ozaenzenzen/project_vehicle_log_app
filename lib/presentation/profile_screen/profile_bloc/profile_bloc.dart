@@ -14,16 +14,20 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(AccountLocalRepository localRepository) : super(ProfileInitial()) {
+  ProfileBloc(
+    AppAccountReposistory accountRepository,
+    AccountLocalRepository localRepository,
+  ) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {
       if (event is GetProfileLocalAction) {
         _getProfileLocalAction(localRepository);
       }
       if (event is GetProfileRemoteAction) {
-        _getProfileRemoteAction(event.accountRepository);
+        _getProfileRemoteAction(accountRepository);
       }
     });
   }
+  
   Future<void> _getProfileRemoteAction(
     AppAccountReposistory accountRepository,
   ) async {

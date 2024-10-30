@@ -47,13 +47,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc = ProfileBloc(AccountLocalRepository());
-    profileBloc = profileBloc
-      ..add(
-        GetProfileRemoteAction(
-          accountRepository: AppAccountReposistory(),
-        ),
-      );
+    profileBloc = ProfileBloc(AppAccountReposistory(), AccountLocalRepository());
+    profileBloc = profileBloc..add(GetProfileRemoteAction());
   }
 
   bool isLoadingActive = false;

@@ -38,11 +38,14 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SigninBloc(AppAccountReposistory())),
         BlocProvider(create: (context) => SignoutBloc()),
         BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
-        BlocProvider(create: (context) => ProfileBloc(AccountLocalRepository())),
+        BlocProvider(
+            create: (context) => ProfileBloc(
+                  AppAccountReposistory(),
+                  AccountLocalRepository(),
+                )),
         BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
-
         BlocProvider(create: (context) => NotificationBloc()),
         BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
         BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory())),
