@@ -6,14 +6,15 @@ import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppNotificationRepository {
+  final AppApiService appApiService;
+  AppNotificationRepository(this.appApiService);
+
   Future<GetNotificationResponseModel?> getNotification({
     required String userId,
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.getNotification + userId,
         method: MethodRequest.get,
         header: <String, String>{

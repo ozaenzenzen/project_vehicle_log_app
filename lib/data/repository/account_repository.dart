@@ -7,16 +7,16 @@ import 'package:project_vehicle_log_app/data/model/remote/account/signup_request
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
-import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppAccountReposistory {
+  final AppApiService appApiService;
+  AppAccountReposistory(this.appApiService);
+  
   Future<SignInResponseModel?> signin(SignInRequestModel data) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.signInAccount,
         request: data.toJson(),
       );
@@ -33,9 +33,7 @@ class AppAccountReposistory {
 
   Future<SignUpResponseModel?> signup(SignUpRequestModel data) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.signUpAccount,
         request: data.toJson(),
       );
@@ -52,9 +50,7 @@ class AppAccountReposistory {
 
   Future<GetUserDataResponseModel?> getUserdata({required String token}) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.getUserData,
         method: MethodRequest.get,
         header: <String, String>{
@@ -77,9 +73,7 @@ class AppAccountReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.editProfile,
         method: MethodRequest.post,
         request: data.toJson(),
@@ -99,9 +93,7 @@ class AppAccountReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.refreshToken,
         method: MethodRequest.get,
         header: <String, String>{

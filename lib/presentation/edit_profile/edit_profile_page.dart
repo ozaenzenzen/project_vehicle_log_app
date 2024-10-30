@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
@@ -47,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc = ProfileBloc(AppAccountReposistory(), AccountLocalRepository());
+    profileBloc = ProfileBloc(AppAccountReposistory(AppInitConfig.appApiService), AccountLocalRepository());
     profileBloc = profileBloc..add(GetProfileRemoteAction());
   }
 

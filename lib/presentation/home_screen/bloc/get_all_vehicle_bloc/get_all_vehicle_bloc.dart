@@ -76,7 +76,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
       GetAllVehicleRequestModelV2 dataRequest = event.reqData;
       dataRequest.currentPage = currentPage;
 
-      GetAllVehicleResponseModelV2? result = await AppVehicleReposistory().getAllVehicleDataV2(
+      GetAllVehicleResponseModelV2? result = await appVehicleReposistory.getAllVehicleDataV2(
         userToken,
         dataRequest,
       );
