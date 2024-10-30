@@ -29,6 +29,7 @@ class SignoutBloc extends Bloc<SignoutEvent, SignoutState> {
       await accountLocalRepository.removeLocalAccountData();
       await accountLocalRepository.removeRefreshToken();
       await accountLocalRepository.removeUserToken();
+      await accountLocalRepository.removeDataToken();
       await accountLocalRepository.setIsSignOut();
       await vehicleLocalRepository.removeLocalVehicleDataV2();
       emit(SignoutSuccess());

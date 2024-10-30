@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:project_vehicle_log_app/domain/entities/token_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
 import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
@@ -9,6 +10,7 @@ class AccountLocalRepository {
   String userDataV2 = "userDataV2";
   String isSignIn = "isSignIn";
   String isOnboardingDone = "isOnboardingDone";
+  String dataToken = "dataToken";
   String userToken = "userToken";
   String refreshToken = "refreshToken";
 
@@ -46,6 +48,44 @@ class AccountLocalRepository {
       }
     } catch (errorMessage) {
       AppLogger.debugLog("[getLocalAccountData][error] $errorMessage");
+      return null;
+    }
+  }
+
+  Future<void> removeDataToken() async {
+    try {
+      await LocalService.instance.box.remove(dataToken);
+    } catch (errorMessage) {
+      AppLogger.debugLog("[removeDataToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<void> setDataToken({
+    required TokenDataEntity data,
+  }) async {
+    try {
+      await LocalService.instance.box.write(
+        dataToken,
+        jsonEncode(data.toJson()),
+      );
+    } catch (errorMessage) {
+      AppLogger.debugLog("[setDataToken][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<TokenDataEntity?> getDataToken() async {
+    try {
+      String? data = LocalService.instance.box.read(dataToken);
+      if (data != null) {
+        TokenDataEntity result = TokenDataEntity.fromJson(jsonDecode(data));
+        return result;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLogger.debugLog("[getDataToken][error] $errorMessage");
       return null;
     }
   }
