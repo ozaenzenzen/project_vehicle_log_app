@@ -26,6 +26,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final FocusNode? focusNode;
   final ScrollController? scrollController;
   final List<Widget>? action;
+  final Widget? error;
 
   const AppTextFieldWidget({
     Key? key,
@@ -51,6 +52,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.focusNode,
     this.scrollController,
     this.action,
+    this.error,
   }) : super(key: key);
 
   @override
@@ -124,6 +126,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
+                      error: widget.error,
                       filled: widget.filled,
                       fillColor: widget.fillColor,
                       suffixIcon: widget.suffixIcon,
@@ -178,6 +181,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
+                    error: widget.error,
                     filled: widget.filled,
                     fillColor: widget.fillColor,
                     suffixIcon: widget.suffixIcon,
