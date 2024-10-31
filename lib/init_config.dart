@@ -19,16 +19,12 @@ import 'package:project_vehicle_log_app/support/app_logger.dart';
 
 class AppInitConfig {
   static late AppApiService appApiService;
+
   static TokenDataEntity? tokenDataEntity;
-  static List<Function> _onRefreshQueue = [];
+
   static bool _isRefreshing = false;
 
-  static dio.Response? refreshTokenResponse;
-
   static List<Function> refreshQueue = [];
-  static List<Function> _refreshQueue = [];
-
-  final List<Completer<Response>> _refreshCompleters = [];
 
   static Future<void> init() async {
     // AppTheme.appThemeInit();
@@ -43,8 +39,6 @@ class AppInitConfig {
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 
     await interceptorsLogic2();
-    // await interceptorsLogic();
-    // await interceptorsLogicOld();
   }
 
   static Future<void> interceptorsLogic2() async {
@@ -74,7 +68,7 @@ class AppInitConfig {
           if (response.realUri.path != AppApiPath.refreshToken && response.statusCode == 401) {
             if (_isRefreshing) {
               // Queue the requests while refreshing
-              _refreshQueue.add(() async {
+              refreshQueue.add(() async {
                 final response = await _retryRequest(error.requestOptions);
                 handler.resolve(response);
               });
@@ -105,10 +99,10 @@ class AppInitConfig {
               }
 
               // Retry all queued requests with the new token
-              for (var request in _refreshQueue) {
+              for (var request in refreshQueue) {
                 await request();
               }
-              _refreshQueue.clear();
+              refreshQueue.clear();
 
               // Retry the original failed request
               final response = await _retryRequest(error.requestOptions);
@@ -130,250 +124,6 @@ class AppInitConfig {
             }
           }
 
-          return handler.next(error);
-        },
-      ),
-    );
-  }
-
-  static Future<void> interceptorsLogic() async {
-    tokenDataEntity = await AccountLocalRepository().getDataToken();
-
-    appApiService = AppApiService(EnvironmentConfig.baseUrl());
-
-    TokenDataEntity? localTokenDataEntity;
-
-    appApiService.dio.interceptors.add(
-      dio.InterceptorsWrapper(
-        // onRequest: (options, handler) async {
-        //   tokenDataEntity = await AccountLocalRepository().getDataToken();
-        //   options.headers["token"] = "${tokenDataEntity?.accessToken}";
-        //   return handler.next(options);
-        // },
-        // onResponse: (response, handler) {
-        //   return handler.next(response);
-        // },
-        onError: (error, handler) async {
-          var response = error.response;
-          if (response == null) {
-            return handler.next(error);
-          }
-
-          if ((response.realUri.path == AppApiPath.signUpAccount || response.realUri.path == AppApiPath.signInAccount || response.realUri.path == AppApiPath.refreshToken) &&
-              response.statusCode != 401 &&
-              response.data['message'] != "expired") {
-            return handler.next(error);
-          }
-
-          if (!response.realUri.path.contains("/account/userdata") &&
-              !response.realUri.path.contains("/account/editprofile") &&
-              !response.realUri.path.contains("/vehicle") &&
-              !response.realUri.path.contains("/notifications")) {
-            return handler.next(error);
-          }
-
-          if (tokenDataEntity == null && tokenDataEntity?.accessToken == null && tokenDataEntity?.refreshToken == null) {
-            return handler.next(error);
-          }
-
-          if (_isRefreshing) {
-            // Queue the requests while refreshing
-            refreshQueue.add(() async {
-              final response = await _retryRequest(error.requestOptions);
-              handler.resolve(response);
-            });
-            // handler.resolve(response);
-            return;
-          }
-
-          AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
-          AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity!.refreshToken!}");
-          AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
-          RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
-            refreshToken: tokenDataEntity!.refreshToken!,
-            token: tokenDataEntity!.accessToken!,
-          );
-
-          _isRefreshing = true;
-
-          if (result == null || result.data == null) {
-            refreshQueue.clear();
-            _isRefreshing = false;
-            tokenDataEntity = null;
-
-            await AccountLocalRepository().removeLocalAccountData();
-            await AccountLocalRepository().removeRefreshToken();
-            await AccountLocalRepository().removeUserToken();
-            await AccountLocalRepository().removeDataToken();
-            await AccountLocalRepository().setIsSignOut();
-            await VehicleLocalRepository().removeLocalVehicleDataV2();
-            Get.offAll(() => const SignInPage());
-            return handler.next(error);
-          }
-
-          if (result.data != null) {
-            localTokenDataEntity = TokenDataEntity(
-              accessToken: result.data!.accessToken,
-              accessTokenExpiryTime: result.data!.accessTokenExpiryTime,
-              refreshToken: result.data!.refreshToken,
-              refreshTokenExpiryTime: result.data!.refreshTokenExpiryTime,
-            );
-            tokenDataEntity = localTokenDataEntity;
-            await AccountLocalRepository().setRefreshToken(data: localTokenDataEntity!.refreshToken!);
-            await AccountLocalRepository().setUserToken(data: localTokenDataEntity!.accessToken!);
-            await AccountLocalRepository().setDataToken(data: localTokenDataEntity!);
-
-            AppLogger.debugLog("response.requestOptions.uri.toString(): ${response.requestOptions.uri.toString()}");
-            AppLogger.debugLog("method: ${MethodRequest.values.firstWhere(
-              (element) {
-                return response.requestOptions.method.toLowerCase() == element.name.toLowerCase();
-              },
-            )}");
-            AppLogger.debugLog("tokenDataEntity!.accessToken!0: ${tokenDataEntity!.accessToken!}");
-
-            for (var callback in refreshQueue) {
-              callback();
-            }
-            refreshQueue.clear();
-
-            final response1 = await _retryRequest(error.requestOptions);
-
-            dio.Response output = await AppApiService(EnvironmentConfig.baseUrl()).call(
-              response.requestOptions.uri.toString(),
-              method: MethodRequest.values.firstWhere(
-                (element) {
-                  return response.requestOptions.method.toLowerCase() == element.name.toLowerCase();
-                },
-              ),
-              request: response.requestOptions.data,
-              header: {
-                'token': tokenDataEntity!.accessToken!,
-              },
-            );
-            // AppLogger.debugLog("output $output");
-            return handler.resolve(response1);
-            // return handler.resolve(output);
-          }
-
-          _isRefreshing = false;
-
-          // return handler.next(error);
-        },
-      ),
-    );
-  }
-
-  static Future<void> interceptorsLogicOld() async {
-    tokenDataEntity = await AccountLocalRepository().getDataToken();
-
-    appApiService = AppApiService(EnvironmentConfig.baseUrl());
-
-    TokenDataEntity? localTokenDataEntity;
-
-    appApiService.dio.interceptors.add(
-      dio.InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          tokenDataEntity = await AccountLocalRepository().getDataToken();
-          options.headers["token"] = "${tokenDataEntity?.accessToken}";
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          refreshTokenResponse = response;
-          return handler.next(response);
-        },
-        onError: (error, handler) async {
-          tokenDataEntity = await AccountLocalRepository().getDataToken();
-          AppLogger.debugLog("tokenDataEntity: ${tokenDataEntity?.toJson()}");
-          var response = error.response;
-          if (response == null) {
-            return handler.next(error);
-          }
-          AppLogger.debugLog("_isRefreshing: $_isRefreshing");
-
-          if (response.realUri.path != AppApiPath.signUpAccount &&
-              response.realUri.path != AppApiPath.signInAccount &&
-              response.realUri.path != AppApiPath.refreshToken &&
-              response.statusCode == 401 &&
-              response.data['message'] == "expired") {
-            if (_isRefreshing) {
-              // Queue the requests while refreshing
-              refreshQueue.add(() async {
-                final response = await _retryRequest(error.requestOptions);
-                handler.resolve(response);
-              });
-              // handler.resolve(response);
-              return;
-            }
-            _isRefreshing = true;
-
-            if (response.realUri.path.contains("/account/userdata") ||
-                response.realUri.path.contains("/account/editprofile") ||
-                response.realUri.path.startsWith("/vehicle") ||
-                response.realUri.path.startsWith("/notifications")) {
-              if (tokenDataEntity != null && tokenDataEntity?.accessToken != null && tokenDataEntity?.refreshToken != null) {
-                AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
-                RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
-                  refreshToken: tokenDataEntity!.refreshToken!,
-                  token: tokenDataEntity!.accessToken!,
-                );
-                if (result != null && result.data != null) {
-                  await AccountLocalRepository().setRefreshToken(data: result.data!.refreshToken!);
-                  await AccountLocalRepository().setUserToken(data: result.data!.accessToken!);
-                  localTokenDataEntity = TokenDataEntity(
-                    accessToken: result.data!.accessToken,
-                    accessTokenExpiryTime: result.data!.accessTokenExpiryTime,
-                    refreshToken: result.data!.refreshToken,
-                    refreshTokenExpiryTime: result.data!.refreshTokenExpiryTime,
-                  );
-                  await AccountLocalRepository().setDataToken(data: localTokenDataEntity!);
-
-                  tokenDataEntity = await AccountLocalRepository().getDataToken();
-
-                  AppLogger.debugLog("response.requestOptions.uri.toString(): ${response.requestOptions.uri.toString()}");
-                  AppLogger.debugLog("method: ${MethodRequest.values.firstWhere(
-                    (element) {
-                      return response.requestOptions.method.toLowerCase() == element.name.toLowerCase();
-                    },
-                  )}");
-                  AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
-
-                  _isRefreshing = false;
-                  refreshQueue.clear();
-
-                  dio.Response output = await AppApiService(EnvironmentConfig.baseUrl()).call(
-                    response.requestOptions.uri.toString(),
-                    method: MethodRequest.values.firstWhere(
-                      (element) {
-                        return response.requestOptions.method.toLowerCase() == element.name.toLowerCase();
-                      },
-                    ),
-                    request: response.requestOptions.data,
-                    header: {
-                      'token': tokenDataEntity!.accessToken!,
-                    },
-                  );
-                  // AppLogger.debugLog("output $output");
-                  return handler.resolve(output);
-                } else {
-                  // if (result == null || result.data == null) {
-                  refreshQueue.clear();
-                  _isRefreshing = false;
-                  tokenDataEntity = null;
-
-                  await AccountLocalRepository().removeLocalAccountData();
-                  await AccountLocalRepository().removeRefreshToken();
-                  await AccountLocalRepository().removeUserToken();
-                  await AccountLocalRepository().removeDataToken();
-                  await AccountLocalRepository().setIsSignOut();
-                  await VehicleLocalRepository().removeLocalVehicleDataV2();
-                  Get.offAll(() => const SignInPage());
-                  return handler.next(error);
-                }
-              }
-            }
-          }
-          _isRefreshing = false;
-          refreshQueue.clear();
           return handler.next(error);
         },
       ),
