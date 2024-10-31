@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
@@ -75,6 +76,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
   final formatter = DateFormat('dd MMMM yyyy');
 
   bool isLoadingActive = false;
+
+  bool isCurrentOdoMoreThanEstimateOdo = false;
 
   final _scrollController = ScrollController();
 
@@ -174,6 +177,13 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
+                buttonTitle: "Back",
+              );
+            } else if (isCurrentOdoMoreThanEstimateOdo) {
+              AppDialogAction.showFailedPopup(
+                context: context,
+                title: "Error",
+                description: "Tidak boleh kurang atau sama dengan dari Current Odo",
                 buttonTitle: "Back",
               );
             } else {
@@ -298,6 +308,27 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             textFieldHintText: "ex: 14000",
             controller: estimateOdoController,
             keyboardType: TextInputType.number,
+            error: estimateOdoValidator(
+                      currentOdoController,
+                      estimateOdoController,
+                    ) ==
+                    null
+                ? null
+                : Text(
+                    estimateOdoValidator(
+                      currentOdoController,
+                      estimateOdoController,
+                    )!,
+                    style: GoogleFonts.inter(
+                      color: AppColor.red,
+                      fontSize: 12.sp,
+                    ),
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.visible,
+                  ),
+            onChanged: (value) {
+              setState(() {});
+            },
             onTap: () {
               scrollToFocusedTextField(estimateOdoFocusNode);
             },
@@ -476,5 +507,22 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
         ),
       ],
     );
+  }
+
+  String? estimateOdoValidator(TextEditingController currentOdoCtrl, TextEditingController estimateOdoCtrl) {
+    if (currentOdoCtrl.text.isNotEmpty && estimateOdoCtrl.text.isNotEmpty) {
+      double currentOdo = double.parse(currentOdoCtrl.text);
+      double estimateOdo = double.parse(estimateOdoCtrl.text);
+      if (estimateOdo <= currentOdo) {
+        isCurrentOdoMoreThanEstimateOdo = true;
+        return "Tidak boleh kurang atau sama dengan dari Current Odo";
+      } else {
+        isCurrentOdoMoreThanEstimateOdo = false;
+        return null;
+      }
+    } else {
+      isCurrentOdoMoreThanEstimateOdo = false;
+      return null;
+    }
   }
 }
