@@ -10,15 +10,16 @@ part 'edit_vehicle_event.dart';
 part 'edit_vehicle_state.dart';
 
 class EditVehicleBloc extends Bloc<EditVehicleEvent, EditVehicleState> {
-  EditVehicleBloc() : super(EditVehicleInitial()) {
+  EditVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(EditVehicleInitial()) {
     on<EditVehicleEvent>((event, emit) {
       if (event is EditVehicleAction) {
-        _editVehicleAction(event);
+        _editVehicleAction(appVehicleReposistory, event);
       }
     });
   }
 
   Future<void> _editVehicleAction(
+    AppVehicleReposistory appVehicleReposistory,
     EditVehicleAction event,
   ) async {
     emit(EditVehicleLoading());
@@ -31,7 +32,7 @@ class EditVehicleBloc extends Bloc<EditVehicleEvent, EditVehicleState> {
         return;
       }
 
-      EditVehicleResponseModel? editVehicleResponseModel = await event.appVehicleReposistory.editVehicleData(
+      EditVehicleResponseModel? editVehicleResponseModel = await appVehicleReposistory.editVehicleData(
         editVehicleRequestModel: event.editVehicleRequestModel,
         token: userToken,
       );

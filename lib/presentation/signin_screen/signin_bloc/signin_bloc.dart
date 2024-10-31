@@ -3,11 +3,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_response_models.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/token_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
 

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
@@ -35,20 +38,20 @@ class _MyAppState extends State<MyApp> {
     debugPrint("isSignIn $isSignIn");
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SigninBloc(AppAccountReposistory())),
-        BlocProvider(create: (context) => SignoutBloc()),
-        BlocProvider(create: (context) => SignupBloc(AppAccountReposistory())),
+        BlocProvider(create: (context) => SigninBloc(AppAccountReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
+        BlocProvider(create: (context) => SignupBloc(AppAccountReposistory(AppInitConfig.appApiService))),
         BlocProvider(
             create: (context) => ProfileBloc(
-                  AppAccountReposistory(),
+                  AppAccountReposistory(AppInitConfig.appApiService),
                   AccountLocalRepository(),
                 )),
-        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory())),
-        BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory())),
-        BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory())),
-        BlocProvider(create: (context) => NotificationBloc()),
-        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory())),
-        BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory())),
+        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => NotificationBloc(AppNotificationRepository(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),

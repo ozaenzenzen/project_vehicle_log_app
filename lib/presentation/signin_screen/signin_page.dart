@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -128,8 +126,6 @@ class _SignInPageState extends State<SignInPage> {
                                 email: emailTextFieldController.text,
                                 password: passwordTextFieldController.text,
                               ),
-                              appVehicleReposistory: AppVehicleReposistory(),
-                              vehicleLocalRepository: VehicleLocalRepository(),
                             ),
                           );
                     },
@@ -196,8 +192,6 @@ class _SignInPageState extends State<SignInPage> {
                                           email: emailTextFieldController.text,
                                           password: passwordTextFieldController.text,
                                         ),
-                                        appVehicleReposistory: AppVehicleReposistory(),
-                                        vehicleLocalRepository: VehicleLocalRepository(),
                                       ),
                                     );
                                 // Get.offAll(

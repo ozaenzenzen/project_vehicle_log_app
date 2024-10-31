@@ -9,6 +9,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_r
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
@@ -82,7 +83,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
   @override
   void initState() {
     super.initState();
-    editVehicleBloc = EditVehicleBloc();
+    editVehicleBloc = EditVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService));
 
     vehicleId = widget.data.id!;
     imagePickedInBase64 = widget.data.vehicleImage!;
@@ -169,7 +170,6 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
           onTap: () {
             context.read<EditVehicleBloc>().add(
                   EditVehicleAction(
-                    appVehicleReposistory: AppVehicleReposistory(),
                     editVehicleRequestModel: EditVehicleRequestModel(
                       vehicleId: vehicleId!,
                       vehicleName: vehicleNameController.text,

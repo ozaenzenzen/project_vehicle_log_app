@@ -10,11 +10,13 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_al
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_log_vehicle_data_response_model_v2.dart';
-import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppVehicleReposistory {
+  final AppApiService appApiService;
+  AppVehicleReposistory(this.appApiService);
+
   Future<GetAllVehicleResponseModelV2?> getAllVehicleDataV2(
     String token,
     GetAllVehicleRequestModelV2 reqData,
@@ -24,9 +26,7 @@ class AppVehicleReposistory {
       if (reqData.sortOrder == null) {
         req.remove("sort_order");
       }
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.getAllVehicleV2,
         method: MethodRequest.post,
         request: req,
@@ -51,9 +51,7 @@ class AppVehicleReposistory {
       if (reqData.sortOrder == null) {
         req.remove("sort_order");
       }
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.getLogVehicleV2,
         method: MethodRequest.post,
         request: req,
@@ -74,9 +72,7 @@ class AppVehicleReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.createVehicle,
         method: MethodRequest.post,
         request: createVehicleRequestModel.toJson(),
@@ -95,9 +91,7 @@ class AppVehicleReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.editVehicle,
         method: MethodRequest.post,
         request: editVehicleRequestModel.toJson(),
@@ -116,9 +110,7 @@ class AppVehicleReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.createLogVehicle,
         method: MethodRequest.post,
         request: createLogVehicleRequestModel.toJson(),
@@ -137,9 +129,7 @@ class AppVehicleReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.editMeasurementLogLogVehicle,
         method: MethodRequest.put,
         request: editMeasurementLogRequestModel.toJson(),
@@ -158,9 +148,7 @@ class AppVehicleReposistory {
     required String token,
   }) async {
     try {
-      final response = await AppApiService(
-        EnvironmentConfig.baseUrl(),
-      ).call(
+      final response = await appApiService.call(
         AppApiPath.deleteMeasurementLogVehicle,
         method: MethodRequest.delete,
         request: createLogVehicleRequestModel.toJson(),

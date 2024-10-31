@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_request_model.dart';
-import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/notification/notification_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/notification_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/notification_screen/notification_bloc/notification_bloc.dart';
@@ -26,7 +25,6 @@ class _NotificationPageState extends State<NotificationPage> {
     super.initState();
     context.read<NotificationBloc>().add(
           GetNotificationAction(
-            appNotificationRepository: AppNotificationRepository(),
             requestData: GetNotificationRequestModel(
               limit: 10,
               currentPage: 1,
@@ -54,7 +52,6 @@ class _NotificationPageState extends State<NotificationPage> {
         onRefresh: () {
           context.read<NotificationBloc>().add(
                 GetNotificationAction(
-                  appNotificationRepository: AppNotificationRepository(),
                   requestData: GetNotificationRequestModel(
                     limit: 10,
                     currentPage: 1,
@@ -66,7 +63,6 @@ class _NotificationPageState extends State<NotificationPage> {
         onLoading: () {
           context.read<NotificationBloc>().add(
                 GetNotificationAction(
-                  appNotificationRepository: AppNotificationRepository(),
                   requestData: GetNotificationRequestModel(
                     limit: 10,
                     currentPage: 1,

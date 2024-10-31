@@ -12,7 +12,7 @@ part 'notification_event.dart';
 part 'notification_state.dart';
 
 class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
-  NotificationBloc() : super(NotificationInitial()) {
+  NotificationBloc(AppNotificationRepository appNotificationRepository) : super(NotificationInitial()) {
     on<NotificationEvent>((event, emit) {
       if (event is GetNotificationAction) {
         if (event.type == NotificationActionEnum.refresh) {
@@ -20,14 +20,14 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           responseData.listData = [];
           listResponseData = [];
           _getNotificationAction(
-            event.appNotificationRepository,
+            appNotificationRepository,
             event,
           );
         } else {
           if (currentPage <= responseData.totalPages!) {
             currentPage++;
             _getNotificationAction(
-              event.appNotificationRepository,
+              appNotificationRepository,
               event,
             );
           } else {
