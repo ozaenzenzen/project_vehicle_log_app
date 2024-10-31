@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -24,6 +26,9 @@ class AppInitConfig {
   static dio.Response? refreshTokenResponse;
 
   static List<Function> refreshQueue = [];
+  static List<Function> _refreshQueue = [];
+
+  final List<Completer<Response>> _refreshCompleters = [];
 
   static Future<void> init() async {
     // AppTheme.appThemeInit();
@@ -33,12 +38,102 @@ class AppInitConfig {
     await AppLocalStorage.init();
 
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
-    EnvironmentConfig.customBaseUrl = "https://df54-2400-9800-2f1-6d23-79e7-b767-8d93-6f3f.ngrok-free.app"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "https://e88e-114-10-42-189.ngrok-free.app"; // for ngrok
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 
-    await interceptorsLogic();
+    await interceptorsLogic2();
+    // await interceptorsLogic();
     // await interceptorsLogicOld();
+  }
+
+  static Future<void> interceptorsLogic2() async {
+    tokenDataEntity = await AccountLocalRepository().getDataToken();
+
+    appApiService = AppApiService(EnvironmentConfig.baseUrl());
+
+    TokenDataEntity? localTokenDataEntity;
+
+    appApiService.dio.interceptors.add(
+      dio.InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          // Retrieve the latest token data before each request
+          var tokenDataEntity = await AccountLocalRepository().getDataToken();
+          options.headers["token"] = tokenDataEntity?.accessToken;
+          return handler.next(options);
+        },
+        onResponse: (response, handler) {
+          return handler.next(response);
+        },
+        onError: (error, handler) async {
+          var response = error.response;
+          var tokenDataEntity = await AccountLocalRepository().getDataToken();
+
+          if (response == null) return handler.next(error);
+
+          if (response.realUri.path != AppApiPath.refreshToken && response.statusCode == 401) {
+            if (_isRefreshing) {
+              // Queue the requests while refreshing
+              _refreshQueue.add(() async {
+                final response = await _retryRequest(error.requestOptions);
+                handler.resolve(response);
+              });
+              return;
+            }
+
+            _isRefreshing = true;
+
+            try {
+              AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
+              AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity!.refreshToken!}");
+              AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity.accessToken!}");
+              RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
+                refreshToken: tokenDataEntity.refreshToken!,
+                token: tokenDataEntity.accessToken!,
+              );
+              if (result!.data != null) {
+                localTokenDataEntity = TokenDataEntity(
+                  accessToken: result.data!.accessToken,
+                  accessTokenExpiryTime: result.data!.accessTokenExpiryTime,
+                  refreshToken: result.data!.refreshToken,
+                  refreshTokenExpiryTime: result.data!.refreshTokenExpiryTime,
+                );
+                tokenDataEntity = localTokenDataEntity;
+                await AccountLocalRepository().setRefreshToken(data: localTokenDataEntity!.refreshToken!);
+                await AccountLocalRepository().setUserToken(data: localTokenDataEntity!.accessToken!);
+                await AccountLocalRepository().setDataToken(data: localTokenDataEntity!);
+              }
+
+              // Retry all queued requests with the new token
+              for (var request in _refreshQueue) {
+                await request();
+              }
+              _refreshQueue.clear();
+
+              // Retry the original failed request
+              final response = await _retryRequest(error.requestOptions);
+              return handler.resolve(response);
+            } catch (e) {
+              // Clear token data and sign the user out on refresh failure
+              // await AccountLocalRepository().clearTokensAndSignOut();
+
+              await AccountLocalRepository().removeLocalAccountData();
+              await AccountLocalRepository().removeRefreshToken();
+              await AccountLocalRepository().removeUserToken();
+              await AccountLocalRepository().removeDataToken();
+              await AccountLocalRepository().setIsSignOut();
+              await VehicleLocalRepository().removeLocalVehicleDataV2();
+              Get.offAll(() => const SignInPage());
+              return handler.reject(error);
+            } finally {
+              _isRefreshing = false;
+            }
+          }
+
+          return handler.next(error);
+        },
+      ),
+    );
   }
 
   static Future<void> interceptorsLogic() async {
@@ -136,7 +231,6 @@ class AppInitConfig {
             )}");
             AppLogger.debugLog("tokenDataEntity!.accessToken!0: ${tokenDataEntity!.accessToken!}");
 
-            
             for (var callback in refreshQueue) {
               callback();
             }
