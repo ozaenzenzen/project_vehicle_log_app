@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
@@ -11,16 +13,122 @@ import 'package:project_vehicle_log_app/support/app_api_service.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:project_vehicle_log_app/support/app_logger.dart';
 
-
 class AppInterceptors {
   late AppApiService appApiService;
 
   TokenDataEntity? tokenDataEntity;
 
   bool _isRefreshing = false;
+  bool _refreshFailed = false;
 
   List<Function> refreshQueue = [];
-  
+
+  Completer<void>? _refreshCompleter;
+
+  Future<void> interceptorsLogic() async {
+    tokenDataEntity = await AccountLocalRepository().getDataToken();
+
+    appApiService = AppApiService(EnvironmentConfig.baseUrl());
+
+    TokenDataEntity? localTokenDataEntity;
+
+    appApiService.dio.interceptors.add(
+      dio.InterceptorsWrapper(
+        onRequest: (options, handler) async {
+          if (options.baseUrl.contains(AppApiPath.signInAccount) || options.baseUrl.contains(AppApiPath.signUpAccount)) {
+            return handler.next(options);
+          }
+
+          var tokenDataEntity = await AccountLocalRepository().getDataToken();
+          options.headers["token"] = tokenDataEntity?.accessToken;
+
+          if (_isRefreshing) {
+            if (_refreshFailed) {
+              return handler.reject(
+                dio.DioError(
+                  requestOptions: options,
+                  error: "Unautorized",
+                ),
+              );
+            }
+            await _refreshCompleter?.future;
+            options.headers["token"] = tokenDataEntity?.accessToken;
+          }
+          return handler.next(options);
+        },
+        onError: (error, handler) async {
+          var response = error.response;
+          var tokenDataEntity = await AccountLocalRepository().getDataToken();
+
+          if (response == null) return handler.next(error);
+
+          if (response.realUri.path != AppApiPath.refreshToken && response.statusCode == 401 && !_isRefreshing) {
+            _isRefreshing = true;
+            _refreshCompleter = Completer<void>();
+
+            try {
+              AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
+              AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
+              AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity.refreshToken!}");
+              RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
+                refreshToken: tokenDataEntity.refreshToken!,
+                token: tokenDataEntity.accessToken!,
+              );
+              if (result!.data != null) {
+                _refreshFailed = false;
+                localTokenDataEntity = TokenDataEntity(
+                  accessToken: result.data!.accessToken,
+                  accessTokenExpiryTime: result.data!.accessTokenExpiryTime,
+                  refreshToken: result.data!.refreshToken,
+                  refreshTokenExpiryTime: result.data!.refreshTokenExpiryTime,
+                );
+                tokenDataEntity = localTokenDataEntity;
+                await AccountLocalRepository().setRefreshToken(data: localTokenDataEntity!.refreshToken!);
+                await AccountLocalRepository().setUserToken(data: localTokenDataEntity!.accessToken!);
+                await AccountLocalRepository().setDataToken(data: localTokenDataEntity!);
+                final options = error.requestOptions;
+                options.headers["token"] = tokenDataEntity?.accessToken;
+                final response = await _retryRequest(options);
+                return handler.resolve(response);
+              } else {
+                _refreshFailed = true;
+                await redirectToLogin();
+                return handler.reject(error);
+              }
+            } finally {
+              _isRefreshing = false;
+              _refreshCompleter?.complete();
+              _refreshCompleter = null;
+            }
+          } else if (_isRefreshing) {
+            await _refreshCompleter?.future;
+            if (!_refreshFailed) {
+              final options = error.requestOptions;
+              options.headers["token"] = tokenDataEntity?.accessToken;
+              final response = await _retryRequest(options);
+              return handler.resolve(response);
+            } else {
+              return handler.reject(
+                dio.DioError(requestOptions: error.requestOptions, error: 'Unauthorized'),
+              );
+            }
+          }
+          return handler.next(error);
+        },
+      ),
+    );
+  }
+
+  Future<void> redirectToLogin() async {
+    await AccountLocalRepository().removeLocalAccountData();
+    await AccountLocalRepository().removeRefreshToken();
+    await AccountLocalRepository().removeUserToken();
+    await AccountLocalRepository().removeDataToken();
+    await AccountLocalRepository().setIsSignOut();
+    await VehicleLocalRepository().removeLocalVehicleDataV2();
+    Get.offAll(() => const SignInPage());
+  }
+
   Future<void> interceptorsLogic2() async {
     tokenDataEntity = await AccountLocalRepository().getDataToken();
 
