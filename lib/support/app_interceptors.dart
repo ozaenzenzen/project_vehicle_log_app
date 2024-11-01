@@ -139,10 +139,6 @@ class AppInterceptors {
     appApiService.dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.path.contains(AppApiPath.signInAccount) || options.path.contains(AppApiPath.signUpAccount)) {
-            return handler.next(options);
-          }
-
           var tokenDataEntity = await AccountLocalRepository().getDataToken();
           options.headers["token"] = tokenDataEntity?.accessToken;
           return handler.next(options);
@@ -162,7 +158,7 @@ class AppInterceptors {
               });
               return;
             }
-            
+
             _isRefreshing = true;
 
             try {
