@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    profileBloc = ProfileBloc(AppAccountReposistory(AppInitConfig.appApiService), AccountLocalRepository());
+    profileBloc = ProfileBloc(AppAccountReposistory(AppInitConfig.appInterceptors.appApiService), AccountLocalRepository());
     profileBloc = profileBloc..add(GetProfileRemoteAction());
   }
 

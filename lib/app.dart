@@ -38,20 +38,20 @@ class _MyAppState extends State<MyApp> {
     debugPrint("isSignIn $isSignIn");
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SigninBloc(AppAccountReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => SigninBloc(AppAccountReposistory(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
-        BlocProvider(create: (context) => SignupBloc(AppAccountReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => SignupBloc(AppAccountReposistory(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(
             create: (context) => ProfileBloc(
-                  AppAccountReposistory(AppInitConfig.appApiService),
+                  AppAccountReposistory(AppInitConfig.appInterceptors.appApiService),
                   AccountLocalRepository(),
                 )),
-        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => NotificationBloc(AppNotificationRepository(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
-        BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory(AppInitConfig.appApiService))),
+        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => EditProfileBloc(AppAccountReposistory(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => NotificationBloc(AppNotificationRepository(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => GetListLogBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService))),
       ],
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
