@@ -139,13 +139,13 @@ class AppInterceptors {
     appApiService.dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) async {
-          // Retrieve the latest token data before each request
+          if (options.baseUrl.contains(AppApiPath.signInAccount) || options.baseUrl.contains(AppApiPath.signUpAccount)) {
+            return handler.next(options);
+          }
+
           var tokenDataEntity = await AccountLocalRepository().getDataToken();
           options.headers["token"] = tokenDataEntity?.accessToken;
           return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          return handler.next(response);
         },
         onError: (error, handler) async {
           var response = error.response;
@@ -185,13 +185,7 @@ class AppInterceptors {
                 await AccountLocalRepository().setUserToken(data: localTokenDataEntity!.accessToken!);
                 await AccountLocalRepository().setDataToken(data: localTokenDataEntity!);
               } else {
-                await AccountLocalRepository().removeLocalAccountData();
-                await AccountLocalRepository().removeRefreshToken();
-                await AccountLocalRepository().removeUserToken();
-                await AccountLocalRepository().removeDataToken();
-                await AccountLocalRepository().setIsSignOut();
-                await VehicleLocalRepository().removeLocalVehicleDataV2();
-                Get.offAll(() => const SignInPage());
+                await redirectToLogin();
                 return handler.reject(error);
               }
 
@@ -206,15 +200,7 @@ class AppInterceptors {
               return handler.resolve(response);
             } catch (e) {
               // Clear token data and sign the user out on refresh failure
-              // await AccountLocalRepository().clearTokensAndSignOut();
-
-              await AccountLocalRepository().removeLocalAccountData();
-              await AccountLocalRepository().removeRefreshToken();
-              await AccountLocalRepository().removeUserToken();
-              await AccountLocalRepository().removeDataToken();
-              await AccountLocalRepository().setIsSignOut();
-              await VehicleLocalRepository().removeLocalVehicleDataV2();
-              Get.offAll(() => const SignInPage());
+              await redirectToLogin();
               return handler.reject(error);
             } finally {
               _isRefreshing = false;
