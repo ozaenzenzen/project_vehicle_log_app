@@ -21,6 +21,7 @@ class AppInitConfig {
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 
+    // await appInterceptors.interceptorsLogic();
     await appInterceptors.interceptorsLogic2();
   }
 }
