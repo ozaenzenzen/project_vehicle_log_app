@@ -139,7 +139,7 @@ class AppInterceptors {
     appApiService.dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) async {
-          if (options.baseUrl.contains(AppApiPath.signInAccount) || options.baseUrl.contains(AppApiPath.signUpAccount)) {
+          if (options.path.contains(AppApiPath.signInAccount) || options.path.contains(AppApiPath.signUpAccount)) {
             return handler.next(options);
           }
 
@@ -162,7 +162,7 @@ class AppInterceptors {
               });
               return;
             }
-
+            
             _isRefreshing = true;
 
             try {
