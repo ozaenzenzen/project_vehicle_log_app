@@ -2,8 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_request_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/edit_vehicle_response_model.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 
 part 'edit_vehicle_event.dart';

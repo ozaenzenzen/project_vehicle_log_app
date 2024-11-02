@@ -3,8 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_log_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/create_log_vehicle_response_model.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 
 part 'create_log_vehicle_event.dart';
