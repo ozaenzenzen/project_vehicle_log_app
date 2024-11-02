@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
-import 'package:project_vehicle_log_app/data/repository/notification_repository.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/notification_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -21,7 +21,7 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

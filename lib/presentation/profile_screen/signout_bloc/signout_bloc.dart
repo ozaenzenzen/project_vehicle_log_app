@@ -2,8 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
 
 part 'signout_event.dart';
 part 'signout_state.dart';

@@ -2,10 +2,10 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/signup_response_models.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
 
 part 'signup_event.dart';
