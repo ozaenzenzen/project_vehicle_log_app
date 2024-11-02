@@ -5,7 +5,7 @@ import 'package:project_vehicle_log_app/data/model/remote/account/response/refre
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
-import 'package:project_vehicle_log_app/domain/entities/token_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/token_data_entity.dart';
 import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';

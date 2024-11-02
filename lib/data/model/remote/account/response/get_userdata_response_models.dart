@@ -1,4 +1,4 @@
-import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
 
 class GetUserDataResponseModel {
   int? status;
