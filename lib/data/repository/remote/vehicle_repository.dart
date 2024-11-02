@@ -13,9 +13,9 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_l
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
-class AppVehicleReposistory {
+class AppVehicleRepository {
   final AppApiService appApiService;
-  AppVehicleReposistory(this.appApiService);
+  AppVehicleRepository(this.appApiService);
 
   Future<GetAllVehicleResponseModelV2?> getAllVehicleDataV2(
     String token,

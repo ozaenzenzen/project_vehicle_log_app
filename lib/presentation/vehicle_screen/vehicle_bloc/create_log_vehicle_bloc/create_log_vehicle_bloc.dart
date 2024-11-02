@@ -11,16 +11,16 @@ part 'create_log_vehicle_event.dart';
 part 'create_log_vehicle_state.dart';
 
 class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleState> {
-  CreateLogVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(CreateLogVehicleInitial()) {
+  CreateLogVehicleBloc(AppVehicleRepository appVehicleRepository) : super(CreateLogVehicleInitial()) {
     on<CreateLogVehicleEvent>((event, emit) {
       if (event is CreateLogVehicleAction) {
-        _createLogVehicleAction(appVehicleReposistory, event);
+        _createLogVehicleAction(appVehicleRepository, event);
       }
     });
   }
 
   Future<void> _createLogVehicleAction(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     CreateLogVehicleAction event,
   ) async {
     emit(CreateLogVehicleLoading());
@@ -33,7 +33,7 @@ class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleS
         return;
       }
 
-      CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleReposistory.createLogVehicleData(
+      CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleRepository.createLogVehicleData(
         createLogVehicleRequestModel: event.createLogVehicleRequestModel,
         token: userToken,
       );

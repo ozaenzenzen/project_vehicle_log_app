@@ -83,7 +83,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
   @override
   void initState() {
     super.initState();
-    editVehicleBloc = EditVehicleBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService));
+    editVehicleBloc = EditVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService));
 
     vehicleId = widget.data.id!;
     imagePickedInBase64 = widget.data.vehicleImage!;

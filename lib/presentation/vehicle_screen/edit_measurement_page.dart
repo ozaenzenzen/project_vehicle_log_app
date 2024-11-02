@@ -56,7 +56,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
 
   @override
   void initState() {
-    editMeasurementLogBloc = EditMeasurementLogBloc(AppVehicleReposistory(AppInitConfig.appInterceptors.appApiService));
+    editMeasurementLogBloc = EditMeasurementLogBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService));
 
     measurementTitleController.text = widget.data.measurementTitle ?? "";
     currentOdoController.text = widget.data.currentOdo ?? "";

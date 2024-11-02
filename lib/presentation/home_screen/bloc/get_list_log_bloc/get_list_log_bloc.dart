@@ -16,7 +16,7 @@ part 'get_list_log_event.dart';
 part 'get_list_log_state.dart';
 
 class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
-  GetListLogBloc(AppVehicleReposistory vehicleReposistory) : super(GetListLogInitial()) {
+  GetListLogBloc(AppVehicleRepository vehicleRepository) : super(GetListLogInitial()) {
     on<GetListLogEvent>((event, emit) {
       if (event is GetListLogAction) {
         if (event.actionType == GetLogVehicleActionEnum.refresh) {
@@ -24,14 +24,14 @@ class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
           responseData.listData = [];
           listResponseData = [];
           _hp2GetListLog(
-            vehicleReposistory,
+            vehicleRepository,
             event,
           );
         } else {
           if (currentPage <= responseData.totalPages!) {
             currentPage++;
             _hp2GetListLog(
-              vehicleReposistory,
+              vehicleRepository,
               event,
             );
           } else {
@@ -52,7 +52,7 @@ class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
   int currentPage = 1;
 
   Future<void> _hp2GetListLog(
-    AppVehicleReposistory vehicleReposistory,
+    AppVehicleRepository vehicleRepository,
     GetListLogAction event,
   ) async {
     emit(
@@ -75,7 +75,7 @@ class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
       GetLogVehicleRequestModelV2 dataRequest = event.reqData;
       dataRequest.currentPage = currentPage;
 
-      GetLogVehicleResponseModelV2? result = await vehicleReposistory.getLogVehicleDataV2(
+      GetLogVehicleResponseModelV2? result = await vehicleRepository.getLogVehicleDataV2(
         userToken,
         event.reqData,
       );

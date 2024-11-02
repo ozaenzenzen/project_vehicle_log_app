@@ -10,10 +10,10 @@ part 'edit_measurement_log_event.dart';
 part 'edit_measurement_log_state.dart';
 
 class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasurementLogState> {
-  EditMeasurementLogBloc(AppVehicleReposistory  appVehicleReposistory) : super(EditMeasurementLogInitial()) {
+  EditMeasurementLogBloc(AppVehicleRepository  appVehicleRepository) : super(EditMeasurementLogInitial()) {
     on<EditMeasurementLogEvent>((event, emit) {
       if (event is UpdateMeasurementAction) {
-        _updateMeasurementAction(appVehicleReposistory, event);
+        _updateMeasurementAction(appVehicleRepository, event);
       }
       if (event is DeleteMeasurementAction) {
         _deleteMeasurementAction(event);
@@ -22,7 +22,7 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
   }
 
   Future<void> _updateMeasurementAction(
-    AppVehicleReposistory  appVehicleReposistory,
+    AppVehicleRepository  appVehicleRepository,
     UpdateMeasurementAction event,
   ) async {
     emit(EditMeasurementLogLoading());
@@ -35,7 +35,7 @@ class EditMeasurementLogBloc extends Bloc<EditMeasurementLogEvent, EditMeasureme
         return;
       }
 
-      EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await appVehicleReposistory.editMeasurementLogVehicleData(
+      EditMeasurementLogResponseModel? editMeasurementLogResponseModel = await appVehicleRepository.editMeasurementLogVehicleData(
         editMeasurementLogRequestModel: event.editMeasurementLogRequestModel,
         token: userToken,
       );

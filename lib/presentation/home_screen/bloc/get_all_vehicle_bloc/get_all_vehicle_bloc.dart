@@ -13,11 +13,11 @@ part 'get_all_vehicle_event.dart';
 part 'get_all_vehicle_state.dart';
 
 class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
-  GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
+  GetAllVehicleBloc(AppVehicleRepository appVehicleRepository) : super(GetAllVehicleInitial()) {
     on<GetAllVehicleEvent>((event, emit) {
       if (event is GetAllVehicleLocalAction) {
         _getAllVehicleLocalActionV2(
-          appVehicleReposistory,
+          appVehicleRepository,
           event,
         );
       }
@@ -27,14 +27,14 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
           responseData.listData = [];
           listResponseData = [];
           _getAllVehicleRemoteActionV2(
-            appVehicleReposistory,
+            appVehicleRepository,
             event,
           );
         } else {
           if (currentPage <= responseData.totalPages!) {
             currentPage++;
             _getAllVehicleRemoteActionV2(
-              appVehicleReposistory,
+              appVehicleRepository,
               event,
             );
           } else {
@@ -55,7 +55,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   int currentPage = 1;
 
   Future<void> _getAllVehicleRemoteActionV2(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     GetAllVehicleRemoteAction event,
   ) async {
     emit(
@@ -76,7 +76,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
       GetAllVehicleRequestModelV2 dataRequest = event.reqData;
       dataRequest.currentPage = currentPage;
 
-      GetAllVehicleResponseModelV2? result = await appVehicleReposistory.getAllVehicleDataV2(
+      GetAllVehicleResponseModelV2? result = await appVehicleRepository.getAllVehicleDataV2(
         userToken,
         dataRequest,
       );
@@ -123,7 +123,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   }
 
   Future<void> _getAllVehicleLocalActionV2(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     GetAllVehicleLocalAction event,
   ) async {
     emit(
