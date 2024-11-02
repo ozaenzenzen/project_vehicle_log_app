@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/get_userdata_response_models.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/refresh_token_response_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signin_response_models.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signup_request_models.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signup_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/signin_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/signup_request_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/signup_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/refresh_token_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';

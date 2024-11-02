@@ -3,8 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signin_request_models.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/signin_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/signin_response_models.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/token_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
