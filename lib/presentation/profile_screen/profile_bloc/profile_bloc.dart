@@ -4,31 +4,34 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/account/get_userdata_response_models.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
-import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
 import 'package:project_vehicle_log_app/support/app_base64converter_helper.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc(AccountLocalRepository localRepository) : super(ProfileInitial()) {
+  ProfileBloc(
+    AppAccountRepository accountRepository,
+    AccountLocalRepository localRepository,
+  ) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {
       if (event is GetProfileLocalAction) {
         _getProfileLocalAction(localRepository);
       }
       if (event is GetProfileRemoteAction) {
-        _getProfileRemoteAction(event.accountRepository);
+        _getProfileRemoteAction(accountRepository);
       }
     });
   }
+  
   Future<void> _getProfileRemoteAction(
-    AppAccountReposistory accountRepository,
+    AppAccountRepository accountRepository,
   ) async {
     emit(ProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 100));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {

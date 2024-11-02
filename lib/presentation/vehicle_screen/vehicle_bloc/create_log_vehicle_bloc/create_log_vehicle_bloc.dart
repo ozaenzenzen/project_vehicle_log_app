@@ -2,29 +2,28 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_request_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_log_vehicle_response_model.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_log_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/create_log_vehicle_response_model.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 
 part 'create_log_vehicle_event.dart';
 part 'create_log_vehicle_state.dart';
 
 class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleState> {
-  CreateLogVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(CreateLogVehicleInitial()) {
+  CreateLogVehicleBloc(AppVehicleRepository appVehicleRepository) : super(CreateLogVehicleInitial()) {
     on<CreateLogVehicleEvent>((event, emit) {
       if (event is CreateLogVehicleAction) {
-        _createLogVehicleAction(appVehicleReposistory, event);
+        _createLogVehicleAction(appVehicleRepository, event);
       }
     });
   }
 
   Future<void> _createLogVehicleAction(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     CreateLogVehicleAction event,
   ) async {
     emit(CreateLogVehicleLoading());
-    await Future.delayed(const Duration(milliseconds: 300));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
@@ -34,7 +33,7 @@ class CreateLogVehicleBloc extends Bloc<CreateLogVehicleEvent, CreateLogVehicleS
         return;
       }
 
-      CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleReposistory.createLogVehicleData(
+      CreateLogVehicleResponseModel? createLogVehicleResponseModel = await appVehicleRepository.createLogVehicleData(
         createLogVehicleRequestModel: event.createLogVehicleRequestModel,
         token: userToken,
       );

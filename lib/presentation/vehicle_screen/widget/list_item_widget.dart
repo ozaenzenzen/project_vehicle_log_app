@@ -254,7 +254,7 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      formatter.format(widget.vehicleMeasurementLogModels!.updatedAt!),
+                      formatter.format(widget.vehicleMeasurementLogModels!.updatedAt!.toLocal()),
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,

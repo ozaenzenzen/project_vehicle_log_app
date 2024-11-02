@@ -5,9 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_profile.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
@@ -147,10 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
         }
         return InkWell(
           onTap: () {
-            context.read<SignoutBloc>().add(SignoutAction(
-                  accountLocalRepository: AccountLocalRepository(),
-                  vehicleLocalRepository: VehicleLocalRepository(),
-                ));
+            context.read<SignoutBloc>().add(SignoutAction());
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -180,9 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
           () => EditProfilePage(
             callbackAction: () {
               context.read<ProfileBloc>().add(
-                    GetProfileRemoteAction(
-                      accountRepository: AppAccountReposistory(),
-                    ),
+                    GetProfileRemoteAction(),
                   );
             },
           ),

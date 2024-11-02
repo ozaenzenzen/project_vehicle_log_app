@@ -3,6 +3,7 @@ class AppApiPath {
   static const String signUpAccount = "/account/signup";
   static const String getUserData = "/account/userdata";
   static const String editProfile = "/account/editprofile";
+  static const String refreshToken = "/account/refreshtoken";
   
 
   static const String getAllVehicle = "/vehicle/allvehicle";

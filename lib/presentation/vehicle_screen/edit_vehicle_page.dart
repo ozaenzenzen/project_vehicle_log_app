@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
+import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
@@ -46,9 +47,32 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
   TextEditingController machineNumberController = TextEditingController();
   TextEditingController chassisNumberController = TextEditingController();
 
+  FocusNode vehicleNameFocusNode = FocusNode();
+  FocusNode yearFocusNode = FocusNode();
+  FocusNode engineCapacityFocusNode = FocusNode();
+  FocusNode tankCapacityFocusNode = FocusNode();
+  FocusNode colorFocusNode = FocusNode();
+  FocusNode machineNumberFocusNode = FocusNode();
+  FocusNode chassisNumberFocusNode = FocusNode();
+
   late EditVehicleBloc editVehicleBloc;
 
   bool isLoadingActive = false;
+
+  final _scrollController = ScrollController();
+
+  void scrollToFocusedTextField(FocusNode focusNode) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients && focusNode.hasFocus) {
+        _scrollController.position.ensureVisible(
+          focusNode.context!.findRenderObject()!,
+          alignment: 0.3, // Adjust alignment as needed
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -59,7 +83,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
   @override
   void initState() {
     super.initState();
-    editVehicleBloc = EditVehicleBloc();
+    editVehicleBloc = EditVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService));
 
     vehicleId = widget.data.id!;
     imagePickedInBase64 = widget.data.vehicleImage!;
@@ -146,7 +170,6 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
           onTap: () {
             context.read<EditVehicleBloc>().add(
                   EditVehicleAction(
-                    appVehicleReposistory: AppVehicleReposistory(),
                     editVehicleRequestModel: EditVehicleRequestModel(
                       vehicleId: vehicleId!,
                       vehicleName: vehicleNameController.text,
@@ -168,6 +191,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
 
   Widget bodySection() {
     return SingleChildScrollView(
+      controller: _scrollController,
       child: Container(
         width: MediaQuery.of(context).size.width,
         color: AppColor.white,
@@ -319,42 +343,73 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
               textFieldTitle: "Vehicle Name",
               textFieldHintText: "Vehicle Name",
               controller: vehicleNameController,
+              focusNode: vehicleNameFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(vehicleNameFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Year",
               textFieldHintText: "Year",
               controller: yearController,
+              focusNode: yearFocusNode,
+              keyboardType: TextInputType.number,
+              onTap: () {
+                scrollToFocusedTextField(yearFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Engine Capacity (cc)",
               textFieldHintText: "ex: 250",
               controller: engineCapacityController,
+              focusNode: engineCapacityFocusNode,
+              keyboardType: TextInputType.number,
+              onTap: () {
+                scrollToFocusedTextField(engineCapacityFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Tank Capacity (Litre)",
               textFieldHintText: "ex: 250",
               controller: tankCapacityController,
+              focusNode: tankCapacityFocusNode,
+              keyboardType: TextInputType.number,
+              onTap: () {
+                scrollToFocusedTextField(tankCapacityFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Color",
               textFieldHintText: "Color",
               controller: colorController,
+              focusNode: colorFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(colorFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Machine Number",
               textFieldHintText: "Machine Number",
               controller: machineNumberController,
+              focusNode: machineNumberFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(machineNumberFocusNode);
+              },
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Chassis Number",
               textFieldHintText: "Chassis Number",
               controller: chassisNumberController,
+              focusNode: chassisNumberFocusNode,
+              onTap: () {
+                scrollToFocusedTextField(chassisNumberFocusNode);
+              },
             ),
             SizedBox(height: 20.h),
             SizedBox(height: kToolbarHeight + 30.h),

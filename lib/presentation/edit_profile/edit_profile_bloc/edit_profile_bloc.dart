@@ -2,29 +2,28 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
 
 part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  EditProfileBloc(AppAccountReposistory accountReposistory) : super(EditProfileInitial()) {
+  EditProfileBloc(AppAccountRepository accountRepository) : super(EditProfileInitial()) {
     on<EditProfileEvent>((event, emit) {
       if (event is EditProfileAction) {
-        _editProfileAction(accountReposistory, event);
+        _editProfileAction(accountRepository, event);
       }
     });
   }
 
   Future<void> _editProfileAction(
-    AppAccountReposistory accountReposistory,
+    AppAccountRepository accountRepository,
     EditProfileAction editProfileAction,
   ) async {
     emit(EditProfileLoading());
-    await Future.delayed(const Duration(milliseconds: 200));
     try {
       String? userToken = await AccountLocalRepository().getUserToken();
       if (userToken == null) {
@@ -34,7 +33,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         return;
       }
 
-      EditProfileResponseModel? editProfileResponseModel = await accountReposistory.editProfile(
+      EditProfileResponseModel? editProfileResponseModel = await accountRepository.editProfile(
         token: userToken,
         data: editProfileAction.editProfileRequestModel,
       );

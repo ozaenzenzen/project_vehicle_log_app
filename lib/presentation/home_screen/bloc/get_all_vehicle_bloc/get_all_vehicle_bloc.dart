@@ -1,11 +1,11 @@
 // ignore_for_file: invalid_use_of_visible_for_testing_member
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/local_repository/vehicle_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 
@@ -13,11 +13,11 @@ part 'get_all_vehicle_event.dart';
 part 'get_all_vehicle_state.dart';
 
 class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
-  GetAllVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(GetAllVehicleInitial()) {
+  GetAllVehicleBloc(AppVehicleRepository appVehicleRepository) : super(GetAllVehicleInitial()) {
     on<GetAllVehicleEvent>((event, emit) {
       if (event is GetAllVehicleLocalAction) {
         _getAllVehicleLocalActionV2(
-          appVehicleReposistory,
+          appVehicleRepository,
           event,
         );
       }
@@ -27,14 +27,14 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
           responseData.listData = [];
           listResponseData = [];
           _getAllVehicleRemoteActionV2(
-            appVehicleReposistory,
+            appVehicleRepository,
             event,
           );
         } else {
           if (currentPage <= responseData.totalPages!) {
             currentPage++;
             _getAllVehicleRemoteActionV2(
-              appVehicleReposistory,
+              appVehicleRepository,
               event,
             );
           } else {
@@ -55,7 +55,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   int currentPage = 1;
 
   Future<void> _getAllVehicleRemoteActionV2(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     GetAllVehicleRemoteAction event,
   ) async {
     emit(
@@ -76,7 +76,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
       GetAllVehicleRequestModelV2 dataRequest = event.reqData;
       dataRequest.currentPage = currentPage;
 
-      GetAllVehicleResponseModelV2? result = await AppVehicleReposistory().getAllVehicleDataV2(
+      GetAllVehicleResponseModelV2? result = await appVehicleRepository.getAllVehicleDataV2(
         userToken,
         dataRequest,
       );
@@ -123,7 +123,7 @@ class GetAllVehicleBloc extends Bloc<GetAllVehicleEvent, GetAllVehicleState> {
   }
 
   Future<void> _getAllVehicleLocalActionV2(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     GetAllVehicleLocalAction event,
   ) async {
     emit(

@@ -2,25 +2,25 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:project_vehicle_log_app/data/local_repository/account_local_repository.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_vehicle_request_model.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/create_vehicle_response_model.dart';
-import 'package:project_vehicle_log_app/data/repository/vehicle_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_vehicle_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/create_vehicle_response_model.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 
 part 'create_vehicle_event.dart';
 part 'create_vehicle_state.dart';
 
 class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
-  CreateVehicleBloc(AppVehicleReposistory appVehicleReposistory) : super(CreateVehicleInitial()) {
+  CreateVehicleBloc(AppVehicleRepository appVehicleRepository) : super(CreateVehicleInitial()) {
     on<CreateVehicleEvent>((event, emit) {
       if (event is CreateVehicleAction) {
-        _createVehicleAction(appVehicleReposistory, event);
+        _createVehicleAction(appVehicleRepository, event);
       }
     });
   }
 
   Future<void> _createVehicleAction(
-    AppVehicleReposistory appVehicleReposistory,
+    AppVehicleRepository appVehicleRepository,
     CreateVehicleAction event,
   ) async {
     emit(CreateVehicleLoading());
@@ -33,7 +33,7 @@ class CreateVehicleBloc extends Bloc<CreateVehicleEvent, CreateVehicleState> {
         return;
       }
 
-      CreateVehicleResponseModel? createVehicleResponseModel = await appVehicleReposistory.createVehicleData(
+      CreateVehicleResponseModel? createVehicleResponseModel = await appVehicleRepository.createVehicleData(
         createVehicleRequestModel: event.createVehicleRequestModel,
         token: userToken,
       );

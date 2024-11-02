@@ -1,11 +1,11 @@
-import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
 
-class GetUserDataResponseModel {
+class SignUpResponseModel {
   int? status;
   String? message;
-  DataGetUserData? data;
+  SignUpData? data;
 
-  GetUserDataResponseModel({
+  SignUpResponseModel({
     this.status,
     this.message,
     this.data,
@@ -27,17 +27,16 @@ class GetUserDataResponseModel {
         name: data?.name,
         email: data?.email,
         phone: data?.phone,
-        profilePicture: data?.profilePicture,
       );
     } else {
       return null;
     }
   }
 
-  factory GetUserDataResponseModel.fromJson(Map<String, dynamic> json) => GetUserDataResponseModel(
+  factory SignUpResponseModel.fromJson(Map<String, dynamic> json) => SignUpResponseModel(
         status: json["status"],
         message: json["message"],
-        data: json["Data"] == null ? null : DataGetUserData.fromJson(json["Data"]),
+        data: json["Data"] == null ? null : SignUpData.fromJson(json["Data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,30 +46,27 @@ class GetUserDataResponseModel {
       };
 }
 
-class DataGetUserData {
+class SignUpData {
   int? id;
   String? userStamp;
   String? name;
   String? email;
   String? phone;
-  String? profilePicture;
 
-  DataGetUserData({
+  SignUpData({
     this.id,
     this.userStamp,
     this.name,
     this.email,
     this.phone,
-    this.profilePicture,
   });
 
-  factory DataGetUserData.fromJson(Map<String, dynamic> json) => DataGetUserData(
+  factory SignUpData.fromJson(Map<String, dynamic> json) => SignUpData(
         id: json["id"],
         userStamp: json["user_stamp"],
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
-        profilePicture: json["profile_picture"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -79,6 +75,5 @@ class DataGetUserData {
         "name": name,
         "email": email,
         "phone": phone,
-        "profile_picture": profilePicture,
       };
 }

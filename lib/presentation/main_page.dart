@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
-import 'package:project_vehicle_log_app/data/repository/account_repository.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
@@ -63,9 +62,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     context.read<ProfileBloc>().add(
-          GetProfileRemoteAction(
-            accountRepository: AppAccountReposistory(),
-          ),
+          GetProfileRemoteAction(),
         );
     context.read<GetAllVehicleBloc>().add(
           GetAllVehicleLocalAction(),

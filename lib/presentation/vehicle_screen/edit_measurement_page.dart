@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:project_vehicle_log_app/data/model/remote/vehicle/edit_measurement_log_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/edit_measurement_log_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
+import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
@@ -54,7 +56,7 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
 
   @override
   void initState() {
-    editMeasurementLogBloc = EditMeasurementLogBloc();
+    editMeasurementLogBloc = EditMeasurementLogBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService));
 
     measurementTitleController.text = widget.data.measurementTitle ?? "";
     currentOdoController.text = widget.data.currentOdo ?? "";
@@ -200,18 +202,21 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
               textFieldTitle: "Current Odo (km)",
               textFieldHintText: "ex: 12000",
               controller: currentOdoController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Estimate Odo Changing (km)",
               textFieldHintText: "ex: 14000",
               controller: estimateOdoChangingController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               textFieldTitle: "Amount Expenses (Rp)",
               textFieldHintText: "ex: 40000",
               controller: amountExpensesController,
+              keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(

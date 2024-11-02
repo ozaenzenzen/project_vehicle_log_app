@@ -1,11 +1,11 @@
-import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
 
-class SignUpResponseModel {
+class GetUserDataResponseModel {
   int? status;
   String? message;
-  SignUpData? data;
+  DataGetUserData? data;
 
-  SignUpResponseModel({
+  GetUserDataResponseModel({
     this.status,
     this.message,
     this.data,
@@ -27,16 +27,17 @@ class SignUpResponseModel {
         name: data?.name,
         email: data?.email,
         phone: data?.phone,
+        profilePicture: data?.profilePicture,
       );
     } else {
       return null;
     }
   }
 
-  factory SignUpResponseModel.fromJson(Map<String, dynamic> json) => SignUpResponseModel(
+  factory GetUserDataResponseModel.fromJson(Map<String, dynamic> json) => GetUserDataResponseModel(
         status: json["status"],
         message: json["message"],
-        data: json["Data"] == null ? null : SignUpData.fromJson(json["Data"]),
+        data: json["Data"] == null ? null : DataGetUserData.fromJson(json["Data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,27 +47,30 @@ class SignUpResponseModel {
       };
 }
 
-class SignUpData {
+class DataGetUserData {
   int? id;
   String? userStamp;
   String? name;
   String? email;
   String? phone;
+  String? profilePicture;
 
-  SignUpData({
+  DataGetUserData({
     this.id,
     this.userStamp,
     this.name,
     this.email,
     this.phone,
+    this.profilePicture,
   });
 
-  factory SignUpData.fromJson(Map<String, dynamic> json) => SignUpData(
+  factory DataGetUserData.fromJson(Map<String, dynamic> json) => DataGetUserData(
         id: json["id"],
         userStamp: json["user_stamp"],
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
+        profilePicture: json["profile_picture"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -75,5 +79,6 @@ class SignUpData {
         "name": name,
         "email": email,
         "phone": phone,
+        "profile_picture": profilePicture,
       };
 }

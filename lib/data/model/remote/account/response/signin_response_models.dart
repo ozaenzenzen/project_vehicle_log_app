@@ -1,4 +1,4 @@
-import 'package:project_vehicle_log_app/domain/entities/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
 
 class SignInResponseModel {
   int? status;
@@ -38,8 +38,10 @@ class SignInData {
   String? name;
   String? email;
   String? phone;
-  String? token;
+  String? accessToken;
+  DateTime? accessTokenExpiryTime;
   String? refreshToken;
+  DateTime? refreshTokenExpiryTime;
 
   SignInData({
     this.id,
@@ -47,8 +49,10 @@ class SignInData {
     this.name,
     this.email,
     this.phone,
-    this.token,
+    this.accessToken,
+    this.accessTokenExpiryTime,
     this.refreshToken,
+    this.refreshTokenExpiryTime,
   });
 
   factory SignInData.fromJson(Map<String, dynamic> json) => SignInData(
@@ -57,8 +61,10 @@ class SignInData {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
-        token: json["token"],
+        accessToken: json["access_token"],
+        accessTokenExpiryTime: json["access_token_expiry_time"] == null ? null : DateTime.parse(json["access_token_expiry_time"]),
         refreshToken: json["refresh_token"],
+        refreshTokenExpiryTime: json["refresh_token_expiry_time"] == null ? null : DateTime.parse(json["refresh_token_expiry_time"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,7 +73,9 @@ class SignInData {
         "name": name,
         "email": email,
         "phone": phone,
-        "token": token,
+        "access_token": accessToken,
+        "access_token_expiry_time": accessTokenExpiryTime?.toIso8601String(),
         "refresh_token": refreshToken,
+        "refresh_token_expiry_time": refreshTokenExpiryTime?.toIso8601String(),
       };
 }
