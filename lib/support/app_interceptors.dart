@@ -67,10 +67,10 @@ class AppInterceptors {
             _refreshCompleter = Completer<void>();
 
             try {
-              AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
+              AppAccountRepository accountRepository = AppAccountRepository(appApiService);
               AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
               AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity.refreshToken!}");
-              RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
+              RefreshTokenResponseModel? result = await accountRepository.refreshToken(
                 refreshToken: tokenDataEntity.refreshToken!,
                 token: tokenDataEntity.accessToken!,
               );
@@ -162,10 +162,10 @@ class AppInterceptors {
             _isRefreshing = true;
 
             try {
-              AppAccountReposistory accountReposistory = AppAccountReposistory(appApiService);
+              AppAccountRepository accountRepository = AppAccountRepository(appApiService);
               AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity!.refreshToken!}");
               AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity.accessToken!}");
-              RefreshTokenResponseModel? result = await accountReposistory.refreshToken(
+              RefreshTokenResponseModel? result = await accountRepository.refreshToken(
                 refreshToken: tokenDataEntity.refreshToken!,
                 token: tokenDataEntity.accessToken!,
               );

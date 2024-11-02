@@ -12,21 +12,21 @@ part 'signup_event.dart';
 part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
-  SignupBloc(AppAccountReposistory appAccountReposistory) : super(SignupInitial()) {
+  SignupBloc(AppAccountRepository accountRepository) : super(SignupInitial()) {
     on<SignupEvent>((event, emit) {
       if (event is SignupAction) {
-        _signUpAction(appAccountReposistory, event);
+        _signUpAction(accountRepository, event);
       }
     });
   }
   Future<void> _signUpAction(
-    AppAccountReposistory appAccountReposistory,
+    AppAccountRepository accountRepository,
     SignupAction event,
   ) async {
     emit(SignupLoading());
     await Future.delayed(const Duration(milliseconds: 1000));
     try {
-      SignUpResponseModel? signUpResponseModel = await appAccountReposistory.signup(
+      SignUpResponseModel? signUpResponseModel = await accountRepository.signup(
         event.signUpRequestModel,
       );
       if (signUpResponseModel != null) {

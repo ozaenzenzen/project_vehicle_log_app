@@ -13,22 +13,22 @@ part 'signin_event.dart';
 part 'signin_state.dart';
 
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
-  SigninBloc(AppAccountReposistory accountReposistory) : super(SigninInitial()) {
+  SigninBloc(AppAccountRepository accountRepository) : super(SigninInitial()) {
     on<SigninEvent>((event, emit) {
       if (event is SigninAction) {
-        _signInAction(accountReposistory, event);
+        _signInAction(accountRepository, event);
       }
     });
   }
 
   Future<void> _signInAction(
-    AppAccountReposistory accountReposistory,
+    AppAccountRepository accountRepository,
     SigninAction event,
   ) async {
     emit(SigninLoading());
     await Future.delayed(const Duration(milliseconds: 100));
     try {
-      SignInResponseModel? signInResponseModel = await accountReposistory.signin(
+      SignInResponseModel? signInResponseModel = await accountRepository.signin(
         event.signInRequestModel,
       );
       if (signInResponseModel != null) {

@@ -11,16 +11,16 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  EditProfileBloc(AppAccountReposistory accountReposistory) : super(EditProfileInitial()) {
+  EditProfileBloc(AppAccountRepository accountRepository) : super(EditProfileInitial()) {
     on<EditProfileEvent>((event, emit) {
       if (event is EditProfileAction) {
-        _editProfileAction(accountReposistory, event);
+        _editProfileAction(accountRepository, event);
       }
     });
   }
 
   Future<void> _editProfileAction(
-    AppAccountReposistory accountReposistory,
+    AppAccountRepository accountRepository,
     EditProfileAction editProfileAction,
   ) async {
     emit(EditProfileLoading());
@@ -33,7 +33,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         return;
       }
 
-      EditProfileResponseModel? editProfileResponseModel = await accountReposistory.editProfile(
+      EditProfileResponseModel? editProfileResponseModel = await accountRepository.editProfile(
         token: userToken,
         data: editProfileAction.editProfileRequestModel,
       );

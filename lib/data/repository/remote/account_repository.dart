@@ -10,9 +10,9 @@ import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
-class AppAccountReposistory {
+class AppAccountRepository {
   final AppApiService appApiService;
-  AppAccountReposistory(this.appApiService);
+  AppAccountRepository(this.appApiService);
   
   Future<SignInResponseModel?> signin(SignInRequestModel data) async {
     try {
@@ -26,7 +26,7 @@ class AppAccountReposistory {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountReposistory][signin] errorMessage $errorMessage");
+      debugPrint("[AppAccountRepository][signin] errorMessage $errorMessage");
       return null;
     }
   }
@@ -43,7 +43,7 @@ class AppAccountReposistory {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountReposistory][signup] errorMessage $errorMessage");
+      debugPrint("[AppAccountRepository][signup] errorMessage $errorMessage");
       return null;
     }
   }
@@ -63,7 +63,7 @@ class AppAccountReposistory {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountReposistory][getUserdata] errorMessage $errorMessage");
+      debugPrint("[AppAccountRepository][getUserdata] errorMessage $errorMessage");
       return null;
     }
   }
@@ -83,7 +83,7 @@ class AppAccountReposistory {
       );
       return EditProfileResponseModel.fromJson(response.data);
     } catch (errorMessage) {
-      debugPrint("[AppAccountReposistory][editProfile] errorMessage $errorMessage");
+      debugPrint("[AppAccountRepository][editProfile] errorMessage $errorMessage");
       return null;
     }
   }
@@ -103,7 +103,7 @@ class AppAccountReposistory {
       );
       return RefreshTokenResponseModel.fromJson(response.data);
     } catch (errorMessage) {
-      debugPrint("[AppAccountReposistory][refreshToken] errorMessage $errorMessage");
+      debugPrint("[AppAccountRepository][refreshToken] errorMessage $errorMessage");
       return null;
     }
   }

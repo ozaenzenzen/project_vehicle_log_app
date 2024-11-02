@@ -15,7 +15,7 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(
-    AppAccountReposistory accountRepository,
+    AppAccountRepository accountRepository,
     AccountLocalRepository localRepository,
   ) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {
@@ -29,7 +29,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
   
   Future<void> _getProfileRemoteAction(
-    AppAccountReposistory accountRepository,
+    AppAccountRepository accountRepository,
   ) async {
     emit(ProfileLoading());
     try {
