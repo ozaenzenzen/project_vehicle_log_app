@@ -1,4 +1,6 @@
 class AppApiPath {
+  static const String checkDevice = "/device/checkdevice";
+
   static const String signInAccount = "/account/signin";
   static const String signUpAccount = "/account/signup";
   static const String getUserData = "/account/userdata";

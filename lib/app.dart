@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/repository/local/vehicle_local_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
+import 'package:project_vehicle_log_app/data/repository/remote/device_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/notification_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/init_config.dart';
@@ -38,7 +39,11 @@ class _MyAppState extends State<MyApp> {
     debugPrint("isSignIn $isSignIn");
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => SigninBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(
+            create: (context) => SigninBloc(
+                  AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
+                  DeviceRepository(AppInitConfig.appInterceptors.appApiService),
+                )),
         BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
         BlocProvider(create: (context) => SignupBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(
