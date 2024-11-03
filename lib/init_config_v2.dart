@@ -1,23 +1,20 @@
 import 'dart:async';
 import 'package:get_storage/get_storage.dart';
 import 'package:project_vehicle_log_app/env.dart';
-import 'package:project_vehicle_log_app/support/app_connectivity_service.dart';
-import 'package:project_vehicle_log_app/support/app_device_info.dart';
-import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_interceptors.dart';
-import 'package:project_vehicle_log_app/support/app_local_storage.dart';
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 
-
-class AppInitConfig {
+class AppInitConfigV2 {
   static AppInterceptors appInterceptors = AppInterceptors();
+
+  static FamCodingSupply famCodingSupply = FamCodingSupply();
 
   static Future<void> init() async {
     // AppTheme.appThemeInit();
     await GetStorage.init();
-    await AppInfo.appInfoInit();
-    await AppConnectivityService.init();
-    await AppLocalStorage.init();
-    await AppDeviceInfo().getDeviceData();
+    await famCodingSupply.appInfo.init();
+    await famCodingSupply.appConnectivityService.init();
+    await famCodingSupply.appDeviceInfo.getDeviceData();
 
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
     EnvironmentConfig.customBaseUrl = "https://e630-114-10-42-189.ngrok-free.app"; // for ngrok
