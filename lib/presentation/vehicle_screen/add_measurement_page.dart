@@ -453,52 +453,55 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               return SizedBox(width: 10.h);
             },
             itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
-                    //   debugPrint("test hit $index");
-                    //   indexClicked = index;
-                    //   vehicleListColor = AppColor.white;
-                  });
-                },
-                child: Container(
-                  width: 100.w,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.h,
-                  ),
-                  decoration: BoxDecoration(
-                    // color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                    color: AppColor.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColor.blue,
+              return Container(
+                padding: (index == 0) ? EdgeInsets.only(left: 16.w) : null,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
+                      //   debugPrint("test hit $index");
+                      //   indexClicked = index;
+                      //   vehicleListColor = AppColor.white;
+                    });
+                  },
+                  child: Container(
+                    width: 100.w,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.h,
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        // Icons.time_to_leave_rounded,
-                        MeasurementServiceDummyData.dummyDataService[index].icons,
+                    decoration: BoxDecoration(
+                      // color: index == indexClicked ? AppColor.primary : Colors.transparent,
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
                         color: AppColor.blue,
                       ),
-                      Text(
-                        // "${DummyData.dummyData[index].vehicleName}",
-                        // "Menu $index",
-                        "${MeasurementServiceDummyData.dummyDataService[index].title}",
-                        textAlign: TextAlign.center,
-                        // overflow: TextOverflow.ellipsis,
-                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                          // color: AppColor.text_4,
-                          // color: Colors.black38,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          // Icons.time_to_leave_rounded,
+                          MeasurementServiceDummyData.dummyDataService[index].icons,
                           color: AppColor.blue,
-                          // color: index == indexClicked ? AppColor.white : Colors.black38,
-                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ],
+                        Text(
+                          // "${DummyData.dummyData[index].vehicleName}",
+                          // "Menu $index",
+                          "${MeasurementServiceDummyData.dummyDataService[index].title}",
+                          textAlign: TextAlign.center,
+                          // overflow: TextOverflow.ellipsis,
+                          style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                            // color: AppColor.text_4,
+                            // color: Colors.black38,
+                            color: AppColor.blue,
+                            // color: index == indexClicked ? AppColor.white : Colors.black38,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
