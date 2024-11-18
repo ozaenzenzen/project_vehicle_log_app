@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
@@ -11,10 +12,15 @@ import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.d
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
 import 'package:project_vehicle_log_app/support/app_api_service.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:project_vehicle_log_app/support/app_logger.dart';
+import 'package:project_vehicle_log_app/support/app_logger.dart' as localAppLogger;
 
 class AppInterceptors {
-  late AppApiService appApiService;
+  AppInterceptors({
+    required this.appApiService,
+  });
+  AppApiService appApiService;
+  // AppApiService appApiService = AppApiService(EnvironmentConfig.baseUrl());
+  // late AppApiService appApiService;
 
   TokenDataEntity? tokenDataEntity;
 
@@ -28,7 +34,7 @@ class AppInterceptors {
   Future<void> interceptorsLogic() async {
     tokenDataEntity = await AccountLocalRepository().getDataToken();
 
-    appApiService = AppApiService(EnvironmentConfig.baseUrl());
+    // appApiService = AppApiService(EnvironmentConfig.baseUrl());
 
     TokenDataEntity? localTokenDataEntity;
 

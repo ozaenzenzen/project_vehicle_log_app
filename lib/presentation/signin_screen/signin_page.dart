@@ -34,6 +34,14 @@ class _SignInPageState extends State<SignInPage> {
   bool isHidePassword = true;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailTextFieldController.text = "example1@test.com";
+    passwordTextFieldController.text = "example";
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {

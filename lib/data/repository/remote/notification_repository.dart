@@ -1,3 +1,4 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model_v2.dart';

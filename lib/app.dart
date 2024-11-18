@@ -8,6 +8,7 @@ import 'package:project_vehicle_log_app/data/repository/remote/device_repository
 import 'package:project_vehicle_log_app/data/repository/remote/notification_repository.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/init_config.dart';
+import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';

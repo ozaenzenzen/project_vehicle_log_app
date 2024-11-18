@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,16 +9,17 @@ import 'package:project_vehicle_log_app/data/repository/local/account_local_repo
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
 import 'package:project_vehicle_log_app/init_config.dart';
+import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
-import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
+import 'package:project_vehicle_log_app/support/app_color.dart' as localAppColor;
+import 'package:project_vehicle_log_app/support/app_dialog_action.dart' as localDialogAction;
 import 'package:project_vehicle_log_app/support/app_image_picker.dart';
-import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/app_theme.dart' as localTheme;
 
 class EditProfilePage extends StatefulWidget {
   final Function()? callbackAction;

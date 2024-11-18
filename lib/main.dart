@@ -4,10 +4,10 @@ import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/init_config_v2.dart';
 
-void main() async {
+Future<void> main() async {
   EnvironmentConfig.flavor = Flavor.development;
   WidgetsFlutterBinding.ensureInitialized();
-  // await AppInitConfig.init();
-  await AppInitConfigV2.init();
+  await AppInitConfig.init();
+  // await AppInitConfigV2.init();
   runApp(const MyApp());
 }
