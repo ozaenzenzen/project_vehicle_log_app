@@ -53,7 +53,7 @@ class AppInterceptors {
               return handler.reject(
                 dio.DioError(
                   requestOptions: options,
-                  error: "Unautorized",
+                  error: "Unauthorized",
                 ),
               );
             }
