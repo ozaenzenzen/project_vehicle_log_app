@@ -99,7 +99,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     super.initState();
     if (widget.measurementService != null) {
       measurementTitleController.text = widget.measurementService!;
-      currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
+      currentOdoController.text = widget.listLogVehicleData!.firstWhere((element) => element.measurementTitle == widget.measurementService).estimateOdoChanging!;
+      // currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
     }
   }
 
