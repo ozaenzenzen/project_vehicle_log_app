@@ -1,3 +1,4 @@
+import 'package:fam_coding_supply/logic/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -173,7 +174,12 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
         return AppBottomNavBarButtonWidget(
           title: "Add Measurement",
           onTap: () {
-            if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
+            if (measurementTitleController.text.isEmpty ||
+                currentOdoController.text.isEmpty ||
+                estimateOdoController.text.isEmpty ||
+                amountExpensesController.text.isEmpty ||
+                checkpointDateController.text.isEmpty ||
+                notesController.text.isEmpty) {
               AppDialogAction.showFailedPopup(
                 context: context,
                 title: "Error",
@@ -281,6 +287,25 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
+            error: Text(
+              "Only number is allowed",
+              style: GoogleFonts.inter(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColor.error,
+              ),
+            ),
+            errorChecker: (value, isError) {
+              if (value.isNotEmpty) {
+                if (RegExp(r'^\d+$').hasMatch(value)) {
+                  return false;
+                } else {
+                  return true;
+                }
+              } else {
+                return false;
+              }
+            },
             onTap: () {
               scrollToFocusedTextField(currentOdoFocusNode);
             },
