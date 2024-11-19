@@ -102,7 +102,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       key: const Key("value"),
                       direction: DismissDirection.vertical,
                       confirmDismiss: (direction) async {
-                        // Get.back();
                         setState(() {
                           seeImage = false;
                         });
