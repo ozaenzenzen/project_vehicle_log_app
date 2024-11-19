@@ -13,7 +13,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final TextInputType? keyboardType;
   final Function()? onTap;
   final Function(String value)? onSubmitted;
-  final void Function(String)? onChanged;
+  final void Function(String value)? onChanged;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final bool obscureText;
@@ -27,6 +27,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final ScrollController? scrollController;
   final List<Widget>? action;
   final Widget? error;
+  final bool Function(String value, bool isError)? errorChecker;
 
   const AppTextFieldWidget({
     Key? key,
@@ -53,6 +54,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.scrollController,
     this.action,
     this.error,
+    this.errorChecker,
   }) : super(key: key);
 
   @override
@@ -61,6 +63,8 @@ class AppTextFieldWidget extends StatefulWidget {
 
 class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
   double? height;
+
+  bool isError = false;
 
   @override
   void initState() {
@@ -126,7 +130,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                       color: Colors.black,
                     ),
                     decoration: InputDecoration(
-                      error: widget.error,
+                      error: isError ? widget.error : null,
                       filled: widget.filled,
                       fillColor: widget.fillColor,
                       suffixIcon: widget.suffixIcon,
@@ -147,7 +151,12 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                             borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : BorderRadius.circular(10),
                           ),
                     ),
-                    onChanged: widget.onChanged,
+                    onChanged: (value) {
+                      widget.onChanged?.call(value);
+                      setState(() {
+                        isError = widget.errorChecker?.call(value, isError) ?? false;
+                      });
+                    },
                     readOnly: widget.readOnly,
                     // onTap: widget.onTap,
                     onTap: () {
@@ -181,7 +190,8 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
-                    error: widget.error,
+                    // error: widget.error,
+                    error: isError ? widget.error : null,
                     filled: widget.filled,
                     fillColor: widget.fillColor,
                     suffixIcon: widget.suffixIcon,
@@ -202,7 +212,13 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                           borderRadius: widget.radius != null ? BorderRadius.circular(widget.radius!) : BorderRadius.circular(10),
                         ),
                   ),
-                  onChanged: widget.onChanged,
+                  // onChanged: widget.onChanged,
+                  onChanged: (value) {
+                    widget.onChanged?.call(value);
+                    setState(() {
+                      isError = widget.errorChecker?.call(value, isError) ?? false;
+                    });
+                  },
                   readOnly: widget.readOnly,
                   onTap: () {
                     if (widget.autofocus) {
