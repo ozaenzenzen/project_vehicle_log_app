@@ -7,12 +7,12 @@ import 'package:fam_coding_supply/fam_coding_supply.dart';
 class AppInitConfig {
   static FamCodingSupply famCodingSupply = FamCodingSupply();
 
-  static AppApiService appApiService = AppApiService(EnvironmentConfig.baseUrl());
+  static AppApiServiceCS appApiService = AppApiServiceCS(EnvironmentConfig.baseUrl());
 
   static late AppInterceptors appInterceptors;
 
   static Future<void> init() async {
-    AppLogger.useLogger = true;
+    AppLoggerCS.useLogger = true;
     // AppTheme.appThemeInit();
     await GetStorage.init();
     await famCodingSupply.appInfo.init();
@@ -20,7 +20,7 @@ class AppInitConfig {
     await famCodingSupply.appDeviceInfo.getDeviceData();
 
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
-    EnvironmentConfig.customBaseUrl = "https://4b63-114-10-42-210.ngrok-free.app"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "https://730e-114-10-42-84.ngrok-free.app"; // for ngrok
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 

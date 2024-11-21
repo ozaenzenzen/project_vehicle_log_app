@@ -1,3 +1,4 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicato
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
@@ -135,7 +135,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     BlocConsumer<SignupBloc, SignupState>(
                       listener: (context, state) {
                         if (state is SignupFailed) {
-                          AppDialogAction.showPopup(
+                          AppDialogActionCS.showPopup(
                             content: Column(
                               children: [
                                 Icon(
@@ -166,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             context: context,
                           );
                         } else if (state is SignupSuccess) {
-                          AppDialogAction.showSuccessPopup(
+                          AppDialogActionCS.showSuccessPopup(
                             context: context,
                             title: "Success",
                             description: "Berhasil mendaftarkan akun. Silakan login",

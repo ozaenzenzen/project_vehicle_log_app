@@ -9,10 +9,9 @@ import 'package:project_vehicle_log_app/data/model/remote/account/response/signu
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
-import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppAccountRepository {
-  final AppApiService appApiService;
+  final AppApiServiceCS appApiService;
   AppAccountRepository(this.appApiService);
   
   Future<SignInResponseModel?> signin(SignInRequestModel data) async {
@@ -53,7 +52,7 @@ class AppAccountRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.getUserData,
-        method: MethodRequest.get,
+        method: MethodRequestCS.get,
         header: <String, String>{
           'token': token,
         },
@@ -76,7 +75,7 @@ class AppAccountRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.editProfile,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: data.toJson(),
         header: <String, String>{
           'token': token,
@@ -96,7 +95,7 @@ class AppAccountRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.refreshToken,
-        method: MethodRequest.get,
+        method: MethodRequestCS.get,
         header: <String, String>{
           'token': token,
           'refreshToken': refreshToken,

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 void main() {
   const jsonString = '''
   {
@@ -50,7 +52,7 @@ void generateDartModel(String className, String jsonString) {
 
   buffer.writeln('}');
 
-  print(buffer.toString());
+  debugPrint(buffer.toString());
 }
 
 String _getDartType(dynamic value) {

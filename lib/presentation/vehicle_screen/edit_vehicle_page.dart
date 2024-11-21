@@ -10,7 +10,7 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/edit_v
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
-import 'package:project_vehicle_log_app/init_config.dart';
+
 import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
@@ -20,10 +20,8 @@ import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_bu
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
-// import 'package:project_vehicle_log_app/support/app_color.dart';
-// import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_image_picker.dart';
-// import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class EditVehiclePage extends StatefulWidget {
   final ListDatumVehicleDataEntity data;
@@ -136,7 +134,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
     return BlocConsumer<EditVehicleBloc, EditVehicleState>(
       listener: (context, state) {
         if (state is EditVehicleFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: 'Terjadi kesalahan',
             description: state.errorMessage,
@@ -145,7 +143,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
         }
         if (state is EditVehicleSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: 'Berhasil mengubah data kendaraan',
             description: state.editVehicleResponseModel.message,
@@ -230,7 +228,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             SizedBox(height: 10.h),
             InkWell(
               onTap: () async {
-                imagePickedInBase64 = await AppImagePickerService().getImageAsBase64().then(
+                imagePickedInBase64 = await AppImagePickerServiceCS().getImageAsBase64().then(
                   (value) {
                     setState(() {});
                     return value!;

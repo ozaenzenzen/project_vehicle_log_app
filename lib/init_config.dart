@@ -10,7 +10,7 @@
 
 // class AppInitConfig {
 //   // static AppInterceptors appInterceptors = AppInterceptors();
-//   static AppApiService apiService = AppApiService(EnvironmentConfig.baseUrl());
+//   static AppApiServiceCS apiService = AppApiServiceCS(EnvironmentConfig.baseUrl());
 //   static late AppInterceptors appInterceptors;
 
 //   static Future<void> init() async {

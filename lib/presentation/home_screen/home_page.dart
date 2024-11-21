@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
@@ -18,9 +18,7 @@ import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:intl/intl.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -138,7 +136,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               BlocConsumer<ProfileBloc, ProfileState>(
                 listener: (context, state) {
                   if (state is ProfileFailed) {
-                    AppDialogAction.showFailedPopup(
+                    AppDialogActionCS.showFailedPopup(
                       context: context,
                       title: "Terjadi kesalahan",
                       description: state.errorMessage,

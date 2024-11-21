@@ -3,10 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:project_vehicle_log_app/data/model/remote/device/request/check_device_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/device/response/check_device_response_model.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
-import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class DeviceRepository {
-  final AppApiService appApiService;
+  final AppApiServiceCS appApiService;
   DeviceRepository(this.appApiService);
 
   Future<CheckDeviceResponseModel?> checkDevice(
@@ -16,7 +15,7 @@ class DeviceRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.checkDevice,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: data.toJson(),
         header: <String, String>{
           'token': token,

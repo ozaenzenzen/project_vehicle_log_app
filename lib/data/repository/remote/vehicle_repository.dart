@@ -12,10 +12,9 @@ import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_lo
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_all_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/response/get_log_vehicle_data_response_model_v2.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
-import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppVehicleRepository {
-  final AppApiService appApiService;
+  final AppApiServiceCS appApiService;
   AppVehicleRepository(this.appApiService);
 
   Future<GetAllVehicleResponseModelV2?> getAllVehicleDataV2(
@@ -29,7 +28,7 @@ class AppVehicleRepository {
       }
       final response = await appApiService.call(
         AppApiPath.getAllVehicleV2,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: req,
         header: {"token": token},
       );
@@ -54,7 +53,7 @@ class AppVehicleRepository {
       }
       final response = await appApiService.call(
         AppApiPath.getLogVehicleV2,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: req,
         header: {"token": token},
       );
@@ -75,7 +74,7 @@ class AppVehicleRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.createVehicle,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: createVehicleRequestModel.toJson(),
         header: {
           "token": token,
@@ -94,7 +93,7 @@ class AppVehicleRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.editVehicle,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: editVehicleRequestModel.toJson(),
         header: {
           "token": token,
@@ -113,7 +112,7 @@ class AppVehicleRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.createLogVehicle,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: createLogVehicleRequestModel.toJson(),
         header: {
           "token": token,
@@ -132,7 +131,7 @@ class AppVehicleRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.editMeasurementLogLogVehicle,
-        method: MethodRequest.put,
+        method: MethodRequestCS.put,
         request: editMeasurementLogRequestModel.toJson(),
         header: {
           "token": token,
@@ -151,7 +150,7 @@ class AppVehicleRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.deleteMeasurementLogVehicle,
-        method: MethodRequest.delete,
+        method: MethodRequestCS.delete,
         request: createLogVehicleRequestModel.toJson(),
         header: {
           "token": token,

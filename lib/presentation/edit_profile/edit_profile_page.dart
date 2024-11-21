@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:convert';
 
 import 'package:fam_coding_supply/fam_coding_supply.dart';
@@ -8,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
-import 'package:project_vehicle_log_app/init_config.dart';
 import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
@@ -16,10 +17,8 @@ import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_bu
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
-import 'package:project_vehicle_log_app/support/app_color.dart' as localAppColor;
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart' as localDialogAction;
-import 'package:project_vehicle_log_app/support/app_image_picker.dart';
-import 'package:project_vehicle_log_app/support/app_theme.dart' as localTheme;
+import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class EditProfilePage extends StatefulWidget {
   final Function()? callbackAction;
@@ -119,7 +118,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: "Terjadi Kesalahan",
             description: "${state.errorMessage}",
@@ -127,7 +126,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           );
         } else if (state is EditProfileSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: "Berhasil",
             description: "${state.editProfileResponseModel.message}",
@@ -140,7 +139,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           title: 'Update Profile',
           onTap: () {
             if (state is EditProfileLoading || state is ProfileLoading) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: 'Terjadi kesalahan',
                 description: 'Mohon tunggu sebentar, masih mengambil data',
@@ -258,7 +257,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
               InkWell(
                 onTap: () async {
-                  profilePicture = await AppImagePickerService().getImageAsBase64().then(
+                  profilePicture = await AppImagePickerServiceCS().getImageAsBase64().then(
                     (value) {
                       setState(() {});
                       if (value != null) {
@@ -306,7 +305,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(width: 20.w),
               InkWell(
                 onTap: () async {
-                  // profilePicture = await AppImagePickerService.getImageAsBase64().then(
+                  // profilePicture = await AppImagePickerServiceCS.getImageAsBase64().then(
                   //   (value) {
                   //     setState(() {});
                   //     if (value != null) {

@@ -3,10 +3,9 @@ import 'package:project_vehicle_log_app/data/model/remote/notification/get_notif
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/notification/get_notification_response_model_v2.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
-import 'package:project_vehicle_log_app/support/app_api_service.dart';
 
 class AppNotificationRepository {
-  final AppApiService appApiService;
+  final AppApiServiceCS appApiService;
   AppNotificationRepository(this.appApiService);
 
   Future<GetNotificationResponseModel?> getNotification({
@@ -16,7 +15,7 @@ class AppNotificationRepository {
     try {
       final response = await appApiService.call(
         AppApiPath.getNotification + userId,
-        method: MethodRequest.get,
+        method: MethodRequestCS.get,
         header: <String, String>{
           'token': token,
         },
@@ -38,7 +37,7 @@ class AppNotificationRepository {
       }
       final response = await appApiService.call(
         AppApiPath.getNotificationV2,
-        method: MethodRequest.post,
+        method: MethodRequestCS.post,
         request: req,
         header: <String, String>{
           'token': token,

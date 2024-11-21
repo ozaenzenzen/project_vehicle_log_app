@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
 void main() {
   // const jsonString = '''
   // {
@@ -89,7 +91,7 @@ void generateDartModelFile(String className, String jsonString) {
   final file = File(filePath);
   file.writeAsStringSync(buffer.toString());
 
-  print('Dart model saved to $filePath');
+  debugPrint('Dart model saved to $filePath');
 }
 
 String _getDartType(dynamic value) {

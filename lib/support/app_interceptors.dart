@@ -10,17 +10,15 @@ import 'package:project_vehicle_log_app/domain/entities/account/token_data_entit
 import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
-import 'package:project_vehicle_log_app/support/app_api_service.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:project_vehicle_log_app/support/app_logger.dart' as localAppLogger;
 
 class AppInterceptors {
   AppInterceptors({
     required this.appApiService,
   });
-  AppApiService appApiService;
-  // AppApiService appApiService = AppApiService(EnvironmentConfig.baseUrl());
-  // late AppApiService appApiService;
+  AppApiServiceCS appApiService;
+  // AppApiServiceCS appApiService = AppApiServiceCS(EnvironmentConfig.baseUrl());
+  // late AppApiServiceCS appApiService;
 
   TokenDataEntity? tokenDataEntity;
 
@@ -34,7 +32,7 @@ class AppInterceptors {
   Future<void> interceptorsLogic() async {
     tokenDataEntity = await AccountLocalRepository().getDataToken();
 
-    // appApiService = AppApiService(EnvironmentConfig.baseUrl());
+    // appApiService = AppApiServiceCS(EnvironmentConfig.baseUrl());
 
     TokenDataEntity? localTokenDataEntity;
 
@@ -74,8 +72,8 @@ class AppInterceptors {
 
             try {
               AppAccountRepository accountRepository = AppAccountRepository(appApiService);
-              AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
-              AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity.refreshToken!}");
+              AppLoggerCS.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity!.accessToken!}");
+              AppLoggerCS.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity.refreshToken!}");
               RefreshTokenResponseModel? result = await accountRepository.refreshToken(
                 refreshToken: tokenDataEntity.refreshToken!,
                 token: tokenDataEntity.accessToken!,
@@ -138,7 +136,7 @@ class AppInterceptors {
   Future<void> interceptorsLogic2() async {
     tokenDataEntity = await AccountLocalRepository().getDataToken();
 
-    appApiService = AppApiService(EnvironmentConfig.baseUrl());
+    appApiService = AppApiServiceCS(EnvironmentConfig.baseUrl());
 
     TokenDataEntity? localTokenDataEntity;
 
@@ -169,8 +167,8 @@ class AppInterceptors {
 
             try {
               AppAccountRepository accountRepository = AppAccountRepository(appApiService);
-              AppLogger.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity!.refreshToken!}");
-              AppLogger.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity.accessToken!}");
+              AppLoggerCS.debugLog("tokenDataEntity!.refreshToken!: ${tokenDataEntity!.refreshToken!}");
+              AppLoggerCS.debugLog("tokenDataEntity!.accessToken!: ${tokenDataEntity.accessToken!}");
               RefreshTokenResponseModel? result = await accountRepository.refreshToken(
                 refreshToken: tokenDataEntity.refreshToken!,
                 token: tokenDataEntity.accessToken!,

@@ -46,6 +46,7 @@ class AppWebViewScreen extends StatelessWidget {
                 ),
                 Text(
                   title,
+                  // ignore: deprecated_member_use
                   textScaleFactor: 1,
                   style: AppTheme.theme.textTheme.displaySmall?.copyWith(
                     color: Colors.black,

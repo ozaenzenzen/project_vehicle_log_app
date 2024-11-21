@@ -1,8 +1,8 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
@@ -14,7 +14,6 @@ import 'package:project_vehicle_log_app/presentation/signup_screen/signup_page.d
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
@@ -35,7 +34,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     emailTextFieldController.text = "example1@test.com";
     passwordTextFieldController.text = "example";
@@ -161,7 +159,7 @@ class _SignInPageState extends State<SignInPage> {
                   BlocConsumer<SigninBloc, SigninState>(
                     listener: (context, state) {
                       if (state is SigninFailed) {
-                        AppDialogAction.showFailedPopup(
+                        AppDialogActionCS.showFailedPopup(
                           title: 'Terjadi kesalahan',
                           description: state.errorMessage,
                           buttonTitle: 'Kembali',

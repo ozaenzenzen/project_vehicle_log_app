@@ -1,9 +1,8 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
@@ -19,9 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
@@ -140,7 +137,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     return BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
       listener: (context, state) {
         if (state is CreateLogVehicleFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: "Terjadi kesalahan",
             description: state.errorMessage,
@@ -148,7 +145,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           );
         } else if (state is CreateLogVehicleSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: "Berhasil menambah log data kendaraan",
             description: state.createLogVehicleResponseModel.message!,
@@ -174,14 +171,14 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           title: "Add Measurement",
           onTap: () {
             if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
                 buttonTitle: "Back",
               );
             } else if (isCurrentOdoMoreThanEstimateOdo) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "Tidak boleh kurang atau sama dengan dari Current Odo",

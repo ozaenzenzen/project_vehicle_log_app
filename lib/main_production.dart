@@ -1,13 +1,13 @@
-// import 'package:flutter/material.dart';
-// import 'package:project_vehicle_log_app/app.dart';
-// import 'package:project_vehicle_log_app/env.dart';
-// import 'package:project_vehicle_log_app/init_config.dart';
-// import 'package:project_vehicle_log_app/init_config_v2.dart';
+import 'package:flutter/material.dart';
+import 'package:project_vehicle_log_app/app.dart';
+import 'package:project_vehicle_log_app/env.dart';
 
-// void main() async {
-//   EnvironmentConfig.flavor = Flavor.development;
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // await AppInitConfig.init();
-//   await AppInitConfigV2.init();
-//   runApp(const MyApp());
-// }
+import 'package:project_vehicle_log_app/init_config_v2.dart';
+
+void main() async {
+  EnvironmentConfig.flavor = Flavor.development;
+  WidgetsFlutterBinding.ensureInitialized();
+  await AppInitConfig.init();
+  // await AppInitConfigV2.init();
+  runApp(const MyApp());
+}
