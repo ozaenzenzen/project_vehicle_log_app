@@ -24,6 +24,6 @@ class EnvironmentConfig {
   }
 
   static String baseUrl() {
-    return customBaseUrl;
+    return customBaseUrl.replaceAll(" ", "");
   }
 }
