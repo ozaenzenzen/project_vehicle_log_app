@@ -1,4 +1,4 @@
-import 'package:fam_coding_supply/logic/app_logger.dart';
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -176,7 +176,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 amountExpensesController.text.isEmpty ||
                 checkpointDateController.text.isEmpty ||
                 notesController.text.isEmpty) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
