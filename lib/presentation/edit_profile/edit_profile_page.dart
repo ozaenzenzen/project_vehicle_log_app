@@ -40,6 +40,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   late ProfileBloc profileBloc;
 
+  bool seeImage = false;
+
   @override
   void dispose() {
     super.dispose();
@@ -84,6 +86,65 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
           ),
+          if (seeImage)
+            Material(
+              color: Colors.transparent,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black54,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Dismissible(
+                      key: const Key("value"),
+                      direction: DismissDirection.vertical,
+                      confirmDismiss: (direction) async {
+                        setState(() {
+                          seeImage = false;
+                        });
+                        return false;
+                      },
+                      onDismissed: (direction) {
+                        debugPrint("direction $direction");
+                      },
+                      child: Image.memory(
+                        base64Decode(profilePicture),
+                        height: 300.h,
+                        width: 300.h,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          seeImage = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 4.h,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.h),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 24.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           MultiBlocListener(
             listeners: [
               BlocListener<ProfileBloc, ProfileState>(
@@ -305,16 +366,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(width: 20.w),
               InkWell(
                 onTap: () async {
-                  // profilePicture = await AppImagePickerServiceCS.getImageAsBase64().then(
-                  //   (value) {
-                  //     setState(() {});
-                  //     if (value != null) {
-                  //       return value;
-                  //     } else {
-                  //       return "";
-                  //     }
-                  //   },
-                  // );
+                  Get.back();
+                  setState(() {
+                    seeImage = true;
+                  });
                 },
                 child: Container(
                   height: 120.h,
