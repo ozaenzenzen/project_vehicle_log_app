@@ -310,48 +310,52 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: 170.h,
-                        width: 170.h,
-                        child: SfCircularChart(
-                          title: ChartTitle(
-                            text: "Frequent Measurment",
-                            textStyle: GoogleFonts.inter(
-                              color: Colors.black38,
-                              fontSize: 10.sp,
+                      Flexible(
+                        child: SizedBox(
+                          height: 150.h,
+                          // width: 150.h,
+                          child: SfCircularChart(
+                            title: ChartTitle(
+                              text: "Frequent Measurment",
+                              textStyle: GoogleFonts.inter(
+                                color: Colors.black38,
+                                fontSize: 10.sp,
+                              ),
                             ),
+                            tooltipBehavior: _tooltipA,
+                            series: <CircularSeries<ChartData, String>>[
+                              DoughnutSeries<ChartData, String>(
+                                dataSource: state.dataCountFrequentTitle,
+                                xValueMapper: (ChartData data, ints) => data.x,
+                                yValueMapper: (ChartData data, ints) => data.y,
+                                name: 'Most Frequent Measurment',
+                              )
+                            ],
                           ),
-                          tooltipBehavior: _tooltipA,
-                          series: <CircularSeries<ChartData, String>>[
-                            DoughnutSeries<ChartData, String>(
-                              dataSource: state.dataCountFrequentTitle,
-                              xValueMapper: (ChartData data, ints) => data.x,
-                              yValueMapper: (ChartData data, ints) => data.y,
-                              name: 'Most Frequent Measurment',
-                            )
-                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 170.h,
-                        width: 170.h,
-                        child: SfCircularChart(
-                          title: ChartTitle(
-                            text: "Cost Breakdown",
-                            textStyle: GoogleFonts.inter(
-                              color: Colors.black38,
-                              fontSize: 10.sp,
+                      Flexible(
+                        child: SizedBox(
+                          height: 150.h,
+                          // width: 150.h,
+                          child: SfCircularChart(
+                            title: ChartTitle(
+                              text: "Cost Breakdown",
+                              textStyle: GoogleFonts.inter(
+                                color: Colors.black38,
+                                fontSize: 10.sp,
+                              ),
                             ),
+                            tooltipBehavior: _tooltipB,
+                            series: <CircularSeries<ChartData, String>>[
+                              DoughnutSeries<ChartData, String>(
+                                dataSource: state.dataCostBreakdown,
+                                xValueMapper: (ChartData data, ints) => data.x,
+                                yValueMapper: (ChartData data, ints) => data.y,
+                                name: 'Cost Breakdown',
+                              )
+                            ],
                           ),
-                          tooltipBehavior: _tooltipB,
-                          series: <CircularSeries<ChartData, String>>[
-                            DoughnutSeries<ChartData, String>(
-                              dataSource: state.dataCostBreakdown,
-                              xValueMapper: (ChartData data, ints) => data.x,
-                              yValueMapper: (ChartData data, ints) => data.y,
-                              name: 'Cost Breakdown',
-                            )
-                          ],
                         ),
                       ),
                       // SizedBox(
