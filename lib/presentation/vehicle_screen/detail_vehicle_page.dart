@@ -481,6 +481,7 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
       floatingActionButton: FloatingActionButton.extended(
         key: const Key("DVPFAB"),
         heroTag: const Key("DVPFAB"),
+        backgroundColor: AppColor.primary,
         onPressed: () {
           Get.to(
             () => AddMeasurementPage(
