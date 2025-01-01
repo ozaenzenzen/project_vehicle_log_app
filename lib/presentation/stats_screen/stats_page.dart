@@ -105,6 +105,7 @@ class _StatsPageState extends State<StatsPage> {
                     }
                   },
                 ),
+                SizedBox(height: kToolbarHeight.h + 10.h),
               ],
             ),
           ),

@@ -113,6 +113,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       homeListVehicleSection(),
                       SizedBox(height: 20.h),
                       homeListMeasurementSection(),
+                      SizedBox(height: kToolbarHeight.h + 10.h),
                     ],
                   ),
                 ],
