@@ -1,5 +1,6 @@
 import 'package:fam_coding_supply/fam_coding_supply.dart';
-import 'package:flutter/material.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
@@ -13,7 +14,7 @@ import 'package:project_vehicle_log_app/support/app_api_path.dart';
 class AppAccountRepository {
   final AppApiServiceCS appApiService;
   AppAccountRepository(this.appApiService);
-  
+
   Future<SignInResponseModel?> signin(SignInRequestModel data) async {
     try {
       final response = await appApiService.call(
@@ -26,7 +27,7 @@ class AppAccountRepository {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountRepository][signin] errorMessage $errorMessage");
+      AppLoggerCS.debugLog("[AppAccountRepository][signin] errorMessage $errorMessage");
       return null;
     }
   }
@@ -43,7 +44,7 @@ class AppAccountRepository {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountRepository][signup] errorMessage $errorMessage");
+      AppLoggerCS.debugLog("[AppAccountRepository][signup] errorMessage $errorMessage");
       return null;
     }
   }
@@ -63,7 +64,7 @@ class AppAccountRepository {
         return null;
       }
     } catch (errorMessage) {
-      debugPrint("[AppAccountRepository][getUserdata] errorMessage $errorMessage");
+      AppLoggerCS.debugLog("[AppAccountRepository][getUserdata] errorMessage $errorMessage");
       return null;
     }
   }
@@ -83,7 +84,7 @@ class AppAccountRepository {
       );
       return EditProfileResponseModel.fromJson(response.data);
     } catch (errorMessage) {
-      debugPrint("[AppAccountRepository][editProfile] errorMessage $errorMessage");
+      AppLoggerCS.debugLog("[AppAccountRepository][editProfile] errorMessage $errorMessage");
       return null;
     }
   }
@@ -103,7 +104,31 @@ class AppAccountRepository {
       );
       return RefreshTokenResponseModel.fromJson(response.data);
     } catch (errorMessage) {
-      debugPrint("[AppAccountRepository][refreshToken] errorMessage $errorMessage");
+      AppLoggerCS.debugLog("[AppAccountRepository][refreshToken] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<ChangePasswordResponseModel?> changePassword({
+    required ChangePasswordRequestModel data,
+    required String token,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.changePassword,
+        method: MethodRequestCS.post,
+        request: data.toJson(),
+        header: <String, String>{
+          'token': token,
+        },
+      );
+      if (response.data != null) {
+        return ChangePasswordResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][changePassword] errorMessage $errorMessage");
       return null;
     }
   }

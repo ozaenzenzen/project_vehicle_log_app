@@ -146,6 +146,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             title: "Terjadi kesalahan",
             description: state.errorMessage,
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         }
         if (state is CreateVehicleSuccess) {
@@ -189,6 +192,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 title: "Error",
                 description: "field can't be empty",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<CreateVehicleBloc>().add(

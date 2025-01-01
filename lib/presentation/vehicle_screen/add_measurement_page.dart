@@ -142,6 +142,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             title: "Terjadi kesalahan",
             description: state.errorMessage,
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         } else if (state is CreateLogVehicleSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -170,17 +173,15 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
         return AppBottomNavBarButtonWidget(
           title: "Add Measurement",
           onTap: () {
-            if (measurementTitleController.text.isEmpty ||
-                currentOdoController.text.isEmpty ||
-                estimateOdoController.text.isEmpty ||
-                amountExpensesController.text.isEmpty ||
-                checkpointDateController.text.isEmpty ||
-                notesController.text.isEmpty) {
+            if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
               AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else if (isCurrentOdoMoreThanEstimateOdo) {
               AppDialogActionCS.showFailedPopup(
@@ -188,6 +189,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
                 title: "Error",
                 description: "Tidak boleh kurang atau sama dengan dari Current Odo",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<CreateLogVehicleBloc>().add(

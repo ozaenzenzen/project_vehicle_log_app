@@ -115,6 +115,9 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
             title: "Terjadi Kesalahan",
             description: state.errorMessage,
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         }
         if (state is EditMeasurementLogSuccess) {

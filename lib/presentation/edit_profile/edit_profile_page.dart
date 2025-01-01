@@ -184,6 +184,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             title: "Terjadi Kesalahan",
             description: "${state.errorMessage}",
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         } else if (state is EditProfileSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -205,6 +208,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 title: 'Terjadi kesalahan',
                 description: 'Mohon tunggu sebentar, masih mengambil data',
                 buttonTitle: 'Kembali',
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<EditProfileBloc>().add(

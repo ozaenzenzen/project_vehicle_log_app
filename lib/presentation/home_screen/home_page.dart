@@ -141,6 +141,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       title: "Terjadi kesalahan",
                       description: state.errorMessage,
                       buttonTitle: "Kembali",
+                      mainButtonAction: () {
+                        Get.back();
+                      },
                     );
                   }
                 },

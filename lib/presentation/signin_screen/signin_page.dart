@@ -164,6 +164,9 @@ class _SignInPageState extends State<SignInPage> {
                           description: state.errorMessage,
                           buttonTitle: 'Kembali',
                           context: context,
+                          mainButtonAction: () {
+                            Get.back();
+                          },
                         );
                       } else if (state is SigninSuccess) {
                         FocusManager.instance.primaryFocus?.unfocus();

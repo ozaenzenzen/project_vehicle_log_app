@@ -139,6 +139,9 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             title: 'Terjadi kesalahan',
             description: state.errorMessage,
             buttonTitle: 'Kembali',
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         }
         if (state is EditVehicleSuccess) {
