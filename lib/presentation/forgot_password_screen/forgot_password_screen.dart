@@ -1,3 +1,4 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:fam_coding_supply/ui/widget/app_mainbutton_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController emailTextController = TextEditingController();
+
+  TextEditingController otpInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,41 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.to(() => const ForgotPasswordScreen());
+                      // AppLoggerCS.debugLog("check");
+                      // Get.to(() => const ForgotPasswordScreen());
+                      // AppDialogActionCS.showWarningPopup(
+                      //   context: context,
+                      //   title: "title",
+                      //   description: "description",
+                      // );
+                      AppDialogActionCS.showMainPopup(
+                        context: context,
+                        content: Column(
+                          children: [
+                            Text(
+                              "Input your OTP Here",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.inter(
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: 10.h),
+                            AppTextFieldWidget(
+                              controller: otpInputController,
+                              textFieldTitle: "",
+                              textFieldHintText: "ex: 190190",
+                            ),
+                            SizedBox(height: 20.h),
+                            AppMainButtonWidget(
+                              onPressed: (){
+                                // 
+                              },
+                              text: "Confirm",
+                            ),
+                          ],
+                        ),
+                      );
                     },
                     child: Text(
                       "Already Have OTP Forgot Password?",
