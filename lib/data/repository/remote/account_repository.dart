@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_forgot_password_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/otp_validation_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/validate_otp_forgot_password_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_forgot_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/otp_resend_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/otp_validation_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/send_otp_forgot_password_response_model.dart';
@@ -136,6 +139,48 @@ class AppAccountRepository {
       }
     } catch (errorMessage) {
       AppLoggerCS.debugLog("[AppAccountRepository][changePassword] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<OtpValidationResponseModel?> otpValidation({
+    required OtpValidationRequestModel data,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.otpValidation,
+        method: MethodRequestCS.post,
+        request: data.toJson(),
+      );
+      if (response.data != null) {
+        return OtpValidationResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][otpValidation] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<OtpResendResponseModel?> otpResend({
+    required String resendOtpKey,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.otpResend,
+        method: MethodRequestCS.post,
+        request: <String, String>{
+          'resend_otp_key': resendOtpKey,
+        },
+      );
+      if (response.data != null) {
+        return OtpResendResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][otpResend] errorMessage $errorMessage");
       return null;
     }
   }

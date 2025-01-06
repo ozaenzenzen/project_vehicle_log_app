@@ -17,6 +17,7 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_ve
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
 import 'package:project_vehicle_log_app/presentation/notification_screen/notification_bloc/notification_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/otp_verification_screen/otp_validation_bloc/otp_validation_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/change_password_screen/change_password_bloc/change_password_bloc.dart';
@@ -52,6 +53,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
         BlocProvider(create: (context) => SignupBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(create: (context) => ChangePasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => OtpValidationBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+
 
         BlocProvider(create: (context) => SendOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(create: (context) => ValidateOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),

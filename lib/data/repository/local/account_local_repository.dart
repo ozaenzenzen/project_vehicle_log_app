@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/forgot_password_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/token_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_register_data_entity.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 
 class AccountLocalRepository {
@@ -17,6 +18,8 @@ class AccountLocalRepository {
 
   String forgotPasswordProcessHistory = "forgotPasswordProcessHistory";
   String forgotPasswordProcessHistorySingle = "forgotPasswordProcessHistorySingle";
+  String userRegisterData = "userRegisterData";
+
 
   Future<void> removeLocalAccountData() async {
     try {
@@ -220,7 +223,6 @@ class AccountLocalRepository {
   //       debugPrint("[getForgotPasswordProcessHistory] data: $result");
   //       var stringToMap = jsonDecode(result);
   //       ForgotPasswordListDataMapper mapToObject = ForgotPasswordListDataMapper.fromJson(stringToMap);
-        
 
   //       // List<Map<String, dynamic>> mapFromString = jsonDecode(result);
   //       // List<ForgotPasswordDataEntity> dataFromMap = List<ForgotPasswordDataEntity>.from(mapFromString.map((x) => ForgotPasswordDataEntity.fromJson(x)));
@@ -257,7 +259,7 @@ class AccountLocalRepository {
         debugPrint("[getForgotPasswordProcessHistorySingle] data: $result");
         var stringToMap = jsonDecode(result);
         ForgotPasswordDataEntity mapToObject = ForgotPasswordDataEntity.fromJson(stringToMap);
-    
+
         return mapToObject;
       } else {
         return null;
@@ -275,6 +277,35 @@ class AccountLocalRepository {
     } catch (errorMessage) {
       AppLoggerCS.debugLog("[setForgotPasswordProcessHistorySingle][error] $errorMessage");
       rethrow;
+    }
+  }
+
+  Future<void> setRegisterUserData({
+    required UserRegisterDataEntity data,
+  }) async {
+    try {
+      await LocalService.instance.box.write(
+        userRegisterData,
+        jsonEncode(data.toJson()),
+      );
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[setEmailRegisterData][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<UserRegisterDataEntity?> getRegisterUserData() async {
+    try {
+      var data = LocalService.instance.box.read(userRegisterData);
+      if (data != null) {
+        UserRegisterDataEntity result = UserRegisterDataEntity.fromJson(jsonDecode(data));
+        return result;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[getEmailRegisterData][error] $errorMessage");
+      return null;
     }
   }
 }

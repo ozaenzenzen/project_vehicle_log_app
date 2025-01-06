@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signup_request_models.dart';
+import 'package:project_vehicle_log_app/presentation/otp_verification_screen/otp_verification_screen.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/signup_screen/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
@@ -29,6 +30,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
   bool isHidePassword = true;
   bool isHideConfirmPassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    nameTextFieldController.text = "Akun Test OTP Register";
+    emailTextFieldController.text = "tkdbintara@gmail.com";
+    phoneTextFieldController.text = "080811110808";
+    passwordTextFieldController.text = "example";
+    confirmPasswordTextFieldController.text = "example";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +115,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: passwordTextFieldController,
                       obscureText: isHidePassword,
                       suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            isHidePassword = !isHidePassword;
-                          });
-                        },
-                        child: Icon(
-                          isHidePassword ? Icons.visibility_off : Icons.visibility,
-                        )
-                      ),
+                          onTap: () {
+                            setState(() {
+                              isHidePassword = !isHidePassword;
+                            });
+                          },
+                          child: Icon(
+                            isHidePassword ? Icons.visibility_off : Icons.visibility,
+                          )),
                     ),
                     SizedBox(height: 10.h),
                     AppTextFieldWidget(
@@ -121,60 +131,40 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: confirmPasswordTextFieldController,
                       obscureText: isHideConfirmPassword,
                       suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            isHideConfirmPassword = !isHideConfirmPassword;
-                          });
-                        },
-                        child: Icon(
-                          isHideConfirmPassword ? Icons.visibility_off : Icons.visibility,
-                        )
-                      ),
+                          onTap: () {
+                            setState(() {
+                              isHideConfirmPassword = !isHideConfirmPassword;
+                            });
+                          },
+                          child: Icon(
+                            isHideConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                          )),
                     ),
                     SizedBox(height: 20.h),
                     BlocConsumer<SignupBloc, SignupState>(
                       listener: (context, state) {
                         if (state is SignupFailed) {
-                          AppDialogActionCS.showPopup(
-                            content: Column(
-                              children: [
-                                Icon(
-                                  Icons.close,
-                                  color: AppColor.error,
-                                  size: 80.h,
-                                ),
-                                SizedBox(height: 20.h),
-                                Text(
-                                  "Error",
-                                  style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                                    // color: AppColor.text_4,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                SizedBox(height: 10.h),
-                                Text(
-                                  state.errorMessage,
-                                  style: AppTheme.theme.textTheme.titleLarge?.copyWith(
-                                    // color: AppColor.text_4,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
+                          AppDialogActionCS.showFailedPopup(
                             context: context,
+                            title: "Terjadi kesalahan",
+                            description: state.errorMessage,
+                            // description: "Berhasil mendaftarkan akun. Silakan login",
+                            buttonTitle: "Kembali",
+                            mainButtonAction: () {
+                              Get.back();
+                            },
                           );
                         } else if (state is SignupSuccess) {
                           AppDialogActionCS.showSuccessPopup(
                             context: context,
                             title: "Success",
-                            description: "Berhasil mendaftarkan akun. Silakan login",
-                            buttonTitle: "Login",
+                            description: "Berhasil mendaftarkan akun. Silakan verifikasi OTP",
+                            buttonTitle: "Lanjutkan",
                             mainButtonAction: () {
-                              Get.offAll(
-                                () => const SignInPage(),
-                              );
+                              // Get.offAll(
+                              //   () => const SignInPage(),
+                              // );
+                              Get.offAll(() => const OTPVerificationScreen());
                             },
                           );
                         }
@@ -186,20 +176,36 @@ class _SignUpPageState extends State<SignUpPage> {
                         return Column(
                           children: [
                             AppMainButtonWidget(
-                              onPressed: () {
-                                context.read<SignupBloc>().add(
-                                      SignupAction(
-                                        signUpRequestModel: SignUpRequestModel(
-                                          name: nameTextFieldController.text,
-                                          email: emailTextFieldController.text,
-                                          phone: phoneTextFieldController.text,
-                                          password: passwordTextFieldController.text,
-                                          confirmPassword: confirmPasswordTextFieldController.text,
-                                        ),
-                                      ),
-                                    );
-                              },
                               text: "Daftar",
+                              onPressed: () {
+                                if (nameTextFieldController.text.isEmpty ||
+                                    emailTextFieldController.text.isEmpty ||
+                                    phoneTextFieldController.text.isEmpty ||
+                                    passwordTextFieldController.text.isEmpty ||
+                                    confirmPasswordTextFieldController.text.isEmpty) {
+                                  AppDialogActionCS.showFailedPopup(
+                                    context: context,
+                                    title: "Terjadi kesalahan",
+                                    description: "Data tidak lengkap",
+                                    buttonTitle: "Kembali",
+                                    mainButtonAction: () {
+                                      Get.back();
+                                    },
+                                  );
+                                } else {
+                                  context.read<SignupBloc>().add(
+                                        SignupAction(
+                                          signUpRequestModel: SignUpRequestModel(
+                                            name: nameTextFieldController.text,
+                                            email: emailTextFieldController.text,
+                                            phone: phoneTextFieldController.text,
+                                            password: passwordTextFieldController.text,
+                                            confirmPassword: confirmPasswordTextFieldController.text,
+                                          ),
+                                        ),
+                                      );
+                                }
+                              },
                             ),
                             SizedBox(height: 20.h),
                             const Text("Sudah Ada Akun?"),
