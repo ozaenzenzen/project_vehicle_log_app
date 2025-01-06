@@ -38,6 +38,7 @@ class _NotificationPageState extends State<NotificationPage> {
   RefreshController refreshController = RefreshController(initialRefresh: false);
 
   List<GetNotificationEntity> listData = [];
+  int totalListNotification = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +95,7 @@ class _NotificationPageState extends State<NotificationPage> {
             // }
             if (state is NotificationSuccess) {
               listData = state.result.listData!;
+              totalListNotification = state.result.totalItems ?? 0;
             }
             return SingleChildScrollView(
               padding: EdgeInsets.all(16.h),
@@ -101,7 +103,8 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Notification: ${listData.length}",
+                    "Notification: $totalListNotification",
+                    // "Notification: ${listData.length}",
                     style: GoogleFonts.inter(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
