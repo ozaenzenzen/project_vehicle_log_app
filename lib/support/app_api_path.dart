@@ -7,7 +7,10 @@ class AppApiPath {
   static const String editProfile = "/account/editprofile";
   static const String refreshToken = "/account/refreshtoken";
   static const String changePassword = "/account/changepassword";
-  
+
+  static const String sendOTPForgotPassword = "/account/sendOTPforgotpassword";
+  static const String validateOTPForgotPassword = "/account/validateOTPforgotpassword";
+  static const String changePasswordForgotPassword = "/account/changepasswordforgotpassword";
 
   static const String getAllVehicle = "/vehicle/allvehicle";
   static const String getAllVehicleV2 = "/vehicle/allvehicleV2";

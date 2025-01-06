@@ -28,6 +28,7 @@ class AppTextFieldWidget extends StatefulWidget {
   final List<Widget>? action;
   final Widget? error;
   final bool Function(String value, bool isError)? errorChecker;
+  final int? maxLength;
 
   const AppTextFieldWidget({
     Key? key,
@@ -55,6 +56,7 @@ class AppTextFieldWidget extends StatefulWidget {
     this.action,
     this.error,
     this.errorChecker,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -123,6 +125,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                     keyboardType: widget.keyboardType,
                     // maxLines: 5,
                     maxLines: (widget.obscureText) ? 1 : widget.maxLines,
+                    maxLength: widget.maxLength,
                     // minLines: 1,
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
@@ -183,6 +186,7 @@ class _AppTextFieldWidgetState extends State<AppTextFieldWidget> {
                   keyboardType: widget.keyboardType,
                   // maxLines: 5,
                   maxLines: (widget.obscureText) ? 1 : widget.maxLines,
+                  maxLength: widget.maxLength,
                   // minLines: 1,
                   style: GoogleFonts.inter(
                     fontSize: 14.sp,

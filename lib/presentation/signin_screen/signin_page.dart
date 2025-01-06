@@ -35,8 +35,10 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
-    emailTextFieldController.text = "example1@test.com";
+    emailTextFieldController.text = "recovery252@gmail.com";
     passwordTextFieldController.text = "example";
+    // emailTextFieldController.text = "example1@test.com";
+    // passwordTextFieldController.text = "example";
   }
 
   @override

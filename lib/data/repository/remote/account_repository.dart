@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:fam_coding_supply/fam_coding_supply.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_forgot_password_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/request/validate_otp_forgot_password_request_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_forgot_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/refresh_token_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/send_otp_forgot_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/signin_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signup_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/signup_response_models.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/validate_otp_forgot_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/response/edit_profile_response_model.dart';
 import 'package:project_vehicle_log_app/support/app_api_path.dart';
@@ -129,6 +136,71 @@ class AppAccountRepository {
       }
     } catch (errorMessage) {
       AppLoggerCS.debugLog("[AppAccountRepository][changePassword] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<SendOtpForgotPasswordResponseModel?> sendOTPForgotPassword({
+    required String email,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.sendOTPForgotPassword,
+        method: MethodRequestCS.post,
+        request: <String, String>{
+          'email': email,
+        },
+      );
+      AppLoggerCS.debugLog("[AppAccountRepository][sendOTPForgotPassword] response.data ${jsonEncode(response.data)}");
+      if (response.data != null) {
+        return SendOtpForgotPasswordResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][sendOTPForgotPassword] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<ValidateOtpForgotPasswordResponseModel?> validateOTPForgotPassword({
+    required ValidateOtpForgotPasswordRequestModel data,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.validateOTPForgotPassword,
+        method: MethodRequestCS.post,
+        request: data.toJson(),
+      );
+      AppLoggerCS.debugLog("[AppAccountRepository][validateOTPForgotPassword] response.data ${jsonEncode(response.data)}");
+      if (response.data != null) {
+        return ValidateOtpForgotPasswordResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][validateOTPForgotPassword] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<ChangePasswordForgotPasswordResponseModel?> changePasswordForgotPassword({
+    required ChangePasswordForgotPasswordRequestModel data,
+  }) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.changePasswordForgotPassword,
+        method: MethodRequestCS.post,
+        request: data.toJson(),
+      );
+      AppLoggerCS.debugLog("[AppAccountRepository][changePasswordForgotPassword] response.data ${jsonEncode(response.data)}");
+      if (response.data != null) {
+        return ChangePasswordForgotPasswordResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][changePasswordForgotPassword] errorMessage $errorMessage");
       return null;
     }
   }

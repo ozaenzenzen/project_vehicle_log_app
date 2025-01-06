@@ -10,6 +10,9 @@ import 'package:project_vehicle_log_app/data/repository/remote/vehicle_repositor
 
 import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/forgot_password_screen/change_password_forgot_password_bloc/change_password_forgot_password_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/forgot_password_screen/send_otp_forgot_password_bloc/send_otp_forgot_password_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/forgot_password_screen/validate_otp_forgot_password_bloc/validate_otp_forgot_password_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
@@ -49,6 +52,11 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
         BlocProvider(create: (context) => SignupBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
         BlocProvider(create: (context) => ChangePasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+
+        BlocProvider(create: (context) => SendOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => ValidateOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+        BlocProvider(create: (context) => ChangePasswordForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+        
         BlocProvider(
             create: (context) => ProfileBloc(
                   AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
