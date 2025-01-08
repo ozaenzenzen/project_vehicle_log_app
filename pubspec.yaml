@@ -59,6 +59,7 @@ dependencies:
   connectivity_plus: ^2.3.9
   super_tooltip: ^2.0.9
   intl:
+  in_app_review: 2.0.10
   
 
 dev_dependencies:

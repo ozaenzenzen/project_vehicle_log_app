@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:project_vehicle_log_app/presentation/about_this_app_screen/about_this_app_page.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/change_password_screen/change_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/delete_account_screen/delete_account_screen.dart';
@@ -107,7 +108,18 @@ class ProfileMenuSettings {
     ),
     DummyDataProfileModel(
       menuTitle: "Rate 'Vehicle Management Logs'",
-      menuFunction: () {},
+      menuFunction: () async {
+        final InAppReview _inAppReview = InAppReview.instance;
+        
+        if (await _inAppReview.isAvailable()) {
+          _inAppReview.requestReview();
+        }
+
+        await _inAppReview.openStoreListing(
+          appStoreId: '',
+          microsoftStoreId: '',
+        );
+      },
     ),
   ];
 }
