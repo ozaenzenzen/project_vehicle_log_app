@@ -449,14 +449,14 @@ class _ProfilePageState extends State<ProfilePage> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  if (index == 2) {
+                  if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Terms & Conditions")) {
                     Get.to(
                       () => const AppWebViewScreen(
                         title: "Terms & Conditions",
                         linkUrl: "https://www.google.com/",
                       ),
                     );
-                  } else if (index == 3) {
+                  } else if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Privacy & Policy")) {
                     Get.to(
                       () => const AppWebViewScreen(
                         title: "Privacy & Policy",

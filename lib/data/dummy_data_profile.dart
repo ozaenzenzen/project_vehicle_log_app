@@ -31,10 +31,10 @@ class ProfileMenuSettings {
         );
       },
     ),
-    DummyDataProfileModel(
-      menuTitle: "Use Biometrics",
-      menuFunction: () {},
-    ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Use Biometrics",
+    //   menuFunction: () {},
+    // ),
   ];
 
   static List<DummyDataProfileModel> dummyDataProfileApps = [
@@ -46,14 +46,14 @@ class ProfileMenuSettings {
         );
       },
     ),
-    DummyDataProfileModel(
-      menuTitle: "Theme",
-      menuFunction: () {
-        Get.to(
-          () => const ThemeScreen(),
-        );
-      },
-    ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Theme",
+    //   menuFunction: () {
+    //     Get.to(
+    //       () => const ThemeScreen(),
+    //     );
+    //   },
+    // ),
     DummyDataProfileModel(
       menuTitle: "Language",
       menuFunction: () {
@@ -84,20 +84,20 @@ class ProfileMenuSettings {
   ];
 
   static List<DummyDataProfileModel> dummyDataProfileAbout = [
-    DummyDataProfileModel(
-      menuTitle: "About This App",
-      menuFunction: () {
-        Get.to(() => const AboutThisAppPage());
-      },
-    ),
-    DummyDataProfileModel(
-      menuTitle: "Questions and Answers",
-      menuFunction: () {
-        Get.to(
-          () => const QNAPage(),
-        );
-      },
-    ),
+    // DummyDataProfileModel(
+    //   menuTitle: "About This App",
+    //   menuFunction: () {
+    //     Get.to(() => const AboutThisAppPage());
+    //   },
+    // ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Questions and Answers",
+    //   menuFunction: () {
+    //     Get.to(
+    //       () => const QNAPage(),
+    //     );
+    //   },
+    // ),
     DummyDataProfileModel(
       menuTitle: "Terms & Conditions",
       menuFunction: () {},
