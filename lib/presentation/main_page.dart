@@ -84,6 +84,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
+      extendBody: true,
       floatingActionButton: FloatingActionButton(
         key: const Key("MainFAB"),
         heroTag: const Key("MainFAB"),

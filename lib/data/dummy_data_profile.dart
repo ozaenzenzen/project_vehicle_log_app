@@ -1,6 +1,13 @@
 import 'package:get/get.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:project_vehicle_log_app/presentation/about_this_app_screen/about_this_app_page.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/change_password_screen/change_password_screen.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/delete_account_screen/delete_account_screen.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/language_screen/language_screen.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/notification_settings_screen/notification_settings_screen.dart';
 import 'package:project_vehicle_log_app/presentation/qna_screen/qna_page.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/security_preferences_screen/security_preferences_screen.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/theme_screen/theme_screen.dart';
 
 class DummyDataProfileModel {
   String? menuTitle;
@@ -14,43 +21,83 @@ class DummyDataProfileModel {
   });
 }
 
-class ProfileDummyDataAccount {
-  static List<DummyDataProfileModel> dummyDataProfileAccount = [
+class ProfileMenuSettings {
+  static List<DummyDataProfileModel> securityPrefrerencesMenuItem = [
     DummyDataProfileModel(
-      menuTitle: "Security Preferences",
-      menuFunction: () {},
-    ),
-    DummyDataProfileModel(
-      menuTitle: "Theme",
-      menuFunction: () {},
-    ),
-    DummyDataProfileModel(
-      menuTitle: "Language",
-      menuFunction: () {},
-    ),
-    DummyDataProfileModel(
-      menuTitle: "Delete Account",
-      menuFunction: () {},
-    ),
-  ];
-}
-
-class ProfileDummyDataAbout {
-  static List<DummyDataProfileModel> dummyDataProfileAbout = [
-    DummyDataProfileModel(
-      menuTitle: "About This App",
-      menuFunction: () {
-        Get.to(() => const AboutThisAppPage());
-      },
-    ),
-    DummyDataProfileModel(
-      menuTitle: "Questions and Answers",
+      menuTitle: "Change Password",
       menuFunction: () {
         Get.to(
-          () => const QNAPage(),
+          () => const ChangePasswordScreen(),
         );
       },
     ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Use Biometrics",
+    //   menuFunction: () {},
+    // ),
+  ];
+
+  static List<DummyDataProfileModel> dummyDataProfileApps = [
+    DummyDataProfileModel(
+      menuTitle: "Notification Settings",
+      menuFunction: () {
+        Get.to(
+          () => const NotificationSettingsScreen(),
+        );
+      },
+    ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Theme",
+    //   menuFunction: () {
+    //     Get.to(
+    //       () => const ThemeScreen(),
+    //     );
+    //   },
+    // ),
+    DummyDataProfileModel(
+      menuTitle: "Language",
+      menuFunction: () {
+        Get.to(
+          () => const LanguageScreen(),
+        );
+      },
+    ),
+  ];
+
+  static List<DummyDataProfileModel> dummyDataProfileAccount = [
+    DummyDataProfileModel(
+      menuTitle: "Security Preferences",
+      menuFunction: () {
+        Get.to(
+          () => const SecurityPreferencesScreen(),
+        );
+      },
+    ),
+    DummyDataProfileModel(
+      menuTitle: "Delete Account",
+      menuFunction: () {
+        Get.to(
+          () => const DeleteAccountScreen(),
+        );
+      },
+    ),
+  ];
+
+  static List<DummyDataProfileModel> dummyDataProfileAbout = [
+    // DummyDataProfileModel(
+    //   menuTitle: "About This App",
+    //   menuFunction: () {
+    //     Get.to(() => const AboutThisAppPage());
+    //   },
+    // ),
+    // DummyDataProfileModel(
+    //   menuTitle: "Questions and Answers",
+    //   menuFunction: () {
+    //     Get.to(
+    //       () => const QNAPage(),
+    //     );
+    //   },
+    // ),
     DummyDataProfileModel(
       menuTitle: "Terms & Conditions",
       menuFunction: () {},
@@ -61,7 +108,18 @@ class ProfileDummyDataAbout {
     ),
     DummyDataProfileModel(
       menuTitle: "Rate 'Vehicle Management Logs'",
-      menuFunction: () {},
+      menuFunction: () async {
+        final InAppReview _inAppReview = InAppReview.instance;
+        
+        if (await _inAppReview.isAvailable()) {
+          _inAppReview.requestReview();
+        }
+
+        await _inAppReview.openStoreListing(
+          appStoreId: '',
+          microsoftStoreId: '',
+        );
+      },
     ),
   ];
 }

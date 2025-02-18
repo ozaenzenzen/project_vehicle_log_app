@@ -114,6 +114,7 @@ class _VehiclePageState extends State<VehiclePage> {
                   return successView(listData);
                 },
               ),
+              // SizedBox(height: kToolbarHeight.h + 10.h),
             ],
           ),
         ),
@@ -225,17 +226,30 @@ class _VehiclePageState extends State<VehiclePage> {
                         ),
                 ),
                 SizedBox(width: 25.w),
-                Column(
-                  children: [
-                    Text(
-                      // "${DummyData.dummyData[index].vehicleName}",
-                      listDataHere[index].vehicleName!,
-                      // "Vehicle $index",
-                      style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        // "${DummyData.dummyData[index].vehicleName}",
+                        "${listDataHere[index].vehicleName}",
+                        // "Vehicle $index",
+                        style: GoogleFonts.inter(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ],
+                      Text(
+                        // "${DummyData.dummyData[index].vehicleName}",
+                        "${listDataHere[index].year}",
+                        // "Vehicle $index",
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

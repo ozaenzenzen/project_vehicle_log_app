@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/vehicle_data_entity.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 
 class VehicleLocalRepository {
@@ -19,7 +19,7 @@ class VehicleLocalRepository {
         // throw Exception("Error remove userData");
       }
     } catch (e) {
-      AppLogger.debugLog("[removeLocalVehicleDataV2][error] $e");
+      AppLoggerCS.debugLog("[removeLocalVehicleDataV2][error] $e");
       return false;
       // throw Exception(errorMessage);
     }
@@ -32,7 +32,7 @@ class VehicleLocalRepository {
       await LocalService.instance.box.write(vehicleDataV2, jsonEncode(data.toJson()));
       debugPrint("[saveLocalVehicleDataV2] vehicleData saved");
     } catch (e) {
-      AppLogger.debugLog("[setocalVehicleDataV2][error] $e");
+      AppLoggerCS.debugLog("[setocalVehicleDataV2][error] $e");
       rethrow;
     }
   }
@@ -47,7 +47,7 @@ class VehicleLocalRepository {
         return null;
       }
     } catch (e) {
-      AppLogger.debugLog("[getLocalVehicleDataV2][error] $e");
+      AppLoggerCS.debugLog("[getLocalVehicleDataV2][error] $e");
       return null;
     }
   }

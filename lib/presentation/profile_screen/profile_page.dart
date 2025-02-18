@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicato
 import 'package:project_vehicle_log_app/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:skeletons/skeletons.dart';
@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<SignoutBloc, SignoutState>(
       listener: (context, state) {
         if (state is SignoutFailed) {
-          AppDialogAction.showMainPopup(
+          AppDialogActionCS.showMainPopup(
             context: context,
             title: "Error",
             content: Text(state.errorMessage),
@@ -313,7 +313,7 @@ class _ProfilePageState extends State<ProfilePage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Akun",
+            "Apps",
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -331,11 +331,11 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             // itemCount: 5,
-            itemCount: ProfileDummyDataAccount.dummyDataProfileAccount.length,
+            itemCount: ProfileMenuSettings.dummyDataProfileApps.length,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  ProfileDummyDataAccount.dummyDataProfileAccount[index].menuFunction?.call();
+                  ProfileMenuSettings.dummyDataProfileApps[index].menuFunction?.call();
                 },
                 child: Container(
                   padding: EdgeInsets.all(16.h),
@@ -344,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Text(
                         // "menus $index",
-                        "${ProfileDummyDataAccount.dummyDataProfileAccount[index].menuTitle}",
+                        "${ProfileMenuSettings.dummyDataProfileApps[index].menuTitle}",
                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -370,7 +370,64 @@ class _ProfilePageState extends State<ProfilePage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Tentang",
+            "Account",
+            style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: ListView.separated(
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            // itemCount: 5,
+            itemCount: ProfileMenuSettings.dummyDataProfileAccount.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  ProfileMenuSettings.dummyDataProfileAccount[index].menuFunction?.call();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        // "menus $index",
+                        "${ProfileMenuSettings.dummyDataProfileAccount[index].menuTitle}",
+                        style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        size: 20.h,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                height: 1.h,
+                color: Colors.black26,
+              );
+            },
+          ),
+        ),
+        SizedBox(height: 35.h),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "About",
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -388,18 +445,18 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             // itemCount: 3,
-            itemCount: ProfileDummyDataAbout.dummyDataProfileAbout.length,
+            itemCount: ProfileMenuSettings.dummyDataProfileAbout.length,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  if (index == 2) {
+                  if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Terms & Conditions")) {
                     Get.to(
                       () => const AppWebViewScreen(
                         title: "Terms & Conditions",
                         linkUrl: "https://www.google.com/",
                       ),
                     );
-                  } else if (index == 3) {
+                  } else if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Privacy & Policy")) {
                     Get.to(
                       () => const AppWebViewScreen(
                         title: "Privacy & Policy",
@@ -408,7 +465,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                     //
                   } else {
-                    ProfileDummyDataAbout.dummyDataProfileAbout[index].menuFunction?.call();
+                    ProfileMenuSettings.dummyDataProfileAbout[index].menuFunction?.call();
                   }
                 },
                 child: Container(
@@ -418,7 +475,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       Text(
                         // "menus $index",
-                        "${ProfileDummyDataAbout.dummyDataProfileAbout[index].menuTitle}",
+                        "${ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle}",
                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),

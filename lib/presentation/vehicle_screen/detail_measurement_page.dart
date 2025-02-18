@@ -47,6 +47,7 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
       floatingActionButton: FloatingActionButton.extended(
         key: const Key("DMPFAB"),
         heroTag: const Key("DMPFAB"),
+        backgroundColor: AppColor.primary,
         onPressed: () {
           Get.to(
             () => AddMeasurementPage.continueData(

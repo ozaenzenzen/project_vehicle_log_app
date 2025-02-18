@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -133,6 +135,78 @@ class AppDialogAction {
         exit(0);
         // Get.back();
       },
+      barrierDismissible: barrierDismissible,
+      padding: padding,
+    );
+  }
+
+  static Future<void> showMainPopup2({
+    required BuildContext context,
+    Function()? mainButtonAction,
+    double radius = 0,
+    String title = "",
+    String buttonTitle = "",
+    Color? color,
+    Widget? content,
+    bool barrierDismissible = true,
+    bool useButtonBack = true,
+    EdgeInsetsGeometry padding = const EdgeInsets.all(16),
+    double? buttonHeight,
+    double? buttonTextSize,
+  }) async {
+    return await showPopup(
+      context: context,
+      radius: radius,
+      color: color,
+      content: Column(
+        children: [
+          Row(
+            children: [
+              useButtonBack
+                  ? InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: SizedBox(
+                        height: 20.h,
+                        width: 20.h,
+                        child: Icon(
+                          Icons.arrow_back,
+                          size: 20.h,
+                          color: const Color(0xff26120F),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              SizedBox(width: 20.w),
+              Text(
+                title,
+                style: GoogleFonts.inter(
+                  color: const Color(0xff26120F),
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 24.h),
+          content ?? const SizedBox(),
+          mainButtonAction == null
+              ? const SizedBox()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 24.h),
+                    AppMainButtonWidget(
+                      onPressed: mainButtonAction,
+                      text: buttonTitle,
+                      fontSize: buttonTextSize ?? 18.sp,
+                      height: buttonHeight ?? 48.h,
+                    ),
+                  ],
+                ),
+        ],
+      ),
       barrierDismissible: barrierDismissible,
       padding: padding,
     );

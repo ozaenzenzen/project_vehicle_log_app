@@ -75,7 +75,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
             lastActive: DateTime.now().toUtc(),
           );
 
-          // AppLogger.debugLog("checkDeviceRequestModel ${jsonEncode(checkDeviceRequestModel.toJson())}");
+          // AppLoggerCS.debugLog("checkDeviceRequestModel ${jsonEncode(checkDeviceRequestModel.toJson())}");
           await deviceRepository.checkDevice(
             checkDeviceRequestModel,
             signInResponseModel.data!.accessToken!,
@@ -86,7 +86,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
           //   signInResponseModel.data!.accessToken!,
           // );
           // if (checkDeviceResponseModel != null) {
-          //   AppLogger.debugLog("checkDeviceResponseModel ${jsonEncode(checkDeviceResponseModel.toJson())}");
+          //   AppLoggerCS.debugLog("checkDeviceResponseModel ${jsonEncode(checkDeviceResponseModel.toJson())}");
           // }
           emit(
             SigninSuccess(

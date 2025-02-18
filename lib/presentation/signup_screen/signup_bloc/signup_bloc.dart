@@ -7,6 +7,7 @@ import 'package:project_vehicle_log_app/data/model/remote/account/request/signup
 import 'package:project_vehicle_log_app/data/model/remote/account/response/signup_response_models.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_register_data_entity.dart';
 
 part 'signup_event.dart';
 part 'signup_state.dart';
@@ -40,8 +41,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
           //   // link: signUpResponseModel.accountData?.link,
           //   // typeuser: signUpResponseModel.accountData?.typeuser,
           // );
-          await AccountLocalRepository().setLocalAccountData(data: data!);
+          // await AccountLocalRepository().setLocalAccountData(data: data!);
           await AccountLocalRepository().setIsSignIn();
+          await AccountLocalRepository().setRegisterUserData(
+            data: UserRegisterDataEntity(
+              email: signUpResponseModel.data?.email,
+              otpKey: signUpResponseModel.data?.otpKey,
+              resendOtpKey: signUpResponseModel.data?.resendOtpKey,
+            ),
+          );
           emit(
             SignupSuccess(
               signUpResponseModel: signUpResponseModel,

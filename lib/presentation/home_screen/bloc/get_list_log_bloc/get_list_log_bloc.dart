@@ -102,13 +102,13 @@ class GetListLogBloc extends Bloc<GetListLogEvent, GetListLogState> {
 
         Map<String, dynamic> dataCountFrequentTitle = jsonDecode(responseData.collectionLogData!.countFrequentTitles!);
         Map<String, dynamic> dataCostBreakdown = jsonDecode(responseData.collectionLogData!.costBreakdown!);
-        // AppLogger.debugLog("dataCountFrequentTitle: $dataCountFrequentTitle");
-        // AppLogger.debugLog("dataCostBreakdown: $dataCostBreakdown");
+        // AppLoggerCS.debugLog("dataCountFrequentTitle: $dataCountFrequentTitle");
+        // AppLoggerCS.debugLog("dataCostBreakdown: $dataCostBreakdown");
 
         List<ChartData> dataListCountFrequentTitle = dataCountFrequentTitle.entries.map((e) => ChartData(e.key, e.value)).toList();
         List<ChartData> dataListCostBreakdown = dataCostBreakdown.entries.map((e) => ChartData(e.key, e.value)).toList();
-        // AppLogger.debugLog("dataListCountFrequentTitle: $dataListCountFrequentTitle");
-        // AppLogger.debugLog("dataListCostBreakdown: $dataListCostBreakdown");
+        // AppLoggerCS.debugLog("dataListCountFrequentTitle: $dataListCountFrequentTitle");
+        // AppLoggerCS.debugLog("dataListCostBreakdown: $dataListCostBreakdown");
 
         emit(
           GetListLogSuccess(

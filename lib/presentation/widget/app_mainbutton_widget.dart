@@ -15,8 +15,8 @@ class AppMainButtonWidget extends StatefulWidget {
 
   const AppMainButtonWidget({
     Key? key,
-    required this.onPressed,
     required this.text,
+    required this.onPressed,
     this.fontSize,
     this.fontWeight,
     this.height,

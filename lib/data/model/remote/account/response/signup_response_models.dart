@@ -52,6 +52,8 @@ class SignUpData {
   String? name;
   String? email;
   String? phone;
+  String? otpKey;
+  String? resendOtpKey;
 
   SignUpData({
     this.id,
@@ -59,6 +61,8 @@ class SignUpData {
     this.name,
     this.email,
     this.phone,
+    this.otpKey,
+    this.resendOtpKey,
   });
 
   factory SignUpData.fromJson(Map<String, dynamic> json) => SignUpData(
@@ -67,6 +71,8 @@ class SignUpData {
         name: json["name"],
         email: json["email"],
         phone: json["phone"],
+        otpKey: json["otp_key"],
+        resendOtpKey: json["resend_otp_key"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -75,5 +81,7 @@ class SignUpData {
         "name": name,
         "email": email,
         "phone": phone,
+        "otp_key": otpKey,
+        "resend_otp_key": resendOtpKey,
       };
 }

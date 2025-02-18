@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:convert';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 import 'package:project_vehicle_log_app/data/model/remote/edit_profile/request/edit_profile_request_model.dart';
 import 'package:project_vehicle_log_app/data/repository/remote/account_repository.dart';
-import 'package:project_vehicle_log_app/init_config.dart';
+import 'package:project_vehicle_log_app/init_config_v2.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_bloc/edit_profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_bottom_navbar_button_widget.dart';
@@ -15,8 +18,6 @@ import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_image_picker.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -38,6 +39,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   TextEditingController phoneController = TextEditingController();
 
   late ProfileBloc profileBloc;
+
+  bool seeImage = false;
 
   @override
   void dispose() {
@@ -83,6 +86,65 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
           ),
+          if (seeImage)
+            Material(
+              color: Colors.transparent,
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black54,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Dismissible(
+                      key: const Key("value"),
+                      direction: DismissDirection.vertical,
+                      confirmDismiss: (direction) async {
+                        setState(() {
+                          seeImage = false;
+                        });
+                        return false;
+                      },
+                      onDismissed: (direction) {
+                        debugPrint("direction $direction");
+                      },
+                      child: Image.memory(
+                        base64Decode(profilePicture),
+                        height: 300.h,
+                        width: 300.h,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          seeImage = false;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 4.h,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.h),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 24.h,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           MultiBlocListener(
             listeners: [
               BlocListener<ProfileBloc, ProfileState>(
@@ -117,15 +179,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: "Terjadi Kesalahan",
             description: "${state.errorMessage}",
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         } else if (state is EditProfileSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: "Berhasil",
             description: "${state.editProfileResponseModel.message}",
@@ -138,11 +203,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           title: 'Update Profile',
           onTap: () {
             if (state is EditProfileLoading || state is ProfileLoading) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: 'Terjadi kesalahan',
                 description: 'Mohon tunggu sebentar, masih mengambil data',
                 buttonTitle: 'Kembali',
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<EditProfileBloc>().add(
@@ -256,7 +324,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
               InkWell(
                 onTap: () async {
-                  profilePicture = await AppImagePickerService().getImageAsBase64().then(
+                  profilePicture = await AppImagePickerServiceCS().getImageAsBase64().then(
                     (value) {
                       setState(() {});
                       if (value != null) {
@@ -304,16 +372,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(width: 20.w),
               InkWell(
                 onTap: () async {
-                  // profilePicture = await AppImagePickerService.getImageAsBase64().then(
-                  //   (value) {
-                  //     setState(() {});
-                  //     if (value != null) {
-                  //       return value;
-                  //     } else {
-                  //       return "";
-                  //     }
-                  //   },
-                  // );
+                  Get.back();
+                  setState(() {
+                    seeImage = true;
+                  });
                 },
                 child: Container(
                   height: 120.h,

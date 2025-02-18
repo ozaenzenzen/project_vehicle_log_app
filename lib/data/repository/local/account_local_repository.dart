@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/forgot_password_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/token_data_entity.dart';
 import 'package:project_vehicle_log_app/domain/entities/account/user_data_entity.dart';
-import 'package:project_vehicle_log_app/support/app_logger.dart';
+import 'package:project_vehicle_log_app/domain/entities/account/user_register_data_entity.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 
 class AccountLocalRepository {
@@ -14,11 +16,16 @@ class AccountLocalRepository {
   String userToken = "userToken";
   String refreshToken = "refreshToken";
 
+  String forgotPasswordProcessHistory = "forgotPasswordProcessHistory";
+  String forgotPasswordProcessHistorySingle = "forgotPasswordProcessHistorySingle";
+  String userRegisterData = "userRegisterData";
+
+
   Future<void> removeLocalAccountData() async {
     try {
       await LocalService.instance.box.remove(userDataV2);
     } catch (errorMessage) {
-      AppLogger.debugLog("[removeLocalAccountData][error] $errorMessage");
+      AppLoggerCS.debugLog("[removeLocalAccountData][error] $errorMessage");
       rethrow;
     }
   }
@@ -32,7 +39,7 @@ class AccountLocalRepository {
         jsonEncode(data.toJson()),
       );
     } catch (errorMessage) {
-      AppLogger.debugLog("[saveLocalAccountData][error] $errorMessage");
+      AppLoggerCS.debugLog("[saveLocalAccountData][error] $errorMessage");
       rethrow;
     }
   }
@@ -47,7 +54,7 @@ class AccountLocalRepository {
         return null;
       }
     } catch (errorMessage) {
-      AppLogger.debugLog("[getLocalAccountData][error] $errorMessage");
+      AppLoggerCS.debugLog("[getLocalAccountData][error] $errorMessage");
       return null;
     }
   }
@@ -56,7 +63,7 @@ class AccountLocalRepository {
     try {
       await LocalService.instance.box.remove(dataToken);
     } catch (errorMessage) {
-      AppLogger.debugLog("[removeDataToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[removeDataToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -70,7 +77,7 @@ class AccountLocalRepository {
         jsonEncode(data.toJson()),
       );
     } catch (errorMessage) {
-      AppLogger.debugLog("[setDataToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[setDataToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -85,7 +92,7 @@ class AccountLocalRepository {
         return null;
       }
     } catch (errorMessage) {
-      AppLogger.debugLog("[getDataToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[getDataToken][error] $errorMessage");
       return null;
     }
   }
@@ -94,7 +101,7 @@ class AccountLocalRepository {
     try {
       await LocalService.instance.box.remove(userToken);
     } catch (errorMessage) {
-      AppLogger.debugLog("[removeUserToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[removeUserToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -108,7 +115,7 @@ class AccountLocalRepository {
         data,
       );
     } catch (errorMessage) {
-      AppLogger.debugLog("[setUserToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[setUserToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -122,7 +129,7 @@ class AccountLocalRepository {
         return null;
       }
     } catch (errorMessage) {
-      AppLogger.debugLog("[getUserToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[getUserToken][error] $errorMessage");
       return null;
     }
   }
@@ -131,7 +138,7 @@ class AccountLocalRepository {
     try {
       await LocalService.instance.box.remove(refreshToken);
     } catch (errorMessage) {
-      AppLogger.debugLog("[removeRefreshToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[removeRefreshToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -145,7 +152,7 @@ class AccountLocalRepository {
         data,
       );
     } catch (errorMessage) {
-      AppLogger.debugLog("[setRefreshToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[setRefreshToken][error] $errorMessage");
       rethrow;
     }
   }
@@ -159,7 +166,7 @@ class AccountLocalRepository {
         return null;
       }
     } catch (errorMessage) {
-      AppLogger.debugLog("[getRefreshToken][error] $errorMessage");
+      AppLoggerCS.debugLog("[getRefreshToken][error] $errorMessage");
       return null;
     }
   }
@@ -174,7 +181,7 @@ class AccountLocalRepository {
         return false;
       }
     } catch (errorMessage) {
-      AppLogger.debugLog("[getIsSignIn][error] $errorMessage");
+      AppLoggerCS.debugLog("[getIsSignIn][error] $errorMessage");
       return false;
     }
   }
@@ -184,7 +191,7 @@ class AccountLocalRepository {
       await LocalService.instance.box.write(isSignIn, true);
       debugPrint("[setIsSignIn] isSignIn ${LocalService.instance.box.read(isSignIn)}");
     } catch (errorMessage) {
-      AppLogger.debugLog("[setIsSignIn][error] $errorMessage");
+      AppLoggerCS.debugLog("[setIsSignIn][error] $errorMessage");
       rethrow;
     }
   }
@@ -194,7 +201,7 @@ class AccountLocalRepository {
       await LocalService.instance.box.write(isSignIn, false);
       debugPrint("[setIsSignOut] isSignIn ${LocalService.instance.box.read(isSignIn)}");
     } catch (errorMessage) {
-      AppLogger.debugLog("[setIsSignOut][error] $errorMessage");
+      AppLoggerCS.debugLog("[setIsSignOut][error] $errorMessage");
       rethrow;
     }
   }
@@ -204,8 +211,101 @@ class AccountLocalRepository {
       await LocalService.instance.box.write(isOnboardingDone, true);
       debugPrint("[setIsOnboardingDone] isSignIn ${LocalService.instance.box.read(isSignIn)}");
     } catch (errorMessage) {
-      AppLogger.debugLog("[setIsOnboardingDone][error] $errorMessage");
+      AppLoggerCS.debugLog("[setIsOnboardingDone][error] $errorMessage");
       rethrow;
+    }
+  }
+
+  // Future<List<ForgotPasswordDataEntity>> getForgotPasswordProcessHistory() async {
+  //   try {
+  //     String? result = LocalService.instance.box.read(forgotPasswordProcessHistory);
+  //     if (result != null) {
+  //       debugPrint("[getForgotPasswordProcessHistory] data: $result");
+  //       var stringToMap = jsonDecode(result);
+  //       ForgotPasswordListDataMapper mapToObject = ForgotPasswordListDataMapper.fromJson(stringToMap);
+
+  //       // List<Map<String, dynamic>> mapFromString = jsonDecode(result);
+  //       // List<ForgotPasswordDataEntity> dataFromMap = List<ForgotPasswordDataEntity>.from(mapFromString.map((x) => ForgotPasswordDataEntity.fromJson(x)));
+  //       // List<ForgotPasswordDataEntity> dataFromMap = List<ForgotPasswordDataEntity>.from(result.map((x) => ForgotPasswordDataEntity.fromJson(x)));
+  //       return mapToObject.listData;
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (errorMessage) {
+  //     AppLoggerCS.debugLog("[getForgotPasswordProcessHistory][error] $errorMessage");
+  //     return [];
+  //   }
+  // }
+
+  // Future<void> setForgotPasswordProcessHistory(ForgotPasswordDataEntity input) async {
+  //   try {
+  //     List<ForgotPasswordDataEntity> listData = await getForgotPasswordProcessHistory();
+  //     AppLoggerCS.debugLog("[setForgotPasswordProcessHistory] get ${LocalService.instance.box.read(forgotPasswordProcessHistory)}");
+  //     listData.add(input);
+
+  //     ForgotPasswordListDataMapper dataObject = ForgotPasswordListDataMapper(listData: listData);
+  //     String formatToString = jsonEncode(dataObject.toJson());
+  //     await LocalService.instance.box.write(forgotPasswordProcessHistory, formatToString);
+  //   } catch (errorMessage) {
+  //     AppLoggerCS.debugLog("[setForgotPasswordProcessHistory][error] $errorMessage");
+  //     rethrow;
+  //   }
+  // }
+
+  Future<ForgotPasswordDataEntity?> getForgotPasswordProcessHistorySingle() async {
+    try {
+      String? result = LocalService.instance.box.read(forgotPasswordProcessHistorySingle);
+      if (result != null) {
+        debugPrint("[getForgotPasswordProcessHistorySingle] data: $result");
+        var stringToMap = jsonDecode(result);
+        ForgotPasswordDataEntity mapToObject = ForgotPasswordDataEntity.fromJson(stringToMap);
+
+        return mapToObject;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[getForgotPasswordProcessHistorySingle][error] $errorMessage");
+      return null;
+    }
+  }
+
+  Future<void> setForgotPasswordProcessHistorySingle(ForgotPasswordDataEntity input) async {
+    try {
+      String objectToString = jsonEncode(input.toJson());
+      await LocalService.instance.box.write(forgotPasswordProcessHistorySingle, objectToString);
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[setForgotPasswordProcessHistorySingle][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<void> setRegisterUserData({
+    required UserRegisterDataEntity data,
+  }) async {
+    try {
+      await LocalService.instance.box.write(
+        userRegisterData,
+        jsonEncode(data.toJson()),
+      );
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[setEmailRegisterData][error] $errorMessage");
+      rethrow;
+    }
+  }
+
+  Future<UserRegisterDataEntity?> getRegisterUserData() async {
+    try {
+      var data = LocalService.instance.box.read(userRegisterData);
+      if (data != null) {
+        UserRegisterDataEntity result = UserRegisterDataEntity.fromJson(jsonDecode(data));
+        return result;
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[getEmailRegisterData][error] $errorMessage");
+      return null;
     }
   }
 }

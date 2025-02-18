@@ -6,11 +6,18 @@ class AppApiPath {
   static const String getUserData = "/account/userdata";
   static const String editProfile = "/account/editprofile";
   static const String refreshToken = "/account/refreshtoken";
-  
+  static const String changePassword = "/account/changepassword";
+
+  static const String otpValidation = "/otp/validation";
+  static const String otpResend = "/otp/resend";
+
+  static const String sendOTPForgotPassword = "/account/sendOTPforgotpassword";
+  static const String validateOTPForgotPassword = "/account/validateOTPforgotpassword";
+  static const String changePasswordForgotPassword = "/account/changepasswordforgotpassword";
 
   static const String getAllVehicle = "/vehicle/allvehicle";
   static const String getAllVehicleV2 = "/vehicle/allvehicleV2";
-  static const String getLogVehicle = "/vehicle/getlogvehicle";
+  // static const String getLogVehicle = "/vehicle/getlogvehicle";
   static const String getLogVehicleV2 = "/vehicle/getlogvehicleV2";
   static const String createVehicle = "/vehicle/createvehicle";
   static const String editVehicle = "/vehicle/editvehicle";

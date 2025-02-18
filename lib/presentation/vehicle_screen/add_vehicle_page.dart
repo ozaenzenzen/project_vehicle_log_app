@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action_enum.dart';
@@ -18,10 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
-import 'package:project_vehicle_log_app/support/app_image_picker.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
 class AddVehiclePage extends StatefulWidget {
   const AddVehiclePage({Key? key}) : super(key: key);
@@ -144,16 +141,19 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
     return BlocConsumer<CreateVehicleBloc, CreateVehicleState>(
       listener: (context, state) {
         if (state is CreateVehicleFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: "Terjadi kesalahan",
             description: state.errorMessage,
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         }
         if (state is CreateVehicleSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: "Berhasil menambahkan kendaraan",
             description: state.createVehicleResponseModel.message,
@@ -187,11 +187,14 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 colorController.text.isEmpty ||
                 machineNumberController.text.isEmpty ||
                 chassisNumberController.text.isEmpty) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<CreateVehicleBloc>().add(
@@ -281,7 +284,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             SizedBox(height: 10.h),
             InkWell(
               onTap: () async {
-                imagePickedInBase64 = await AppImagePickerService().getImageAsBase64().then(
+                imagePickedInBase64 = await AppImagePickerServiceCS().getImageAsBase64().then(
                   (value) {
                     setState(() {});
                     return value;

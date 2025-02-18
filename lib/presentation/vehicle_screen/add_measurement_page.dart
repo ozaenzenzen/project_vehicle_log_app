@@ -1,9 +1,8 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_log_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
@@ -19,9 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
-import 'package:project_vehicle_log_app/support/app_dialog_action.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
@@ -99,7 +96,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     super.initState();
     if (widget.measurementService != null) {
       measurementTitleController.text = widget.measurementService!;
-      currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
+      currentOdoController.text = widget.listLogVehicleData!.firstWhere((element) => element.measurementTitle == widget.measurementService).estimateOdoChanging!;
+      // currentOdoController.text = widget.listLogVehicleData!.first.estimateOdoChanging!;
     }
   }
 
@@ -139,15 +137,18 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
     return BlocConsumer<CreateLogVehicleBloc, CreateLogVehicleState>(
       listener: (context, state) {
         if (state is CreateLogVehicleFailed) {
-          AppDialogAction.showFailedPopup(
+          AppDialogActionCS.showFailedPopup(
             context: context,
             title: "Terjadi kesalahan",
             description: state.errorMessage,
             buttonTitle: "Kembali",
+            mainButtonAction: () {
+              Get.back();
+            },
           );
         } else if (state is CreateLogVehicleSuccess) {
           FocusManager.instance.primaryFocus?.unfocus();
-          AppDialogAction.showSuccessPopup(
+          AppDialogActionCS.showSuccessPopup(
             context: context,
             title: "Berhasil menambah log data kendaraan",
             description: state.createLogVehicleResponseModel.message!,
@@ -173,18 +174,24 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           title: "Add Measurement",
           onTap: () {
             if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "field can't be empty",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else if (isCurrentOdoMoreThanEstimateOdo) {
-              AppDialogAction.showFailedPopup(
+              AppDialogActionCS.showFailedPopup(
                 context: context,
                 title: "Error",
                 description: "Tidak boleh kurang atau sama dengan dari Current Odo",
                 buttonTitle: "Back",
+                mainButtonAction: () {
+                  Get.back();
+                },
               );
             } else {
               context.read<CreateLogVehicleBloc>().add(
@@ -280,6 +287,25 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
+            error: Text(
+              "Only number is allowed",
+              style: GoogleFonts.inter(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColor.error,
+              ),
+            ),
+            errorChecker: (value, isError) {
+              if (value.isNotEmpty) {
+                if (RegExp(r'^\d+$').hasMatch(value)) {
+                  return false;
+                } else {
+                  return true;
+                }
+              } else {
+                return false;
+              }
+            },
             onTap: () {
               scrollToFocusedTextField(currentOdoFocusNode);
             },
@@ -453,52 +479,55 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               return SizedBox(width: 10.h);
             },
             itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
-                    //   debugPrint("test hit $index");
-                    //   indexClicked = index;
-                    //   vehicleListColor = AppColor.white;
-                  });
-                },
-                child: Container(
-                  width: 100.w,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15.h,
-                  ),
-                  decoration: BoxDecoration(
-                    // color: index == indexClicked ? AppColor.primary : Colors.transparent,
-                    color: AppColor.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColor.blue,
+              return Container(
+                padding: (index == 0) ? EdgeInsets.only(left: 16.w) : null,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      measurementTitleController.text = MeasurementServiceDummyData.dummyDataService[index].title!;
+                      //   debugPrint("test hit $index");
+                      //   indexClicked = index;
+                      //   vehicleListColor = AppColor.white;
+                    });
+                  },
+                  child: Container(
+                    width: 100.w,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 15.h,
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        // Icons.time_to_leave_rounded,
-                        MeasurementServiceDummyData.dummyDataService[index].icons,
+                    decoration: BoxDecoration(
+                      // color: index == indexClicked ? AppColor.primary : Colors.transparent,
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
                         color: AppColor.blue,
                       ),
-                      Text(
-                        // "${DummyData.dummyData[index].vehicleName}",
-                        // "Menu $index",
-                        "${MeasurementServiceDummyData.dummyDataService[index].title}",
-                        textAlign: TextAlign.center,
-                        // overflow: TextOverflow.ellipsis,
-                        style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
-                          // color: AppColor.text_4,
-                          // color: Colors.black38,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          // Icons.time_to_leave_rounded,
+                          MeasurementServiceDummyData.dummyDataService[index].icons,
                           color: AppColor.blue,
-                          // color: index == indexClicked ? AppColor.white : Colors.black38,
-                          fontWeight: FontWeight.w600,
                         ),
-                      ),
-                    ],
+                        Text(
+                          // "${DummyData.dummyData[index].vehicleName}",
+                          // "Menu $index",
+                          "${MeasurementServiceDummyData.dummyDataService[index].title}",
+                          textAlign: TextAlign.center,
+                          // overflow: TextOverflow.ellipsis,
+                          style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
+                            // color: AppColor.text_4,
+                            // color: Colors.black38,
+                            color: AppColor.blue,
+                            // color: index == indexClicked ? AppColor.white : Colors.black38,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

@@ -140,7 +140,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
     newData1.sort((a, b) {
       return a.createdAt!.compareTo(b.createdAt!);
     });
-    // AppLogger.debugLog("newData11: ${newData1.map((e) => AppLogger.debugLog("element here: ${e.toJson()}"))}");
+    // AppLoggerCS.debugLog("newData11: ${newData1.map((e) => AppLoggerCS.debugLog("element here: ${e.toJson()}"))}");
 
     newDataDialog = input;
     newDataDialog = input.where((element) {
@@ -149,7 +149,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
     newDataDialog.sort((a, b) {
       return b.createdAt!.compareTo(a.createdAt!);
     });
-    // AppLogger.debugLog("newDataDialog1: ${newDataDialog.map((e) => AppLogger.debugLog("element here1: ${e.toJson()}"))}");
+    // AppLoggerCS.debugLog("newDataDialog1: ${newDataDialog.map((e) => AppLoggerCS.debugLog("element here1: ${e.toJson()}"))}");
   }
 
   @override
@@ -318,7 +318,7 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                 legendItemText: "Expenses",
                 dataSource: newData1,
                 xValueMapper: (ListDatumLogEntity sales, _) {
-                  // AppLogger.debugLog("indxL $index");
+                  // AppLoggerCS.debugLog("indxL $index");
                   return formatter2.format(sales.createdAt!.toLocal());
                 },
                 yValueMapper: (ListDatumLogEntity sales, _) {
