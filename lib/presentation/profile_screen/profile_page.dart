@@ -453,7 +453,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     Get.to(
                       () => const AppWebViewScreen(
                         title: "Terms & Conditions",
-                        linkUrl: "https://www.google.com/",
+                        // linkUrl: "https://www.google.com/",
+                        linkUrl: "https://fauzanlab.vercel.app/",
                       ),
                     );
                   } else if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Privacy & Policy")) {
