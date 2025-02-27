@@ -7,6 +7,7 @@ class AppApiPath {
   static const String editProfile = "/account/editprofile";
   static const String refreshToken = "/account/refreshtoken";
   static const String changePassword = "/account/changepassword";
+  static const String deleteAccount = "/account/delete";
 
   static const String otpValidation = "/otp/validation";
   static const String otpResend = "/otp/resend";

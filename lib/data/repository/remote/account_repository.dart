@@ -7,6 +7,7 @@ import 'package:project_vehicle_log_app/data/model/remote/account/request/otp_va
 import 'package:project_vehicle_log_app/data/model/remote/account/request/validate_otp_forgot_password_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_forgot_password_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/change_password_response_model.dart';
+import 'package:project_vehicle_log_app/data/model/remote/account/response/delete_account_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/get_userdata_response_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/otp_resend_response_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/response/otp_validation_response_model.dart';
@@ -246,6 +247,26 @@ class AppAccountRepository {
       }
     } catch (errorMessage) {
       AppLoggerCS.debugLog("[AppAccountRepository][changePasswordForgotPassword] errorMessage $errorMessage");
+      return null;
+    }
+  }
+
+  Future<DeleteAccountResponseModel?> deleteAccount(String token) async {
+    try {
+      final response = await appApiService.call(
+        AppApiPath.deleteAccount,
+        method: MethodRequestCS.post,
+        header: {
+          'token': token,
+        },
+      );
+      if (response.data != null) {
+        return DeleteAccountResponseModel.fromJson(response.data);
+      } else {
+        return null;
+      }
+    } catch (errorMessage) {
+      AppLoggerCS.debugLog("[AppAccountRepository][deleteAccount] errorMessage $errorMessage");
       return null;
     }
   }
