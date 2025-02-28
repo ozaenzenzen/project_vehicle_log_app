@@ -449,25 +449,26 @@ class _ProfilePageState extends State<ProfilePage> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Terms & Conditions")) {
-                    Get.to(
-                      () => const AppWebViewScreen(
-                        title: "Terms & Conditions",
-                        // linkUrl: "https://www.google.com/",
-                        linkUrl: "https://fauzanlab.vercel.app/",
-                      ),
-                    );
-                  } else if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Privacy & Policy")) {
-                    Get.to(
-                      () => const AppWebViewScreen(
-                        title: "Privacy & Policy",
-                        linkUrl: "https://fauzanlab.netlify.app/",
-                      ),
-                    );
-                    //
-                  } else {
-                    ProfileMenuSettings.dummyDataProfileAbout[index].menuFunction?.call();
-                  }
+                  // if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Terms & Conditions")) {
+                  //   Get.to(
+                  //     () => const AppWebViewScreen(
+                  //       title: "Terms & Conditions",
+                  //       // linkUrl: "https://www.google.com/",
+                  //       linkUrl: "https://fauzanlab.vercel.app/",
+                  //     ),
+                  //   );
+                  // } else if (ProfileMenuSettings.dummyDataProfileAbout[index].menuTitle!.contains("Privacy & Policy")) {
+                  //   Get.to(
+                  //     () => const AppWebViewScreen(
+                  //       title: "Privacy & Policy",
+                  //       linkUrl: "https://fauzanlab.netlify.app/",
+                  //     ),
+                  //   );
+                  //   //
+                  // } else {
+                  //   ProfileMenuSettings.dummyDataProfileAbout[index].menuFunction?.call();
+                  // }
+                  ProfileMenuSettings.dummyDataProfileAbout[index].menuFunction?.call();
                 },
                 child: Container(
                   padding: EdgeInsets.all(16.h),

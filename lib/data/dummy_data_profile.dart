@@ -6,7 +6,9 @@ import 'package:project_vehicle_log_app/presentation/settings_screen/delete_acco
 import 'package:project_vehicle_log_app/presentation/settings_screen/language_screen/language_screen.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/notification_settings_screen/notification_settings_screen.dart';
 import 'package:project_vehicle_log_app/presentation/qna_screen/qna_page.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/privacy_screen.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/security_preferences_screen/security_preferences_screen.dart';
+import 'package:project_vehicle_log_app/presentation/settings_screen/terms_and_condition_screen.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/theme_screen/theme_screen.dart';
 
 class DummyDataProfileModel {
@@ -100,17 +102,21 @@ class ProfileMenuSettings {
     // ),
     DummyDataProfileModel(
       menuTitle: "Terms & Conditions",
-      menuFunction: () {},
+      menuFunction: () {
+        Get.to(() => const TermsAndConditionScreen());
+      },
     ),
     DummyDataProfileModel(
       menuTitle: "Privacy & Policy",
-      menuFunction: () {},
+      menuFunction: () {
+        Get.to(() => const PrivacyScreen());
+      },
     ),
     DummyDataProfileModel(
       menuTitle: "Rate 'Vehicle Management Logs'",
       menuFunction: () async {
         final InAppReview _inAppReview = InAppReview.instance;
-        
+
         if (await _inAppReview.isAvailable()) {
           _inAppReview.requestReview();
         }
