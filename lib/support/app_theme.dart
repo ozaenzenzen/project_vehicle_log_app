@@ -14,6 +14,7 @@ class AppTheme {
         background: Colors.white,
         // secondary: AppColor.secondary,
         // secondaryVariant: ColorUI.secondaryVariant,
+        surface: Colors.white,
       ),
       primaryColor: AppColor.primary,
       scaffoldBackgroundColor: Colors.white,

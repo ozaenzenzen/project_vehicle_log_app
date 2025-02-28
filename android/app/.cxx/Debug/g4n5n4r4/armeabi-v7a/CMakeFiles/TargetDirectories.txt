@@ -1,0 +1,2 @@
+C:/Users/recov/Documents/Ozan/Repo Flutter/project_vehicle_log_app/android/app/.cxx/Debug/g4n5n4r4/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/recov/Documents/Ozan/Repo Flutter/project_vehicle_log_app/android/app/.cxx/Debug/g4n5n4r4/armeabi-v7a/CMakeFiles/rebuild_cache.dir

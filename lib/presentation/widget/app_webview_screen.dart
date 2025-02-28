@@ -60,7 +60,8 @@ class AppWebViewScreen extends StatelessWidget {
             Expanded(
               child: InAppWebView(
                 initialOptions: options,
-                initialUrlRequest: URLRequest(url: Uri.parse(linkUrl)),
+                initialUrlRequest: URLRequest(url: WebUri(linkUrl)),
+                // initialUrlRequest: URLRequest(url: Uri.parse(linkUrl)),
               ),
             )
           ],

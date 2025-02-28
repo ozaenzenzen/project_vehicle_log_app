@@ -44,7 +44,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                 //     AppLoggerCS.debugLog("value settings");
                 //   },
                 // );
-                await AppSettings.openNotificationSettings();
+                await AppSettings.openAppSettings(type: AppSettingsType.notification);
               },
               child: Container(
                 padding: EdgeInsets.all(16.h),
