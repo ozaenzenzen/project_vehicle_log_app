@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log_app/support/app_readjson.dart';
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
@@ -11,6 +12,16 @@ class PrivacyScreen extends StatefulWidget {
 }
 
 class _PrivacyScreenState extends State<PrivacyScreen> {
+  Map<String, dynamic>? dataTnC;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      dataTnC = await AppReadJsonHelper().readJson(asset: "assets/privacypolicy.json");
+      setState(() {});
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +57,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           children: [
             SizedBox(height: 8.h),
             Text(
-              'Kebijakan Privasi Qoin Service PT Qoin Digital Indonesia (“QOIN” atau “Kami”) selalu memprioritaskan kenyamanan dan keamanan data pengguna. Pada kebijakan privasi ini akan dijelaskan secara transparan bagaimana cara Qoin service mengumpulkan, mendapatkan, menyimpan, mengolah, menampilkan, dan menggunakan data pribadi Anda. Dengan menggunakan Qoin Service maka Anda mengakui bahwa Anda telah membaca, memahami dan menyetujui seluruh ketentuan yang terdapat pada kebijakan privasi, dan merupakan satu kesatuan dengan Ketentuan Layanan Qoin Service.',
+              'Kami di App Vehicle Log menghargai privasi Anda dan berkomitmen untuk melindungi informasi pribadi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi data pengguna.',
               style: GoogleFonts.lato(
                 color: const Color(0xff616161),
                 fontSize: 12.sp,
@@ -54,50 +65,95 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               ),
             ),
             SizedBox(height: 16.h),
-            Text(
-              'A. Data Pribadi',
-              style: GoogleFonts.lato(
-                color: const Color(0xff0A0A0A),
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-              ),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: (dataTnC != null) ? dataTnC!['data'].length : 0,
+              itemBuilder: (context, index) {
+                var dataMapping = dataTnC!['data'][index];
+                List<String> listString = (dataMapping['details'] as List).map((element) => element.toString()).toList();
+                String letter = String.fromCharCode(65 + index); // Convert index (0 → 'A', 1 → 'B', ...)
+
+                return detailsItem(
+                  title: "$letter. ${dataMapping['title']}",
+                  description: listString,
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8.h);
+              },
             ),
             SizedBox(height: 16.h),
-            Text(
-              """
-Situs Qoin Service disediakan gratis bagi pengguna yang sudah terdaftar. Siapa pun dapat mendaftar untuk memiliki akun pada situs  Qoin Service. Data pribadi termasuk tetapi tidak terbatas pada nama, nomor handphone, email, data identitas (KTP), dan data yang menyangkut informasi mengenai kegiatan transaksi pada situs Qoin Service.
-""",
-              style: GoogleFonts.lato(
-                color: const Color(0xff616161),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'B. Perolehan dan Pengumpulan Data Pribadi',
-              style: GoogleFonts.lato(
-                color: const Color(0xff0A0A0A),
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              """
-Situs Qoin Service  akan mengumpulkan data pribadi dari pengguna pada setiap saat namun tidak terbatas pada saat membuat akun, melakukan upgrade akun, dan melakukan transaksi di dalam situs Qoin Service. Data pribadi yang dikumpulkan di antaranya data sehubungan dengan:
-1. Informasi yang didapatkan pengguna (secara langsung atau tidak langsung) ketika mendaftar/membuat akun Qoin Service termasuk nama, nomor handphone, email, data identitas (KTP) untuk upgrade akun QOIN (“Informasi Pendaftaran”).
-2. Informasi yang didapatkan (secara langsung atau tidak langsung) selama pengguna menggunakan situs Qoin Service, termasuk nomor rekening bank pengguna, informasi tagihan, pengiriman, dan data transaksi (“Informasi Rekening”)
-""",
-              style: GoogleFonts.lato(
-                color: const Color(0xff616161),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget detailsItemOld({
+    required String title,
+    required String description,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          // "A. Informasi yang Kami Kumpulkan",
+          style: GoogleFonts.lato(
+            color: const Color(0xff0A0A0A),
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          description,
+//           """
+// Kami dapat mengumpulkan informasi berikut
+// 1. Informasi pribadi (nama, alamat email, nomor telepon, dll.)
+// 2. Informasi penggunaan aplikasi (aktivitas, preferensi, dll.)
+// 3. Data perangkat (model perangkat, sistem operasi, dll.)
+// """,
+          style: GoogleFonts.lato(
+            color: const Color(0xff616161),
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget detailsItem({
+    required String title,
+    required List<String> description,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          // "A. Informasi yang Kami Kumpulkan",
+          style: GoogleFonts.lato(
+            color: const Color(0xff0A0A0A),
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          description.asMap().entries.map((entry) {
+            int num = entry.key + 1;
+            return (description.length < 2) ? entry.value : "$num. ${entry.value}";
+          }).join("\n"),
+          style: GoogleFonts.lato(
+            color: const Color(0xff616161),
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 }

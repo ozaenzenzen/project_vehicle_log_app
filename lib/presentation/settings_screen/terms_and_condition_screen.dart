@@ -1,7 +1,9 @@
+import 'package:fam_coding_supply/logic/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_vehicle_log_app/support/app_readjson.dart';
 
 class TermsAndConditionScreen extends StatefulWidget {
   const TermsAndConditionScreen({super.key});
@@ -11,6 +13,16 @@ class TermsAndConditionScreen extends StatefulWidget {
 }
 
 class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
+  Map<String, dynamic>? dataTnC;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      dataTnC = await AppReadJsonHelper().readJson(asset: "assets/termsandcondition.json");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +58,7 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
           children: [
             SizedBox(height: 8.h),
             Text(
-              'Ketentuan Layanan yang ditetapkan dibawah ini mengatur pemakaian layanan yang ditawarkan oleh PT Qoin Digital Indonesia (“QOIN” atau “Kami”). Sebelum menggunakan layanan Qoin Service pengguna diwajibkan untuk membaca keseluruhan Ketentuan Layanan Qoin Service. Jika memiliki pertanyaan pengguna dapat menghubungi customer care Qoin Service. Ketentuan Layanan ini mengatur pengguna serta akses pengguna terhadap website, konten, layanan-layanan dan jasa-jasa pembayaran yang disediakan oleh Qoin Service. Dengan menggunakan situs Qoin Service maka pengguna dinyatakan setuju untuk mematuhi “Ketentuan Layanan Qoin Service” (atau disebut dengan “Ketentuan Layanan") serta Kebijakan Privasi Qoin Service.',
+              "${dataTnC?['introduction']}",
               style: GoogleFonts.lato(
                 color: const Color(0xff616161),
                 fontSize: 12.sp,
@@ -54,78 +66,64 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
               ),
             ),
             SizedBox(height: 16.h),
-            Text(
-              'A. Definisi',
-              style: GoogleFonts.lato(
-                color: const Color(0xff0A0A0A),
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-              ),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: (dataTnC != null) ? dataTnC!['data'].length : 0,
+              itemBuilder: (context, index) {
+                var dataMapping = dataTnC!['data'][index];
+                // AppLoggerCS.debugLog("${dataMapping['details']}");
+                List<String> listString = (dataMapping['details'] as List).map((element) => element.toString()).toList();
+                String letter = String.fromCharCode(65 + index); // Convert index (0 → 'A', 1 → 'B', ...)
+
+                return detailsItem(
+                  title: "$letter. ${dataMapping['title']}",
+                  // title: "${index + 1}. ${dataMapping['title']}",
+                  description: listString,
+                  // description: dataMapping['details'] as List<String>,
+                  // description: "${}",
+                );
+              },
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 8.h);
+              },
             ),
             SizedBox(height: 16.h),
-            Text(
-              """
-1. Qoin Service adalah platform penyedia produk API yang dapat digunakan untuk berbagai macam kebutuhan developer. Qoin Service juga menjamin keamanan data akun pengguna karena satu identitas hanya dapat digunakan untuk akun.
-2. Akun Qoin service adalah seluruh pengguna yang terdaftar di platform Qoin Service. Akun Qoin Service digunakan oleh pengguna sebagai akses masuk dan untuk memanfaatkan fasilitas atau layanan-layanan Qoin Service.
-3. Pengguna atau Pengguna Qoin Service adalah setiap orang yang terdaftar sebagai pemilik akun Qoin Service.
-4. Transaksi adalah seluruh transaksi yang dapat dilakukan oleh Pengguna menggunakan platform Qoin service, baik di dalam wilayah Indonesia maupun di luar wilayah Indonesia (sebagaimana relevan), baik yang telah tersedia melalui fitur-fitur pada platform Qoin service, maupun transaksi yang akan dikembangkan di masa yang akan datang.
-""",
-              style: GoogleFonts.lato(
-                color: const Color(0xff616161),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'B. Ketentuan Umum',
-              style: GoogleFonts.lato(
-                color: const Color(0xff0A0A0A),
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              """
-1. Pengguna baru dapat menggunakan akun Qoin Service setelah menyetujui Syarat & Ketentuan dan Kebijakan Privasi, kemudian melakukan aktivasi atau pendaftaran dengan menggunakan nomor handphone atau email serta memberikan informasi yang dibutuhkan.
-2. Transaksi dapat dilakukan penolakan apabila sewaktu-waktu sistem keamanan Qoin Service menemukan dan menganggap bahwa transaksi yang dilakukan tidak wajar.
-""",
-              style: GoogleFonts.lato(
-                color: const Color(0xff616161),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              'C. Aktivasi Qoin Service',
-              style: GoogleFonts.lato(
-                color: const Color(0xff0A0A0A),
-                fontSize: 21.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Text(
-              """
-1. Pengguna wajib memastikan data, informasi dan/atau keterangan yang diberikan, dicantumkan, dan disampaikan pada situs Qoin Service adalah benar dan valid. Pengguna dapat mendaftarkan akun Qoin Service dengan cara berikut:
-melakukan proses registrasi dengan mengikuti petunjuk dan memasukkan data antara lain:
-\t a. Nama Pengguna,
-\t b. Nomor ponsel aktif,
-\t c. OTP (One Time Password) yang dikirimkan ke nomor ponsel
-\t d. PIN (6 digit angka)
-2. Pengguna wajib menjamin informasi dan data yang diberikan adalah benar dan akurat
-""",
-              style: GoogleFonts.lato(
-                color: const Color(0xff616161),
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget detailsItem({
+    required String title,
+    required List<String> description,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          // "A. Informasi yang Kami Kumpulkan",
+          style: GoogleFonts.lato(
+            color: const Color(0xff0A0A0A),
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: 8.h),
+        Text(
+          description.asMap().entries.map((entry) {
+            int num = entry.key + 1;
+            return (description.length < 2) ? entry.value : "$num. ${entry.value}";
+          }).join("\n"),
+          style: GoogleFonts.lato(
+            color: const Color(0xff616161),
+            fontSize: 12.sp,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ],
     );
   }
 }
