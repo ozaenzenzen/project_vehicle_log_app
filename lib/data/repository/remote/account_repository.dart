@@ -251,13 +251,19 @@ class AppAccountRepository {
     }
   }
 
-  Future<DeleteAccountResponseModel?> deleteAccount(String token) async {
+  Future<DeleteAccountResponseModel?> deleteAccount({
+    required String token,
+    String? reason,
+  }) async {
     try {
       final response = await appApiService.call(
         AppApiPath.deleteAccount,
         method: MethodRequestCS.post,
         header: {
           'token': token,
+        },
+        request: {
+          'reason': reason ?? "",
         },
       );
       if (response.data != null) {

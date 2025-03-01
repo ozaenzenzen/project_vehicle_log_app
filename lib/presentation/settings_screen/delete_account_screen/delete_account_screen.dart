@@ -19,7 +19,7 @@ class DeleteAccountScreen extends StatefulWidget {
 }
 
 class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
-  TextEditingController reasonController = TextEditingController();
+  TextEditingController reasonTextController = TextEditingController();
   bool isLoadingActive = false;
 
   @override
@@ -65,7 +65,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                       context: context,
                       title: "Success",
                       description: "${state.response.message}",
-                      buttonTitle: "Keluar",
+                      buttonTitle: "Signout",
                       barrierDismissible: false,
                       mainButtonAction: () {
                         Get.back();
@@ -152,11 +152,21 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           ),
           SizedBox(height: 24.h),
           TextField(
-            controller: reasonController,
+            controller: reasonTextController,
             maxLines: 10,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: "Any reason you want to share",
-              border: OutlineInputBorder(),
+              hintStyle: GoogleFonts.inter(
+                color: Colors.black87,
+                fontSize: 14.sp,
+              ),
+              border: const OutlineInputBorder(),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Color(0xff616161),
+                  width: 0.0,
+                ),
+              ),
             ),
           ),
           SizedBox(height: 12.h),
@@ -173,8 +183,13 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 },
                 mainButtonTitle: "Cancel",
                 secondaryButtonAction: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   Get.back();
-                  context.read<DeleteAccountBloc>().add(DeleteAccountAction());
+                  context.read<DeleteAccountBloc>().add(
+                        DeleteAccountAction(
+                          reason: reasonTextController.text.isEmpty ? "" : reasonTextController.text,
+                        ),
+                      );
                 },
                 secondaryButtonTitle: "Delete",
               );

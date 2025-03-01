@@ -35,7 +35,8 @@ class DeleteAccountBloc extends Bloc<DeleteAccountEvent, DeleteAccountState> {
       }
 
       DeleteAccountResponseModel? output = await accountRepository.deleteAccount(
-        userToken,
+        token: userToken,
+        reason: event.reason,
       );
       if (output == null) {
         emit(
