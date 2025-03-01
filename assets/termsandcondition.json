@@ -1,0 +1,71 @@
+{
+    "last_updated": "3 Maret 2025",
+    "introduction": "Selamat datang di App Vehicle Log! Aplikasi ini dirancang untuk membantu Anda mencatat dan mengelola riwayat perawatan kendaraan, termasuk kapan dan di mana perawatan dilakukan. Dengan menggunakan aplikasi ini, Anda menyetujui Syarat dan Ketentuan berikut. Harap baca dengan cermat sebelum menggunakan layanan kami.",
+    "data": [
+        {
+            "title": "Penggunaan Layanan",
+            "details": [
+                "Aplikasi ini hanya boleh digunakan untuk keperluan pencatatan dan manajemen kendaraan pribadi atau perusahaan.",
+                "Anda bertanggung jawab atas keakuratan data yang dimasukkan dalam aplikasi.",
+                "Kami tidak bertanggung jawab atas kelalaian dalam pencatatan yang dapat mengakibatkan kerusakan atau kehilangan informasi perawatan kendaraan."
+            ]
+        },
+        {
+            "title": "Akun Pengguna",
+            "details": [
+                "Untuk menggunakan fitur tertentu, Anda mungkin diminta untuk membuat akun dan memberikan informasi yang valid.",
+                "Anda bertanggung jawab atas keamanan akun dan tidak boleh membagikan kredensial login Anda kepada pihak lain.",
+                "Jika Anda mencurigai adanya akses tidak sah ke akun Anda, segera hubungi kami."
+            ]
+        },
+        {
+            "title": "Pencatatan dan Penyimpanan Data",
+            "details": [
+                "Aplikasi ini memungkinkan Anda mencatat informasi seperti jadwal servis, lokasi bengkel, jenis perawatan, dan biaya perbaikan.",
+                "Data yang Anda simpan dalam aplikasi dapat digunakan untuk memberikan rekomendasi perawatan atau pengingat servis berkala.",
+                "Kami tidak bertanggung jawab atas kehilangan data akibat kesalahan pengguna atau faktor teknis di luar kendali kami."
+            ]
+        },
+        {
+            "title": "Hak dan Kewajiban Pengguna",
+            "details": [
+                "Anda dilarang memasukkan informasi palsu atau menyesatkan terkait kendaraan atau riwayat perawatannya.",
+                "Anda setuju untuk tidak menggunakan aplikasi ini untuk tujuan ilegal atau merugikan pihak lain."
+            ]
+        },
+        {
+            "title": "Hak Kekayaan Intelektual",
+            "details": [
+                "Seluruh konten, logo, dan desain dalam aplikasi ini adalah milik App Vehicle Log atau pemegang lisensinya.",
+                "Pengguna tidak diperbolehkan menyalin, mengubah, atau mendistribusikan bagian mana pun dari aplikasi tanpa izin tertulis dari kami."
+            ]
+        },
+        {
+            "title": "Batasan Tanggung Jawab",
+            "details": [
+                "Kami tidak bertanggung jawab atas kesalahan atau kelalaian dalam pencatatan yang dilakukan oleh pengguna.",
+                "Aplikasi ini disediakan 'sebagaimana adanya' tanpa jaminan tertentu terkait keakuratan data atau kompatibilitas dengan semua jenis kendaraan.",
+                "Kami tidak bertanggung jawab atas kehilangan, kerusakan, atau biaya akibat kelalaian dalam melakukan perawatan kendaraan."
+            ]
+        },
+        {
+            "title": "Perubahan Syarat dan Ketentuan",
+            "details": [
+                "Kami dapat memperbarui ketentuan ini dari waktu ke waktu.",
+                "Pengguna disarankan untuk memeriksa pembaruan secara berkala."
+            ]
+        },
+        {
+            "title": "Hubungi Kami",
+            "details": [
+                "Jika Anda memiliki pertanyaan mengenai Syarat dan Ketentuan ini, silakan hubungi kami di developervehiclelog@gmail.com."
+            ]
+        },
+        {
+            "title": "Persetujuan",
+            "details": [
+                "Dengan menggunakan aplikasi ini, Anda menyetujui Syarat dan Ketentuan yang berlaku."
+            ]
+        }
+    ]
+}

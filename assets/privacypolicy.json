@@ -1,0 +1,65 @@
+{
+    "last_updated": "3 Maret 2025",
+    "introduction": "Privasi Anda penting bagi kami. App Vehicle Log berkomitmen untuk melindungi informasi pribadi Anda dan menggunakan data yang dikumpulkan hanya untuk tujuan yang sesuai dengan layanan kami. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi Anda saat menggunakan aplikasi ini.",
+    "data": [
+        {
+            "title": "Informasi yang Kami Kumpulkan",
+            "details": [
+                "Kami mengumpulkan informasi yang Anda berikan secara langsung, seperti nama, alamat email, dan data kendaraan.",
+                "Kami juga dapat mengumpulkan data penggunaan aplikasi untuk meningkatkan pengalaman pengguna.",
+                "Informasi lokasi dapat dikumpulkan jika Anda memberikan izin untuk fitur terkait seperti pencatatan lokasi perawatan kendaraan."
+            ]
+        },
+        {
+            "title": "Penggunaan Informasi",
+            "details": [
+                "Kami menggunakan data yang dikumpulkan untuk memberikan, memelihara, dan meningkatkan layanan aplikasi.",
+                "Informasi Anda dapat digunakan untuk memberikan pengingat servis, rekomendasi perawatan, dan peningkatan fitur aplikasi.",
+                "Kami tidak menjual atau membagikan informasi pribadi Anda kepada pihak ketiga tanpa persetujuan Anda, kecuali diwajibkan oleh hukum."
+            ]
+        },
+        {
+            "title": "Keamanan Data",
+            "details": [
+                "Kami menerapkan langkah-langkah keamanan untuk melindungi data Anda dari akses, penggunaan, atau pengungkapan yang tidak sah.",
+                "Meskipun kami berupaya menjaga keamanan data, kami tidak dapat menjamin perlindungan 100% terhadap ancaman digital.",
+                "Pengguna disarankan untuk menjaga kerahasiaan akun dan informasi pribadi mereka."
+            ]
+        },
+        {
+            "title": "Penyimpanan dan Penghapusan Data",
+            "details": [
+                "Data pengguna akan disimpan selama akun masih aktif atau selama diperlukan untuk memberikan layanan.",
+                "Pengguna dapat meminta penghapusan data mereka dengan menghubungi kami.",
+                "Beberapa data mungkin tetap disimpan untuk keperluan hukum atau operasional."
+            ]
+        },
+        {
+            "title": "Hak Pengguna",
+            "details": [
+                "Anda berhak mengakses, memperbarui, atau menghapus informasi pribadi Anda yang tersimpan di aplikasi.",
+                "Anda dapat mengelola izin akses data melalui pengaturan perangkat Anda.",
+                "Jika Anda ingin mengajukan pertanyaan atau keluhan terkait privasi, silakan hubungi kami."
+            ]
+        },
+        {
+            "title": "Perubahan Kebijakan Privasi",
+            "details": [
+                "Kami dapat memperbarui Kebijakan Privasi ini sewaktu-waktu.",
+                "Pengguna disarankan untuk memeriksa pembaruan secara berkala."
+            ]
+        },
+        {
+            "title": "Hubungi Kami",
+            "details": [
+                "Jika Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, silakan hubungi kami di developervehiclelog@gmail.com."
+            ]
+        },
+        {
+            "title": "Persetujuan",
+            "details": [
+                "Dengan menggunakan aplikasi ini, Anda menyetujui Kebijakan Privasi yang berlaku."
+            ]
+        }
+    ]
+}
