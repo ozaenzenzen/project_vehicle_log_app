@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -13,15 +15,17 @@ class LanguageScreen extends StatefulWidget {
 }
 
 class _LanguageScreenState extends State<LanguageScreen> {
-  List<String> language = <String>['Bahasa', 'English'];
-  String currentLanguage = 'English';
+  // List<String> language = <String>['Bahasa', 'English'];
+  // String currentLanguage = 'English';
+  Language currentLanguage = LanguageController.language;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBarWidget(
-        title: 'Language',
+        title: LanguageController.language.language,
+        // title: 'Language',
         onBack: () {
           Get.back();
         },
@@ -43,12 +47,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: language.length,
+                itemCount: LanguageController.languages.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
                       setState(() {
-                        currentLanguage = language[index];
+                        currentLanguage = LanguageController.languages[index];
+                        LanguageController.switchLanguage(currentLanguage);
                       });
                     },
                     child: Container(
@@ -57,20 +62,22 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${language[index]}",
+                            LanguageController.languages[index].languageName,
                             style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          Radio<String>(
+                          Radio<Language>(
+                            // Radio<String>(
                             visualDensity: const VisualDensity(
                               horizontal: VisualDensity.minimumDensity,
                               vertical: VisualDensity.minimumDensity,
                             ),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            value: language[index],
+                            value: LanguageController.languages[index],
                             groupValue: currentLanguage,
-                            onChanged: (String? value) {
+                            onChanged: (Language? value) {
+                            // onChanged: (String? value) {
                               setState(() {
                                 currentLanguage = value!;
                               });

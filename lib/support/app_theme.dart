@@ -5,6 +5,11 @@ import 'package:project_vehicle_log_app/support/app_color.dart';
 
 class AppTheme {
   static ThemeData theme = ThemeData();
+
+  // AppTheme() {
+  //   appThemeInit();
+  // }
+
   static appThemeInit() {
     theme = theme.copyWith(
       // backgroundColor: Colors.white,

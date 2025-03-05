@@ -13,6 +13,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -83,7 +84,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Daftar Akun",
+                        LanguageController.language.registerAccount,
+                        // "Daftar Akun",
                         style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -92,25 +94,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     // SizedBox(height: 20.h),
                     SizedBox(height: 50.h),
                     AppTextFieldWidget(
-                      textFieldTitle: "Nama",
+                      textFieldTitle: LanguageController.language.registerName,
+                      // textFieldTitle: "Nama",
                       textFieldHintText: "example",
                       controller: nameTextFieldController,
                     ),
                     SizedBox(height: 10.h),
                     AppTextFieldWidget(
-                      textFieldTitle: "Email",
+                      textFieldTitle: LanguageController.language.email,
+                      // textFieldTitle: "Email",
                       textFieldHintText: "journalist@email.com",
                       controller: emailTextFieldController,
                     ),
                     SizedBox(height: 10.h),
                     AppTextFieldWidget(
-                      textFieldTitle: "Phone",
+                      textFieldTitle: LanguageController.language.registerPhone,
+                      // textFieldTitle: "Phone",
                       textFieldHintText: "0888-8888-8888",
                       controller: phoneTextFieldController,
                     ),
                     SizedBox(height: 10.h),
                     AppTextFieldWidget(
-                      textFieldTitle: "Password",
+                      textFieldTitle: LanguageController.language.registerPassword,
+                      // textFieldTitle: "Password",
                       textFieldHintText: "*****",
                       controller: passwordTextFieldController,
                       obscureText: isHidePassword,
@@ -126,7 +132,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     SizedBox(height: 10.h),
                     AppTextFieldWidget(
-                      textFieldTitle: "Confirm Password",
+                      textFieldTitle: LanguageController.language.registerConfirmPassword,
+                      // textFieldTitle: "Confirm Password",
                       textFieldHintText: "*****",
                       controller: confirmPasswordTextFieldController,
                       obscureText: isHideConfirmPassword,
@@ -176,7 +183,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         return Column(
                           children: [
                             AppMainButtonWidget(
-                              text: "Daftar",
+                              text: LanguageController.language.register,
+                              // text: "Daftar",
                               onPressed: () {
                                 if (nameTextFieldController.text.isEmpty ||
                                     emailTextFieldController.text.isEmpty ||
@@ -208,7 +216,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               },
                             ),
                             SizedBox(height: 20.h),
-                            const Text("Sudah Ada Akun?"),
+                            Text(
+                              LanguageController.language.alreadyHaveAnAccount,
+                              // "Sudah Ada Akun?",
+                            ),
                             SizedBox(height: 20.h),
                             AppMainButtonWidget(
                               onPressed: () {
@@ -217,7 +228,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 //   () => const MainPage(),
                                 // );
                               },
-                              text: "Masuk",
+                              text: LanguageController.language.enter,
+                              // text: "Masuk",
                             ),
                             SizedBox(height: 20.h),
                           ],

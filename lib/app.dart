@@ -28,6 +28,7 @@ import 'package:project_vehicle_log_app/presentation/signup_screen/signup_bloc/s
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_handler.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 
@@ -82,6 +83,11 @@ class _MyAppState extends State<MyApp> {
           AppTheme.appThemeInit();
           return GetMaterialApp(
             title: 'Vehicle Management Log',
+            locale: Get.deviceLocale,
+            // locale: Get.deviceLocale,
+            // fallbackLocale: LanguageHandler.currentLocale,
+            // fallbackLocale: LanguageHandler.currentLocale,
+            // theme: AppTheme.theme.copyWith(),
             theme: AppTheme.theme,
             // home: const MainPage()
             home: (isSignIn == true) ? const MainPage() : const SignInPage(),
