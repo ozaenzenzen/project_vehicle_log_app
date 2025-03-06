@@ -1,13 +1,8 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:get_storage/get_storage.dart';
 import 'package:project_vehicle_log_app/env.dart';
 import 'package:project_vehicle_log_app/support/app_interceptors.dart';
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
-import 'package:project_vehicle_log_app/support/config/language/language_english.dart';
-import 'package:project_vehicle_log_app/support/config/language/language_indonesia.dart';
-import 'package:project_vehicle_log_app/support/config/language/language.dart';
 
 class AppInitConfig {
   static FamCodingSupply famCodingSupply = FamCodingSupply();
@@ -51,7 +46,7 @@ class AppInitConfig {
     await famCodingSupply.appDeviceInfo.getDeviceData();
 
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
-    EnvironmentConfig.customBaseUrl = "https://219c-114-10-42-224.ngrok-free.app"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "https://7cdb-115-85-93-124.ngrok-free.app"; // for ngrok
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 

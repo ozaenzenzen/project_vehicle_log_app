@@ -14,6 +14,7 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/add_vehicle_
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_custom_appbar.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -101,7 +102,8 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       bottomNavigationBar: AppCustomAppBar(
-        centerItemText: 'Add Vehicle',
+        // centerItemText: 'Add Vehicle',
+        centerItemText: LanguageController.language.addVehicle,
         color: AppColor.white,
         selectedColor: AppColor.white,
         notchedShape: const CircularNotchedRectangle(),
@@ -116,19 +118,23 @@ class _MainPageState extends State<MainPage> {
         items: [
           AppCustomAppBarItem(
             iconData: Icons.home,
-            text: "Home",
+            text: LanguageController.language.homeMenu,
+            // text: "Home",
           ),
           AppCustomAppBarItem(
             iconData: Icons.motorcycle,
-            text: "Vehicle",
+            text: LanguageController.language.vehicleMenu,
+            // text: "Vehicle",
           ),
           AppCustomAppBarItem(
             iconData: Icons.bar_chart,
-            text: "Stats",
+            text: LanguageController.language.statsMenu,
+            // text: "Stats",
           ),
           AppCustomAppBarItem(
             iconData: Icons.person,
-            text: "Profile",
+            text: LanguageController.language.profileMenu,
+            // text: "Profile",
           ),
         ],
       ),

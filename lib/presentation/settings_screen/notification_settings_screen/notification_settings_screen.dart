@@ -1,12 +1,10 @@
-import 'package:app_settings/app_settings.dart';
-import 'package:fam_coding_supply/logic/export.dart';
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_open_app_settings/flutter_open_app_settings.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class NotificationSettingsScreen extends StatefulWidget {
   const NotificationSettingsScreen({super.key});
@@ -21,7 +19,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBarWidget(
-        title: 'Notification Settings',
+        // title: 'Notification Settings',
+        title: LanguageController.language.notificationSettings,
         onBack: () {
           Get.back();
         },
@@ -52,7 +51,8 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Open Notification Settings",
+                      // "Open Notification Settings",
+                      LanguageController.language.openNotificationSettings,
                       style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),

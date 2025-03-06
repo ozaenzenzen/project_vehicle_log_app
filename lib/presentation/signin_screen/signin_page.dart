@@ -10,7 +10,6 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/main_page.dart';
-import 'package:project_vehicle_log_app/presentation/otp_verification_screen/otp_verification_screen.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_bloc/signin_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signup_screen/signup_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
@@ -19,6 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/config/language/language.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_bloc/language_bloc.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class SignInPage extends StatefulWidget {
@@ -338,7 +338,8 @@ class _SignInPageState extends State<SignInPage> {
                                         onTap: () async {
                                           if (language != LanguageController.languages[0]) {
                                             language = LanguageController.languages[0];
-                                            await LanguageController.switchLanguage(language);
+                                            // await LanguageController.switchLanguage(context, language);
+                                            context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: language));
                                           }
                                           setState1(() {});
                                         },
@@ -370,7 +371,8 @@ class _SignInPageState extends State<SignInPage> {
                                               onChanged: (value) async {
                                                 if (language != value) {
                                                   language = value!;
-                                                  await LanguageController.switchLanguage(value);
+                                                  // await LanguageController.switchLanguage(context, value);
+                                                  context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: language));
                                                 }
                                                 setState1(() {});
                                               },
@@ -383,7 +385,8 @@ class _SignInPageState extends State<SignInPage> {
                                         onTap: () async {
                                           if (language != LanguageController.languages[1]) {
                                             language = LanguageController.languages[1];
-                                            await LanguageController.switchLanguage(language);
+                                            // await LanguageController.switchLanguage(context, language);
+                                            context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: language));
                                           }
                                           setState1(() {});
                                         },
@@ -416,7 +419,8 @@ class _SignInPageState extends State<SignInPage> {
                                               onChanged: (value) async {
                                                 if (language != value) {
                                                   language = value!;
-                                                  await LanguageController.switchLanguage(language);
+                                                  // await LanguageController.switchLanguage(context, language);
+                                                  context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: language));
                                                 }
                                                 setState1(() {});
                                               },

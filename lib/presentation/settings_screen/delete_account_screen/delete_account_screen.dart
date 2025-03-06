@@ -2,7 +2,6 @@ import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:fam_coding_supply/ui/widget/app_mainbutton_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/delete_account_screen/delete_account_bloc/delete_account_bloc.dart';
@@ -10,6 +9,7 @@ import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.d
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
@@ -33,7 +33,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           child: Scaffold(
             backgroundColor: AppColor.shape,
             appBar: AppBarWidget(
-              title: 'Delete Account',
+              // title: 'Delete Account',
+              title: LanguageController.language.deleteAccount,
               onBack: () {
                 Get.back();
               },
@@ -122,7 +123,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           ),
           SizedBox(height: 16.h),
           Text(
-            "Delete Account",
+            // "Delete Account",
+            LanguageController.language.deleteAccount,
             style: GoogleFonts.inter(
               fontSize: 28.sp,
               fontWeight: FontWeight.w600,
@@ -132,7 +134,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           Text.rich(
             textAlign: TextAlign.center,
             TextSpan(
-              text: 'Warning! ',
+              // text: 'Warning! ',
+              text: "${LanguageController.language.warning}! ",
               style: GoogleFonts.inter(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
@@ -140,7 +143,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               ),
               children: <InlineSpan>[
                 TextSpan(
-                  text: "This will permanent and cannot be undone! Your account will be deactivated in 30 days before it permanently deleted.\nYou can contact Customer Service for activation",
+                  // text: "This will permanent and cannot be undone! Your account will be deactivated in 30 days before it permanently deleted.\nYou can contact Customer Service for activation",
+                  text: LanguageController.language.infoDeleteAccountDescription,
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
@@ -155,7 +159,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             controller: reasonTextController,
             maxLines: 10,
             decoration: InputDecoration(
-              hintText: "Any reason you want to share",
+              // hintText: "Any reason you want to share",
+              hintText: LanguageController.language.reason,
               hintStyle: GoogleFonts.inter(
                 color: Colors.black87,
                 fontSize: 14.sp,
@@ -174,7 +179,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             onPressed: () async {
               await AppDialogActionCS.showWarningPopup(
                 context: context,
-                title: "Delete Account",
+                // title: "Delete Account",
+                title: LanguageController.language.deleteAccount,
                 isHorizontal: false,
                 reverseButton: true,
                 description: "Are you sure you want to delete the account?",
@@ -194,7 +200,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 secondaryButtonTitle: "Delete",
               );
             },
-            text: "Delete Account",
+            // text: "Delete Account",
+            text: LanguageController.language.deleteAccount,
           ),
           // Text(
           //   "Warning! This is permanent and cannot be undone!",

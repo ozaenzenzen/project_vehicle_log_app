@@ -1,3 +1,4 @@
+import 'package:fam_coding_supply/logic/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,11 +29,19 @@ import 'package:project_vehicle_log_app/presentation/signup_screen/signup_bloc/s
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_log_vehicle_bloc/create_log_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/vehicle_bloc/create_vehicle_bloc/create_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:project_vehicle_log_app/support/config/language/language_handler.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_bloc/language_bloc.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:project_vehicle_log_app/support/local_service.dart';
 import 'package:project_vehicle_log_app/data/repository/local/account_local_repository.dart';
 
+import 'package:nested/nested.dart';
+
 class MyApp extends StatefulWidget {
+  // static final GlobalKey<_MyAppState> myAppKey = GlobalKey<_MyAppState>();
+
+  // MyApp({Key? key}) : super(key: myAppKey);
+  // MyApp({Key? key}) : super(key: myAppKey);
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -41,37 +50,49 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool? isSignIn = false;
+
+  Locale? _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = LanguageController.language.locale1;
+  }
+
+  List<SingleChildWidget> providers = [
+    BlocProvider(create: (context) => LanguageBloc()),
+    BlocProvider(
+        create: (context) => SigninBloc(
+              AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
+              DeviceRepository(AppInitConfig.appInterceptors.appApiService),
+            )),
+    BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
+    BlocProvider(create: (context) => SignupBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => ChangePasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => OtpValidationBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => DeleteAccountBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => SendOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => ValidateOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => ChangePasswordForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(
+        create: (context) => ProfileBloc(
+              AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
+              AccountLocalRepository(),
+            )),
+    BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => EditProfileBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => NotificationBloc(AppNotificationRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
+    BlocProvider(create: (context) => GetListLogBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
+  ];
+
   @override
   Widget build(BuildContext context) {
     isSignIn = LocalService.instance.box.read("isSignIn");
     debugPrint("isSignIn $isSignIn");
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (context) => SigninBloc(
-                  AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
-                  DeviceRepository(AppInitConfig.appInterceptors.appApiService),
-                )),
-        BlocProvider(create: (context) => SignoutBloc(AccountLocalRepository(), VehicleLocalRepository())),
-        BlocProvider(create: (context) => SignupBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => ChangePasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => OtpValidationBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => DeleteAccountBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => SendOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => ValidateOtpForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => ChangePasswordForgotPasswordBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(
-            create: (context) => ProfileBloc(
-                  AppAccountRepository(AppInitConfig.appInterceptors.appApiService),
-                  AccountLocalRepository(),
-                )),
-        BlocProvider(create: (context) => CreateVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => CreateLogVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => EditProfileBloc(AppAccountRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => NotificationBloc(AppNotificationRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => GetAllVehicleBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
-        BlocProvider(create: (context) => GetListLogBloc(AppVehicleRepository(AppInitConfig.appInterceptors.appApiService))),
-      ],
+      providers: providers,
       child: ScreenUtilInit(
         // designSize: const Size(360, 690),
         designSize: const Size(411, 869),
@@ -81,16 +102,22 @@ class _MyAppState extends State<MyApp> {
         splitScreenMode: true,
         builder: (context, child) {
           AppTheme.appThemeInit();
-          return GetMaterialApp(
-            title: 'Vehicle Management Log',
-            locale: Get.deviceLocale,
-            // locale: Get.deviceLocale,
-            // fallbackLocale: LanguageHandler.currentLocale,
-            // fallbackLocale: LanguageHandler.currentLocale,
-            // theme: AppTheme.theme.copyWith(),
-            theme: AppTheme.theme,
-            // home: const MainPage()
-            home: (isSignIn == true) ? const MainPage() : const SignInPage(),
+          return BlocListener<LanguageBloc, LanguageState>(
+            listener: (context, state) {
+              AppLoggerCS.debugLog("state: $state");
+              if (state is LanguageSuccess) {
+                setState(() {
+                  _locale = state.language.locale1;
+                  AppLoggerCS.debugLog("_locale: $_locale");
+                });
+              }
+            },
+            child: GetMaterialApp(
+              title: 'Vehicle Management Log',
+              locale: _locale,
+              theme: AppTheme.theme,
+              home: (isSignIn == true) ? const MainPage() : const SignInPage(),
+            ),
           );
         },
       ),

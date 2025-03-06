@@ -64,6 +64,8 @@ dependencies:
   super_tooltip: ^2.0.9
   # intl:
   in_app_review: ^2.0.10
+  restart_app: ^1.3.2
+  nested: ^1.0.0
   
 
 dev_dependencies:

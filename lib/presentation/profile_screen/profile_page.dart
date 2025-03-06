@@ -3,19 +3,17 @@ import 'dart:convert';
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
-import 'package:project_vehicle_log_app/presentation/widget/app_webview_screen.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:project_vehicle_log_app/presentation/edit_profile/edit_profile_page.dart';
 import 'package:project_vehicle_log_app/presentation/notification_screen/notification_page.dart';
 
@@ -42,7 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBarWidget(
-        title: 'My Profile',
+        // title: 'My Profile',
+        title: LanguageController.language.myProfile,
         onBack: () {
           Get.back();
         },
@@ -154,7 +153,8 @@ class _ProfilePageState extends State<ProfilePage> {
               color: Colors.white,
             ),
             child: Text(
-              "Keluar",
+              // "Keluar",
+              LanguageController.language.logout,
               style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                 color: Colors.red,
                 fontWeight: FontWeight.w700,
@@ -181,7 +181,8 @@ class _ProfilePageState extends State<ProfilePage> {
         );
       },
       child: Text(
-        "Edit Profile",
+        // "Edit Profile",
+        LanguageController.language.editProfile,
         style: AppTheme.theme.textTheme.titleLarge?.copyWith(
           color: AppColor.text_4,
           fontWeight: FontWeight.w600,
@@ -313,7 +314,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Apps",
+            // "Apps",
+            LanguageController.language.apps,
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -370,7 +372,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Account",
+            // "Account",
+            LanguageController.language.account,
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -427,7 +430,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "About",
+            // "About",
+            LanguageController.language.about,
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w500,
             ),

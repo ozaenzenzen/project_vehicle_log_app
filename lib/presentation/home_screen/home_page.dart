@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
@@ -19,7 +18,7 @@ import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page
 import 'package:project_vehicle_log_app/presentation/widget/app_container_box_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
-import 'package:skeletons/skeletons.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
@@ -235,7 +234,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           SizedBox(height: 10.h),
           Text(
-            "Manage your vehicle mileage",
+            // "Manage your vehicle mileage",
+            LanguageController.language.manageYourVehicleMileage,
             style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
               // color: AppColor.text_4,
               color: Colors.black38,
@@ -244,7 +244,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
           SizedBox(height: 10.h),
           Text(
-            "Current Date: ${formattedDate.format(DateTime.now())}",
+            // "Current Date: ${formattedDate.format(DateTime.now())}",
+            "${LanguageController.language.currentDate}: ${formattedDate.format(DateTime.now())}",
             style: AppTheme.theme.textTheme.titleLarge?.copyWith(
               color: Colors.black38,
               fontWeight: FontWeight.w500,
@@ -267,7 +268,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Summary",
+                    // "Summary",
+                    LanguageController.language.summary,
                     style: GoogleFonts.inter(
                       color: Colors.black54,
                       fontSize: 16.sp,
@@ -287,7 +289,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         countVehicle = "";
                       }
                       return Text(
-                        "Number of Vehicle: $countVehicle",
+                        // "Number of Vehicle: $countVehicle",
+                        "${LanguageController.language.numberOfVehicle}: $countVehicle",
                         // "Number of Vehicle: ${state.result?.totalItems}",
                         style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                           color: Colors.black54,
@@ -297,7 +300,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "Measurement: ${state.result?.collectionLogData?.measurementTitles}",
+                    // "Measurement: ${state.result?.collectionLogData?.measurementTitles}",
+                    "${LanguageController.language.measurement}: ${state.result?.collectionLogData?.measurementTitles}",
                     // "Measurement: Oil, Water",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
@@ -305,7 +309,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "Last Update: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
+                    // "Last Update: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
+                    "${LanguageController.language.lastUpdate}: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
                     // "Last Update: 16 Nov 2022",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
@@ -320,7 +325,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           // width: 150.h,
                           child: SfCircularChart(
                             title: ChartTitle(
-                              text: "Frequent Measurment",
+                              text: LanguageController.language.frequentMeasurement,
+                              // text: "Frequent Measurment",
                               textStyle: GoogleFonts.inter(
                                 color: Colors.black38,
                                 fontSize: 10.sp,
@@ -344,7 +350,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           // width: 150.h,
                           child: SfCircularChart(
                             title: ChartTitle(
-                              text: "Cost Breakdown",
+                              // text: "Cost Breakdown",
+                              text: LanguageController.language.costBreakdown,
                               textStyle: GoogleFonts.inter(
                                 color: Colors.black38,
                                 fontSize: 10.sp,

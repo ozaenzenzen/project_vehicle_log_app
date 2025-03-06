@@ -5,6 +5,7 @@ import 'package:project_vehicle_log_app/data/dummy_data_profile.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class SecurityPreferencesScreen extends StatefulWidget {
   const SecurityPreferencesScreen({super.key});
@@ -19,7 +20,8 @@ class _SecurityPreferencesScreenState extends State<SecurityPreferencesScreen> {
     return Scaffold(
       backgroundColor: AppColor.shape,
       appBar: AppBarWidget(
-        title: 'Security Preferences',
+        // title: 'Security Preferences',
+        title: LanguageController.language.securityPreferences,
         onBack: () {
           Get.back();
         },
