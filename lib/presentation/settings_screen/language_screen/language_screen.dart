@@ -8,7 +8,6 @@ import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/config/language/language.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_bloc/language_bloc.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
-import 'package:restart_app/restart_app.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -62,14 +61,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
                           currentLanguage = LanguageController.languages[index];
                           // LanguageController.switchLanguage(context, currentLanguage);
                           context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: currentLanguage));
-                          Restart.restartApp(
-                            /// In Web Platform, Fill webOrigin only when your new origin is different than the app's origin
-                            // webOrigin: 'http://example.com',
+                          // Restart.restartApp(
+                          //   /// In Web Platform, Fill webOrigin only when your new origin is different than the app's origin
+                          //   // webOrigin: 'http://example.com',
 
-                            // Customizing the restart notification message (only needed on iOS)
-                            notificationTitle: 'Restarting App',
-                            notificationBody: 'Please tap here to open the app again.',
-                          );
+                          //   // Customizing the restart notification message (only needed on iOS)
+                          //   notificationTitle: 'Restarting App',
+                          //   notificationBody: 'Please tap here to open the app again.',
+                          // );
                         });
                       },
                       child: Container(
@@ -97,14 +96,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
                                 setState(() {
                                   currentLanguage = value!;
                                   context.read<LanguageBloc>().add(ChangeLanguageAction(context: context, language: currentLanguage));
-                                  Restart.restartApp(
-                                    /// In Web Platform, Fill webOrigin only when your new origin is different than the app's origin
-                                    // webOrigin: 'http://example.com',
+                                  // Restart.restartApp(
+                                  //   /// In Web Platform, Fill webOrigin only when your new origin is different than the app's origin
+                                  //   // webOrigin: 'http://example.com',
 
-                                    // Customizing the restart notification message (only needed on iOS)
-                                    notificationTitle: 'Restarting App',
-                                    notificationBody: 'Please tap here to open the app again.',
-                                  );
+                                  //   // Customizing the restart notification message (only needed on iOS)
+                                  //   notificationTitle: 'Restarting App',
+                                  //   notificationBody: 'Please tap here to open the app again.',
+                                  // );
                                 });
                               },
                             ),
