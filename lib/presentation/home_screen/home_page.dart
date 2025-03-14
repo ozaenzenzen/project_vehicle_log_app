@@ -138,9 +138,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   if (state is ProfileFailed) {
                     AppDialogActionCS.showFailedPopup(
                       context: context,
-                      title: "Terjadi kesalahan",
+                      title: LanguageController.language.errorTitle1,
                       description: state.errorMessage,
-                      buttonTitle: "Kembali",
+                      buttonTitle: LanguageController.language.backButton,
                       mainButtonAction: () {
                         Get.back();
                       },

@@ -53,9 +53,9 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                   if (state is DeleteAccountFailed) {
                     AppDialogActionCS.showFailedPopup(
                       context: context,
-                      title: "Terjadi kesalahan",
+                      title: LanguageController.language.errorTitle1,
                       description: state.errorMessage,
-                      buttonTitle: "Kembali",
+                      buttonTitle: LanguageController.language.backButton,
                       mainButtonAction: () {
                         Get.back();
                       },
@@ -83,7 +83,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 if (state is SignoutFailed) {
                   AppDialogActionCS.showMainPopup(
                     context: context,
-                    title: "Error",
+                    title: LanguageController.language.errorTitle1,
                     content: Text(state.errorMessage),
                     mainButtonAction: () {
                       Get.back();

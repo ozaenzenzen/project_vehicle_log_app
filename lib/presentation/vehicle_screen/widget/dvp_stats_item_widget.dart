@@ -1,9 +1,7 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_log_vehicle_data_request_model_v2.dart';
 import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.dart';
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
@@ -311,12 +309,12 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
           SizedBox(height: 5.h),
           SfCartesianChart(
             key: const Key("Expenses"),
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: const CategoryAxis(),
             // // Chart title
             title: ChartTitle(text: LanguageController.language.expenses),
             // title: ChartTitle(text: 'Expenses'),
             // // Enable legend
-            legend: Legend(isVisible: true),
+            legend: const Legend(isVisible: true),
             // // Enable tooltip
             tooltipBehavior: _expensesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[
@@ -358,12 +356,12 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
           SizedBox(height: 10.h),
           SfCartesianChart(
             key: const Key("Odo Changes"),
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: const CategoryAxis(),
             // Chart title
             // title: ChartTitle(text: 'Odo Changes'),
             title: ChartTitle(text: LanguageController.language.odoChanges),
             // Enable legend
-            legend: Legend(isVisible: true),
+            legend: const Legend(isVisible: true),
             // Enable tooltip
             tooltipBehavior: _odoChangesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[

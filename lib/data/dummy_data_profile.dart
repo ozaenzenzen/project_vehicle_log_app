@@ -121,13 +121,13 @@ class ProfileMenuSettings {
       // menuTitle: "Rate 'Vehicle Management Logs'",
       menuTitle: "${LanguageController.language.rate} '${LanguageController.language.vehicleManagementLogs}'",
       menuFunction: () async {
-        final InAppReview _inAppReview = InAppReview.instance;
+        final InAppReview inAppReview = InAppReview.instance;
 
-        if (await _inAppReview.isAvailable()) {
-          _inAppReview.requestReview();
+        if (await inAppReview.isAvailable()) {
+          inAppReview.requestReview();
         }
 
-        await _inAppReview.openStoreListing(
+        await inAppReview.openStoreListing(
           appStoreId: '',
           microsoftStoreId: '',
         );

@@ -1,7 +1,6 @@
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/change_password_forgot_password_bloc/change_password_forgot_password_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
@@ -9,6 +8,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class ChangePasswordForgotPasswordScreen extends StatefulWidget {
   const ChangePasswordForgotPasswordScreen({super.key});
@@ -113,9 +113,9 @@ class _ChangePasswordForgotPasswordScreenState extends State<ChangePasswordForgo
                         if (newPasswordTextController.text.isEmpty || confirmNewPasswordTextController.text.isEmpty) {
                           AppDialogActionCS.showFailedPopup(
                             context: context,
-                            title: "Terjadi kesalahan",
+                            title: LanguageController.language.errorTitle1,
                             description: "Data tidak lengkap",
-                            buttonTitle: "Kembali",
+                            buttonTitle: LanguageController.language.backButton,
                             mainButtonAction: () {
                               Get.back();
                             },
@@ -161,9 +161,9 @@ class _ChangePasswordForgotPasswordScreenState extends State<ChangePasswordForgo
                 if (state is ChangePasswordForgotPasswordFailed) {
                   AppDialogActionCS.showFailedPopup(
                     context: context,
-                    title: "Terjadi kesalahan",
+                    title: LanguageController.language.errorTitle1,
                     description: state.errorMessage,
-                    buttonTitle: "Kembali",
+                    buttonTitle: LanguageController.language.backButton,
                     mainButtonAction: () {
                       Get.back();
                     },

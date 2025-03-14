@@ -2,7 +2,6 @@ import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/otp_verification_screen/otp_validation_bloc/otp_validation_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
@@ -10,6 +9,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   const OTPVerificationScreen({super.key});
@@ -154,7 +154,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 padding: EdgeInsets.symmetric(
                   horizontal: 16.w,
                 ),
-                child: Container(
+                child: SizedBox(
                   // color: Colors.amber,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -208,9 +208,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           if (pinController1.text.isEmpty || pinController2.text.isEmpty || pinController3.text.isEmpty || pinController4.text.isEmpty || pinController5.text.isEmpty || pinController6.text.isEmpty) {
                             AppDialogActionCS.showFailedPopup(
                               context: context,
-                              title: "Terjadi kesalahan",
+                              title: LanguageController.language.errorTitle1,
                               description: "Data tidak lengkap",
-                              buttonTitle: "Kembali",
+                              buttonTitle: LanguageController.language.backButton,
                               mainButtonAction: () {
                                 Get.back();
                               },
@@ -262,9 +262,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                 if (state is OtpValidationFailed) {
                   AppDialogActionCS.showFailedPopup(
                     context: context,
-                    title: "Terjadi kesalahan",
+                    title: LanguageController.language.errorTitle1,
                     description: state.errorMessage,
-                    buttonTitle: "Kembali",
+                    buttonTitle: LanguageController.language.backButton,
                     mainButtonAction: () {
                       Get.back();
                     },

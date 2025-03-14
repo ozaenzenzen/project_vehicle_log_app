@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
         if (state is SignoutFailed) {
           AppDialogActionCS.showMainPopup(
             context: context,
-            title: "Error",
+            title: LanguageController.language.errorTitle1,
             content: Text(state.errorMessage),
             mainButtonAction: () {
               Get.back();

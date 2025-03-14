@@ -75,13 +75,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         padding: EdgeInsets.all(16.h),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              LanguageController.languages[index].languageName,
-                              style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "${LanguageController.languages[index].languageImage}",
+                                  height: 24.h,
+                                  width: 24.h,
+                                  fit: BoxFit.cover,
+                                ),
+                                SizedBox(width: 12.w),
+                                Text(
+                                  LanguageController.languages[index].languageName,
+                                  style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
+                            SizedBox(width: 12.w),
                             Radio<Language>(
                               // Radio<String>(
                               visualDensity: const VisualDensity(
@@ -99,7 +115,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                                   // Restart.restartApp(
                                   //   /// In Web Platform, Fill webOrigin only when your new origin is different than the app's origin
                                   //   // webOrigin: 'http://example.com',
-
+                      
                                   //   // Customizing the restart notification message (only needed on iOS)
                                   //   notificationTitle: 'Restarting App',
                                   //   notificationBody: 'Please tap here to open the app again.',

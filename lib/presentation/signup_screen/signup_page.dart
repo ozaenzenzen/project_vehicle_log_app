@@ -1,16 +1,13 @@
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signup_request_models.dart';
 import 'package:project_vehicle_log_app/presentation/otp_verification_screen/otp_verification_screen.dart';
-import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/signup_screen/signup_bloc/signup_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_loading_indicator.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
-import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_info.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
@@ -153,10 +150,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (state is SignupFailed) {
                           AppDialogActionCS.showFailedPopup(
                             context: context,
-                            title: "Terjadi kesalahan",
+                            title: LanguageController.language.errorTitle1,
                             description: state.errorMessage,
                             // description: "Berhasil mendaftarkan akun. Silakan login",
-                            buttonTitle: "Kembali",
+                            buttonTitle: LanguageController.language.backButton,
                             mainButtonAction: () {
                               Get.back();
                             },
@@ -193,9 +190,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                     confirmPasswordTextFieldController.text.isEmpty) {
                                   AppDialogActionCS.showFailedPopup(
                                     context: context,
-                                    title: "Terjadi kesalahan",
+                                    title: LanguageController.language.errorTitle1,
                                     description: "Data tidak lengkap",
-                                    buttonTitle: "Kembali",
+                                    buttonTitle: LanguageController.language.backButton,
                                     mainButtonAction: () {
                                       Get.back();
                                     },

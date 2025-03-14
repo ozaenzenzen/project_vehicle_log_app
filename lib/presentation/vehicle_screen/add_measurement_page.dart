@@ -1,7 +1,6 @@
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/dummy_data_service.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/create_log_vehicle_request_model.dart';
@@ -141,9 +140,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
         if (state is CreateLogVehicleFailed) {
           AppDialogActionCS.showFailedPopup(
             context: context,
-            title: "Terjadi kesalahan",
+            title: LanguageController.language.errorTitle1,
             description: state.errorMessage,
-            buttonTitle: "Kembali",
+            buttonTitle: LanguageController.language.backButton,
             mainButtonAction: () {
               Get.back();
             },
@@ -154,7 +153,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             context: context,
             title: "Berhasil menambah log data kendaraan",
             description: state.createLogVehicleResponseModel.message!,
-            buttonTitle: "Kembali",
+            buttonTitle: LanguageController.language.backButton,
             barrierDismissible: false,
             mainButtonAction: () {
               context.read<GetAllVehicleBloc>().add(
@@ -179,7 +178,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
               AppDialogActionCS.showFailedPopup(
                 context: context,
-                title: "Error",
+                title: LanguageController.language.errorTitle1,
                 description: "field can't be empty",
                 buttonTitle: "Back",
                 mainButtonAction: () {
@@ -189,7 +188,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             } else if (isCurrentOdoMoreThanEstimateOdo) {
               AppDialogActionCS.showFailedPopup(
                 context: context,
-                title: "Error",
+                title: LanguageController.language.errorTitle1,
                 description: "Tidak boleh kurang atau sama dengan dari Current Odo",
                 buttonTitle: "Back",
                 mainButtonAction: () {

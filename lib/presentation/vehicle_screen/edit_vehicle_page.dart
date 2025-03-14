@@ -4,7 +4,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/edit_vehicle_request_model.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
@@ -138,9 +137,9 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
         if (state is EditVehicleFailed) {
           AppDialogActionCS.showFailedPopup(
             context: context,
-            title: 'Terjadi kesalahan',
+            title: LanguageController.language.errorTitle1,
             description: state.errorMessage,
-            buttonTitle: 'Kembali',
+            buttonTitle: LanguageController.language.backButton,
             mainButtonAction: () {
               Get.back();
             },
@@ -152,7 +151,7 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             context: context,
             title: 'Berhasil mengubah data kendaraan',
             description: state.editVehicleResponseModel.message,
-            buttonTitle: 'Kembali',
+            buttonTitle: LanguageController.language.backButton,
             barrierDismissible: false,
             mainButtonAction: () {
               context.read<GetAllVehicleBloc>().add(

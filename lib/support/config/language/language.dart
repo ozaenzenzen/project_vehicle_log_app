@@ -14,6 +14,11 @@ abstract class Language with AppLanguage {
   late String emptyState;
   late String emptyStateMilage;
 
+  // Success Error wording
+  late String emptyData; 
+  late String tryAgain; 
+  late String tryAgainInAMoment; 
+
   // Popup
   late String errorTitle1;
   late String errorTitle2;

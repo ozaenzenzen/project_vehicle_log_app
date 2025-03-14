@@ -384,4 +384,13 @@ class LanguageIndonesia implements Language {
   
   @override
   String oldPassword = "Password Lama";
+  
+  @override
+  String emptyData = "Data kosong";
+  
+  @override
+  String tryAgain = "Coba lagi";
+  
+  @override
+  String tryAgainInAMoment = "Coba lagi beberapa saat";
 }

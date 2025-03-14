@@ -3,7 +3,6 @@ import 'package:fam_coding_supply/ui/widget/app_loading_indicator.dart';
 import 'package:fam_coding_supply/ui/widget/app_mainbutton_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/change_password_forgot_password_screen.dart';
 import 'package:project_vehicle_log_app/presentation/forgot_password_screen/send_otp_forgot_password_bloc/send_otp_forgot_password_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2
 import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -96,9 +96,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       if (emailTextController.text.isEmpty) {
                         AppDialogActionCS.showFailedPopup(
                           context: context,
-                          title: "Terjadi kesalahan",
+                          title: LanguageController.language.errorTitle1,
                           description: "Data tidak lengkap",
-                          buttonTitle: "Kembali",
+                          buttonTitle: LanguageController.language.backButton,
                           mainButtonAction: () {
                             Get.back();
                           },
@@ -143,9 +143,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               if (state is SendOtpForgotPasswordFailed) {
                 AppDialogActionCS.showFailedPopup(
                   context: context,
-                  title: "Terjadi kesalahan",
+                  title: LanguageController.language.errorTitle1,
                   description: state.errorMessage,
-                  buttonTitle: "Kembali",
+                  buttonTitle: LanguageController.language.backButton,
                   mainButtonAction: () {
                     Get.back();
                   },
@@ -156,7 +156,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   context: context,
                   title: "Sukses",
                   description: "Cek OTP pada email Anda",
-                  buttonTitle: "Kembali",
+                  buttonTitle: LanguageController.language.backButton,
                   mainButtonAction: () {
                     emailTextController.clear();
                     Get.back();
@@ -211,9 +211,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     if (state is ValidateOtpForgotPasswordFailed) {
                       AppDialogActionCS.showFailedPopup(
                         context: context,
-                        title: "Terjadi kesalahan",
+                        title: LanguageController.language.errorTitle1,
                         description: state.errorMessage,
-                        buttonTitle: "Kembali",
+                        buttonTitle: LanguageController.language.backButton,
                         mainButtonAction: () {
                           Get.back();
                         },

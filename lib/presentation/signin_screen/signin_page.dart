@@ -2,7 +2,6 @@ import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:fam_coding_supply/logic/app_bottomsheet_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/signin_request_models.dart';
 import 'package:project_vehicle_log_app/data/model/remote/vehicle/request/get_all_vehicle_data_request_model_v2.dart';
@@ -181,9 +180,9 @@ class _SignInPageState extends State<SignInPage> {
                     listener: (context, state) {
                       if (state is SigninFailed) {
                         AppDialogActionCS.showFailedPopup(
-                          title: 'Terjadi kesalahan',
+                          title: LanguageController.language.errorTitle1,
                           description: state.errorMessage,
-                          buttonTitle: 'Kembali',
+                          buttonTitle: LanguageController.language.backButton,
                           context: context,
                           mainButtonAction: () {
                             Get.back();
@@ -314,7 +313,7 @@ class _SignInPageState extends State<SignInPage> {
             SafeArea(
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: kToolbarHeight,
                     // color: Colors.red,
                     child: Row(

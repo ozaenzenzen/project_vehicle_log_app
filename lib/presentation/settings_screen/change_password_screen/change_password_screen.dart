@@ -3,7 +3,6 @@ import 'package:fam_coding_supply/ui/widget/app_mainbutton_widget.dart';
 import 'package:fam_coding_supply/ui/widget/app_textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:project_vehicle_log_app/data/model/remote/account/request/change_password_request_model.dart';
 import 'package:project_vehicle_log_app/presentation/settings_screen/change_password_screen/change_password_bloc/change_password_bloc.dart';
@@ -149,9 +148,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       if (oldPasswordTextController.text.isEmpty || newPasswordTextController.text.isEmpty || confirmNewPasswordTextController.text.isEmpty) {
                         AppDialogActionCS.showFailedPopup(
                           context: context,
-                          title: "Terjadi kesalahan",
+                          title: LanguageController.language.errorTitle1,
                           description: "Data tidak lengkap",
-                          buttonTitle: "Kembali",
+                          buttonTitle: LanguageController.language.backButton,
                           mainButtonAction: () {
                             Get.back();
                           },
@@ -200,9 +199,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               if (state is ChangePasswordFailed) {
                 AppDialogActionCS.showFailedPopup(
                   context: context,
-                  title: "Terjadi kesalahan",
+                  title: LanguageController.language.errorTitle1,
                   description: state.errorMessage,
-                  buttonTitle: "Kembali",
+                  buttonTitle: LanguageController.language.backButton,
                   mainButtonAction: () {
                     Get.back();
                   },
@@ -213,7 +212,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   context: context,
                   title: "Sukses",
                   description: "Berhasil ganti password",
-                  buttonTitle: "Kembali",
+                  buttonTitle: LanguageController.language.backButton,
                   mainButtonAction: () {
                     Get.back();
                   },

@@ -385,4 +385,13 @@ class LanguageEnglish implements Language {
   
   @override
   String oldPassword = "Old Password";
+
+  @override
+  String emptyData = "Empty data";
+  
+  @override
+  String tryAgain = "Try again";
+  
+  @override
+  String tryAgainInAMoment = "Try again in a moment";
 }

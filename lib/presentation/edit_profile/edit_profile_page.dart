@@ -181,9 +181,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         if (state is EditProfileFailed) {
           AppDialogActionCS.showFailedPopup(
             context: context,
-            title: "Terjadi Kesalahan",
+            title: LanguageController.language.errorTitle1,
             description: "${state.errorMessage}",
-            buttonTitle: "Kembali",
+            buttonTitle: LanguageController.language.backButton,
             mainButtonAction: () {
               Get.back();
             },
@@ -194,7 +194,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             context: context,
             title: "Berhasil",
             description: "${state.editProfileResponseModel.message}",
-            buttonTitle: "Kembali",
+            buttonTitle: LanguageController.language.backButton,
           );
         }
       },
@@ -206,9 +206,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             if (state is EditProfileLoading || state is ProfileLoading) {
               AppDialogActionCS.showFailedPopup(
                 context: context,
-                title: 'Terjadi kesalahan',
+                title: LanguageController.language.errorTitle1,
                 description: 'Mohon tunggu sebentar, masih mengambil data',
-                buttonTitle: 'Kembali',
+                buttonTitle: LanguageController.language.backButton,
                 mainButtonAction: () {
                   Get.back();
                 },

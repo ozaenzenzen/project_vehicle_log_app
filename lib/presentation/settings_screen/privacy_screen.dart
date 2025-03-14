@@ -1,7 +1,6 @@
+import 'package:fam_coding_supply/fam_coding_supply.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/support/app_readjson.dart';
 import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
