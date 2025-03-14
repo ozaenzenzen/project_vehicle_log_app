@@ -19,6 +19,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.d
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class AddMeasurementPage extends StatefulWidget {
   final int vehicleId;
@@ -110,8 +111,9 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: Scaffold(
-            appBar: const AppBarWidget(
-              title: "Add Measurement",
+            appBar: AppBarWidget(
+              title: LanguageController.language.addMeasurement,
+              // title: "Add Measurement",
             ),
             body: bodySection(context),
             bottomSheet: bottomSheetSection(),
@@ -171,7 +173,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
       },
       builder: (context, state) {
         return AppBottomNavBarButtonWidget(
-          title: "Add Measurement",
+          title: LanguageController.language.addMeasurement,
+          // title: "Add Measurement",
           onTap: () {
             if (measurementTitleController.text.isEmpty || currentOdoController.text.isEmpty || estimateOdoController.text.isEmpty || amountExpensesController.text.isEmpty || checkpointDateController.text.isEmpty || notesController.text.isEmpty) {
               AppDialogActionCS.showFailedPopup(
@@ -241,7 +244,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Stats",
+                LanguageController.language.stats,
+                // "Stats",
                 style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -257,8 +261,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: measurementTitleFocusNode,
-            textFieldTitle: "Measurement Title",
-            textFieldHintText: "ex: Oil",
+            textFieldTitle: LanguageController.language.measurementTitle,
+            textFieldHintText: "${LanguageController.language.exampleShort}: Oil",
+            // textFieldTitle: "Measurement Title",
+            // textFieldHintText: "ex: Oil",
             controller: measurementTitleController,
             readOnly: true,
             ignorePointerActive: true,
@@ -283,8 +289,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: currentOdoFocusNode,
-            textFieldTitle: "Current Odo (km)",
-            textFieldHintText: "ex: 12000",
+            textFieldTitle: "${LanguageController.language.currentOdo} (km)",
+            textFieldHintText: "${LanguageController.language.exampleShort}: 12000",
+            // textFieldTitle: "Current Odo (km)",
+            // textFieldHintText: "ex: 12000",
             controller: currentOdoController,
             keyboardType: TextInputType.number,
             error: Text(
@@ -330,8 +338,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: estimateOdoFocusNode,
-            textFieldTitle: "Estimate Odo Changing (km)",
-            textFieldHintText: "ex: 14000",
+            textFieldTitle: "${LanguageController.language.estimateOdoChanging} (km)",
+            textFieldHintText: "${LanguageController.language.exampleShort}: 14000",
+            // textFieldTitle: "Estimate Odo Changing (km)",
+            // textFieldHintText: "ex: 14000",
             controller: estimateOdoController,
             keyboardType: TextInputType.number,
             error: estimateOdoValidator(
@@ -362,8 +372,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: amountExpensesFocusNode,
-            textFieldTitle: "Amount Expenses (Rp)",
-            textFieldHintText: "ex: 40000",
+            textFieldTitle: "${LanguageController.language.amountExpenses} (Rp)",
+            textFieldHintText: "${LanguageController.language.exampleShort}: 40000",
             controller: amountExpensesController,
             keyboardType: TextInputType.number,
             onTap: () {
@@ -373,7 +383,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: checkpointDateFocusNode,
-            textFieldTitle: "Checkpoint Date",
+            textFieldTitle: LanguageController.language.checkpointDate,
+            // textFieldTitle: "Checkpoint Date",
             textFieldHintText: formatter.format(DateTime.now()),
             controller: checkpointDateController,
             readOnly: true,
@@ -421,8 +432,10 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: notesFocusNode,
-            textFieldTitle: "Notes",
-            textFieldHintText: "notes",
+            textFieldTitle: LanguageController.language.checkpointDate,
+            textFieldHintText: LanguageController.language.checkpointDate,
+            // textFieldTitle: "Notes",
+            // textFieldHintText: "notes",
             maxLines: 4,
             controller: notesController,
             onTap: () {
@@ -448,7 +461,7 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Select Service",
+                LanguageController.language.selectService,
                 style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -457,7 +470,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
               InkWell(
                 onTap: () {},
                 child: Text(
-                  "Add Other Service",
+                  LanguageController.language.addOtherService,
+                  // "Add Other Service",
                   style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                     color: AppColor.blue,
                     fontWeight: FontWeight.w600,

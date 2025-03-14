@@ -11,6 +11,7 @@ import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_l
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/edit_measurement_page.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -70,7 +71,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Date: ${formatter.format((data as ListDatumLogEntity).createdAt!.toLocal())}',
+                // 'Date: ${formatter.format((data as ListDatumLogEntity).createdAt!.toLocal())}',
+                '${LanguageController.language.date}: ${formatter.format((data as ListDatumLogEntity).createdAt!.toLocal())}',
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 12.sp,
@@ -78,7 +80,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
               ),
               SizedBox(height: 4.h),
               Text(
-                'Expenses: ${data.amountExpenses}',
+                // 'Expenses: ${data.amountExpenses}',
+                '${LanguageController.language.expenses}: ${data.amountExpenses}',
                 style: GoogleFonts.inter(
                   color: Colors.white,
                   fontSize: 12.sp,
@@ -196,7 +199,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                               }
                               return AlertDialog(
                                 title: Text(
-                                  'Choose your log',
+                                  LanguageController.language.chooseYourLog,
+                                  // 'Choose your log',
                                   style: GoogleFonts.inter(
                                     color: const Color(0xff26120F),
                                     fontSize: 18.sp,
@@ -291,7 +295,8 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
                   ),
                   padding: EdgeInsets.all(8.h),
                   child: Text(
-                    "Update",
+                    // "Update",
+                    LanguageController.language.update,
                     style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                       color: AppColor.primary,
                       // color: Colors.grey.shade700,
@@ -308,14 +313,16 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             key: const Key("Expenses"),
             primaryXAxis: CategoryAxis(),
             // // Chart title
-            title: ChartTitle(text: 'Expenses'),
+            title: ChartTitle(text: LanguageController.language.expenses),
+            // title: ChartTitle(text: 'Expenses'),
             // // Enable legend
             legend: Legend(isVisible: true),
             // // Enable tooltip
             tooltipBehavior: _expensesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
-                legendItemText: "Expenses",
+                legendItemText: LanguageController.language.expenses,
+                // legendItemText: "Expenses",
                 dataSource: newData1,
                 xValueMapper: (ListDatumLogEntity sales, _) {
                   // AppLoggerCS.debugLog("indxL $index");
@@ -353,14 +360,16 @@ class _DVPStatsItemWidgetState extends State<DVPStatsItemWidget> {
             key: const Key("Odo Changes"),
             primaryXAxis: CategoryAxis(),
             // Chart title
-            title: ChartTitle(text: 'Odo Changes'),
+            // title: ChartTitle(text: 'Odo Changes'),
+            title: ChartTitle(text: LanguageController.language.odoChanges),
             // Enable legend
             legend: Legend(isVisible: true),
             // Enable tooltip
             tooltipBehavior: _odoChangesTooltipBehavior,
             series: <LineSeries<ListDatumLogEntity, String>>[
               LineSeries<ListDatumLogEntity, String>(
-                legendItemText: "Odo Changes",
+                legendItemText: LanguageController.language.odoChanges,
+                // legendItemText: "Odo Changes",
                 dataSource: newData,
                 xValueMapper: (ListDatumLogEntity sales, _) {
                   return formatter2.format(sales.createdAt!.toLocal());

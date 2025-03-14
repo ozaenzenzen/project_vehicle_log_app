@@ -22,6 +22,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class EditVehiclePage extends StatefulWidget {
   final ListDatumVehicleDataEntity data;
@@ -107,8 +108,9 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             child: Scaffold(
-              appBar: const AppBarWidget(
-                title: "Edit Vehicle",
+              appBar: AppBarWidget(
+                title: LanguageController.language.editVehicle,
+                // title: "Edit Vehicle",
               ),
               body: bodySection(),
               bottomSheet: bottomSheetSection(),
@@ -169,7 +171,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
       },
       builder: (context, state) {
         return AppBottomNavBarButtonWidget(
-          title: "Update Vehicle",
+          title: LanguageController.language.update,
+          // title: "Update Vehicle",
           onTap: () {
             context.read<EditVehicleBloc>().add(
                   EditVehicleAction(
@@ -203,7 +206,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Edit Vehicle",
+              LanguageController.language.editVehicle,
+              // "Edit Vehicle",
               style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                 // color: AppColor.text_4,
                 color: Colors.black38,
@@ -212,7 +216,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 10.h),
             Text(
-              "Edit your vehicle alongside with measurement parameter",
+              LanguageController.language.editVehicleDescription,
+              // "Edit your vehicle alongside with measurement parameter",
               style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                 // color: AppColor.text_4,
                 color: Colors.black38,
@@ -221,7 +226,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 24.h),
             Text(
-              "Vehicle Image",
+              LanguageController.language.vehicleImage,
+              // "Vehicle Image",
               style: AppTheme.theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: const Color(0xff331814),
@@ -343,8 +349,10 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Vehicle Name",
-              textFieldHintText: "Vehicle Name",
+              textFieldTitle: LanguageController.language.vehicleName,
+              textFieldHintText: LanguageController.language.vehicleName,
+              // textFieldTitle: "Vehicle Name",
+              // textFieldHintText: "Vehicle Name",
               controller: vehicleNameController,
               focusNode: vehicleNameFocusNode,
               onTap: () {
@@ -353,8 +361,10 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Year",
-              textFieldHintText: "Year",
+              textFieldTitle: LanguageController.language.year,
+              textFieldHintText: LanguageController.language.year,
+              // textFieldTitle: "Year",
+              // textFieldHintText: "Year",
               controller: yearController,
               focusNode: yearFocusNode,
               keyboardType: TextInputType.number,
@@ -364,7 +374,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Engine Capacity (cc)",
+              textFieldTitle: "${LanguageController.language.engineCapacity} (cc)",
+              // textFieldTitle: "Engine Capacity (cc)",
               textFieldHintText: "ex: 250",
               controller: engineCapacityController,
               focusNode: engineCapacityFocusNode,
@@ -375,7 +386,8 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Tank Capacity (Litre)",
+              textFieldTitle: "${LanguageController.language.tankCapacity} (${LanguageController.language.litre})",
+              // textFieldTitle: "Tank Capacity (Litre)",
               textFieldHintText: "ex: 250",
               controller: tankCapacityController,
               focusNode: tankCapacityFocusNode,
@@ -386,8 +398,10 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Color",
-              textFieldHintText: "Color",
+              textFieldTitle: LanguageController.language.color,
+              textFieldHintText: LanguageController.language.color,
+              // textFieldTitle: "Color",
+              // textFieldHintText: "Color",
               controller: colorController,
               focusNode: colorFocusNode,
               onTap: () {
@@ -396,8 +410,10 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Machine Number",
-              textFieldHintText: "Machine Number",
+              textFieldTitle: LanguageController.language.machineNumber,
+              textFieldHintText: LanguageController.language.machineNumber,
+              // textFieldTitle: "Machine Number",
+              // textFieldHintText: "Machine Number",
               controller: machineNumberController,
               focusNode: machineNumberFocusNode,
               onTap: () {
@@ -406,8 +422,10 @@ class _EditVehiclePageState extends State<EditVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Chassis Number",
-              textFieldHintText: "Chassis Number",
+              textFieldTitle: LanguageController.language.chassisNumber,
+              textFieldHintText: LanguageController.language.chassisNumber,
+              // textFieldTitle: "Chassis Number",
+              // textFieldHintText: "Chassis Number",
               controller: chassisNumberController,
               focusNode: chassisNumberFocusNode,
               onTap: () {

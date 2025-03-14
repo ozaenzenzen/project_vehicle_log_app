@@ -16,6 +16,7 @@ import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_vehic
 import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -73,7 +74,8 @@ class _VehiclePageState extends State<VehiclePage> {
             children: [
               SizedBox(height: 40.h),
               Text(
-                "Your Vehicle",
+                LanguageController.language.yourVehicle,
+                // "Your Vehicle",
                 style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                   color: Colors.black38,
                   fontWeight: FontWeight.w500,
@@ -81,7 +83,8 @@ class _VehiclePageState extends State<VehiclePage> {
               ),
               SizedBox(height: 10.h),
               Text(
-                "Choose your vehicle",
+                LanguageController.language.vehicleMainDescription,
+                // "Choose your vehicle",
                 style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                   color: Colors.black38,
                   fontWeight: FontWeight.w500,
@@ -129,24 +132,27 @@ class _VehiclePageState extends State<VehiclePage> {
   Widget newEmptyState({
     required String title,
   }) {
-    return Column(
-      children: [
-        SizedBox(height: 100.h),
-        Image.asset(
-          AppAssets.imgEmptyStateBlue,
-          height: 200.h,
-        ),
-        SizedBox(height: 12.h),
-        Text(
-          title,
-          style: GoogleFonts.inter(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 18.sp,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          SizedBox(height: 100.h),
+          Image.asset(
+            AppAssets.imgEmptyStateBlue,
+            height: 200.h,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+          SizedBox(height: 12.h),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
@@ -154,7 +160,8 @@ class _VehiclePageState extends State<VehiclePage> {
   Widget successView(List<ListDatumVehicleDataEntity> listDataHere) {
     if (listDataHere.isEmpty) {
       return newEmptyState(
-        title: "Anda belum menambahkan data kendaraan",
+        title: LanguageController.language.emptyState,
+        // title: "Anda belum menambahkan data kendaraan",
       );
     }
     return ListView.separated(

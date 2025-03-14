@@ -5,6 +5,7 @@ import 'package:project_vehicle_log_app/domain/entities/vehicle/log_data_entity.
 import 'package:project_vehicle_log_app/presentation/enum/status_logs_enum.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class ItemListWidget extends StatefulWidget {
   final String? title;
@@ -55,16 +56,28 @@ class _ItemListWidgetState extends State<ItemListWidget> {
     Duration diff = DateTime.now().difference(input);
 
     if (diff.inDays >= 1) {
-      return '${diff.inDays} day(s) ago';
+      return '${diff.inDays} ${LanguageController.language.daysAgo}';
     } else if (diff.inHours >= 1) {
-      return '${diff.inHours} hour(s) ago';
+      return '${diff.inHours} ${LanguageController.language.hoursAgo}';
     } else if (diff.inMinutes >= 1) {
-      return '${diff.inMinutes} minute(s) ago';
+      return '${diff.inMinutes} ${LanguageController.language.minutesAgo}';
     } else if (diff.inSeconds >= 1) {
-      return '${diff.inSeconds} second(s) ago';
+      return '${diff.inSeconds} ${LanguageController.language.secondsAgo}';
     } else {
-      return 'just now';
+      return LanguageController.language.justNow;
     }
+
+    // if (diff.inDays >= 1) {
+    //   return '${diff.inDays} day(s) ago';
+    // } else if (diff.inHours >= 1) {
+    //   return '${diff.inHours} hour(s) ago';
+    // } else if (diff.inMinutes >= 1) {
+    //   return '${diff.inMinutes} minute(s) ago';
+    // } else if (diff.inSeconds >= 1) {
+    //   return '${diff.inSeconds} second(s) ago';
+    // } else {
+    //   return 'just now';
+    // }
   }
 
   @override
@@ -187,7 +200,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "New Odo",
+                      LanguageController.language.newOdo,
+                      // "New Odo",
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -234,7 +248,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "Date Updated",
+                      LanguageController.language.dateUpdated,
+                      // "Date Updated",
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -281,7 +296,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "Amount",
+                      LanguageController.language.amount,
+                      // "Amount",
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,
@@ -328,7 +344,8 @@ class _ItemListWidgetState extends State<ItemListWidget> {
                       ),
                     ),
                     child: Text(
-                      "Notes",
+                      LanguageController.language.notes,
+                      // "Notes",
                       style: AppTheme.theme.textTheme.bodyMedium?.copyWith(
                         // color: AppColor.text_4,
                         color: Colors.black,

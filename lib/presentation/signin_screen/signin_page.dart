@@ -45,6 +45,10 @@ class _SignInPageState extends State<SignInPage> {
     // passwordTextFieldController.text = "example";
     emailTextFieldController.text = "example1@test.com";
     passwordTextFieldController.text = "example";
+
+    // // Empty Account
+    // emailTextFieldController.text = "example4@test.com";
+    // passwordTextFieldController.text = "example";
   }
 
   bool isEnglish = false;

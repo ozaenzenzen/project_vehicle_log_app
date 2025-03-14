@@ -140,8 +140,7 @@ class LanguageIndonesia implements Language {
   String changePassword = "Ganti Kata Sandi";
 
   @override
-  String infoDeleteAccountDescription =
-      "Ini akan permanen dan tidak dapat dibatalkan! Akun Anda akan dinonaktifkan dalam 30 hari sebelum dihapus secara permanen.\nAnda dapat menghubungi Layanan Pelanggan untuk aktivasi";
+  String infoDeleteAccountDescription = "Ini akan permanen dan tidak dapat dibatalkan! Akun Anda akan dinonaktifkan dalam 30 hari sebelum dihapus secara permanen.\nAnda dapat menghubungi Layanan Pelanggan untuk aktivasi";
 
   @override
   String reason = "Alasan apa pun yang ingin Anda bagikan";
@@ -172,16 +171,217 @@ class LanguageIndonesia implements Language {
 
   @override
   String successTitle = "Berhasil";
-  
+
   @override
   String homeMenu = "Beranda";
-  
+
   @override
   String profileMenu = "Profil";
-  
+
   @override
   String statsMenu = "Grafik";
-  
+
   @override
   String vehicleMenu = "Kendaraan";
+
+  @override
+  String emailTextFieldLabel = "Email";
+
+  @override
+  String nameTextFieldLabel = "Nama";
+
+  @override
+  String phoneNumberTextFieldLabel = "Nomor Telepon";
+
+  @override
+  String update = "Ubah";
+
+  @override
+  String updateProfile = "Ubah Profile";
+
+  @override
+  String emptyState = "Anda belum menambahkan data kendaraan";
+
+  @override
+  String stats = "Grafik";
+
+  @override
+  String statsMainDescription = "Menunjukkan grafik berdasarkan kendaraan Anda";
+
+  @override
+  String vehicleMainDescription = "Pilih kendaraan Anda";
+
+  @override
+  String yourVehicle = "Kendaraan Anda";
+
+  @override
+  String emptyStateMilage = "Anda belum menambahkan data pengukuran";
+
+  @override
+  String add = "Tambah";
+
+  @override
+  String addVehicleMainDescription = "Tambahkan kendaraan Anda beserta parameter pengukurannya";
+
+  @override
+  String browseFile = "Telusuri File";
+
+  @override
+  String browseImage = "Telusuri Gambar";
+
+  @override
+  String chassisNumber = "Nomor Rangka";
+
+  @override
+  String color = "Warna";
+
+  @override
+  String documentFormat = "Format Dokumen";
+
+  @override
+  String engineCapacity = "Kapasitas Mesin";
+
+  @override
+  String litre = "Liter";
+
+  @override
+  String machineNumber = "Nomor Mesin";
+
+  @override
+  String tankCapacity = "Kapasitas Tangki";
+
+  @override
+  String vehicleImage = "Gambar Kendaraan";
+
+  @override
+  String vehicleName = "Nama Kendaraan";
+
+  @override
+  String year = "Tahun";
+
+  @override
+  String vehicleImageNotes = "Kami mereduksi ukuran gambar yang Anda pilih untuk pengalaman yang lebih baik";
+
+  @override
+  String example = "Contoh";
+
+  @override
+  String exampleShort = "Contoh";
+
+  @override
+  String addMeasurement = "Tambah Pengukuran";
+
+  @override
+  String detailMeasurementDescription = "Tampilkan grafik dari kendaraan Anda";
+
+  @override
+  String expenses = "Pengeluaran";
+
+  @override
+  String logs = "Log";
+
+  @override
+  String odoChanges = "Perubahan Odo";
+
+  @override
+  String seeVehicleLogs = "Lihat Log Kendaraan";
+
+  @override
+  String statsOf = "Grafik dari";
+
+  @override
+  String date = "Tanggal";
+
+  @override
+  String time = "Waktu";
+  
+  @override
+  String amount = "Jumlah";
+  
+  @override
+  String chooseYourLog = "Pilih log";
+  
+  @override
+  String dateUpdated = "Tanggal update";
+  
+  @override
+  String day = "Hari";
+  
+  @override
+  String hour = "Jam";
+  
+  @override
+  String info = "Info";
+  
+  @override
+  String justNow = "Sekarang";
+  
+  @override
+  String mainInfo = "Info Utama";
+  
+  @override
+  String minute = "Menit";
+  
+  @override
+  String newOdo = "Odo terbaru";
+  
+  @override
+  String notes = "Catatan";
+  
+  @override
+  String second = "Detik";
+  
+  @override
+  String daysAgo = "hari yang lalu";
+  
+  @override
+  String hoursAgo = "jam yang lalu";
+  
+  @override
+  String minutesAgo = "menit yang lalu";
+  
+  @override
+  String secondsAgo = "detik yang lalu";
+
+  @override
+  String detailVehicle = "Detail kendaraan";
+  
+  @override
+  String editVehicle = "Ubah kendaraan";
+  
+  @override
+  String editVehicleDescription = "Ubah data kendaraan Anda";
+  
+  @override
+  String amountExpenses = "Jumlah Pengeluaran";
+  
+  @override
+  String checkpointDate = "Tanggal Cek";
+  
+  @override
+  String currentOdo = "Odo Sekarang";
+  
+  @override
+  String estimateOdoChanging = "Estimasi Pergantian Odo";
+  
+  @override
+  String measurementTitle = "Nama Pengukuran";
+
+  @override
+  String editMeasurement= "Ubah Pengukuran";
+  
+  @override
+  String addOtherService = "Tambah Servis Lain";
+  
+  @override
+  String selectService = "Pilih Servis";
+  
+  @override
+  String confirmNewPassword = "Konfirmasi Password Baru";
+  
+  @override
+  String newPassword = "Password Baru";
+  
+  @override
+  String oldPassword = "Password Lama";
 }

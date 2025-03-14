@@ -18,6 +18,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class EditProfilePage extends StatefulWidget {
   final Function()? callbackAction;
@@ -199,7 +200,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       },
       builder: (context, state) {
         return AppBottomNavBarButtonWidget(
-          title: 'Update Profile',
+          title: LanguageController.language.update,
+          // title: 'Update Profile',
           onTap: () {
             if (state is EditProfileLoading || state is ProfileLoading) {
               AppDialogActionCS.showFailedPopup(
@@ -286,19 +288,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
               // ),
               SizedBox(height: 15.h),
               AppTextFieldWidget(
-                textFieldTitle: "Name",
-                textFieldHintText: "Name",
+                textFieldTitle: LanguageController.language.nameTextFieldLabel,
+                textFieldHintText: LanguageController.language.nameTextFieldLabel,
+                // textFieldTitle: "Name",
+                // textFieldHintText: "Name",
                 controller: nameController,
               ),
               SizedBox(height: 15.h),
               AppTextFieldWidget(
-                textFieldTitle: "Email",
-                textFieldHintText: "Email",
+                textFieldTitle: LanguageController.language.emailTextFieldLabel,
+                textFieldHintText: LanguageController.language.emailTextFieldLabel,
+                // textFieldTitle: "Email",
+                // textFieldHintText: "Email",
                 controller: emailController,
               ),
               SizedBox(height: 15.h),
               AppTextFieldWidget(
-                textFieldTitle: "Phone Number",
+                // textFieldTitle: "Phone Number",
+                textFieldTitle: LanguageController.language.phoneNumberTextFieldLabel,
                 textFieldHintText: "ex: 088811110808",
                 controller: phoneController,
               ),

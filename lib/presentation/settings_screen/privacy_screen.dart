@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/support/app_readjson.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
@@ -40,7 +41,8 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           ),
         ),
         title: Text(
-          'Privacy Policy',
+          LanguageController.language.privacyAndPolicy,
+          // 'Privacy Policy',
           style: GoogleFonts.lato(
             color: const Color(0xff1A1C1E),
             fontSize: 16.sp,

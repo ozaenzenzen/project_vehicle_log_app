@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_vehicle_log_app/support/app_readjson.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class TermsAndConditionScreen extends StatefulWidget {
   const TermsAndConditionScreen({super.key});
@@ -41,7 +42,8 @@ class _TermsAndConditionScreenState extends State<TermsAndConditionScreen> {
           ),
         ),
         title: Text(
-          'Terms & Condition',
+          LanguageController.language.termsAndConditions,
+          // 'Terms & Condition',
           style: GoogleFonts.lato(
             color: const Color(0xff1A1C1E),
             fontSize: 16.sp,

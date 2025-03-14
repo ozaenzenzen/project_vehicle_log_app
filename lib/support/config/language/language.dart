@@ -11,8 +11,10 @@ abstract class Language with AppLanguage {
   late String statsMenu;
   late String profileMenu;
 
+  late String emptyState;
+  late String emptyStateMilage;
 
-  // Popup 
+  // Popup
   late String errorTitle1;
   late String errorTitle2;
   late String successTitle;
@@ -73,4 +75,89 @@ abstract class Language with AppLanguage {
   // Notification Settings Screen
   late String open;
   late String openNotificationSettings;
+
+  // Edit Profile Screen
+  late String nameTextFieldLabel;
+  late String emailTextFieldLabel;
+  late String phoneNumberTextFieldLabel;
+  late String updateProfile;
+  late String update;
+
+  // Vehicle Screen
+  late String yourVehicle;
+  late String vehicleMainDescription;
+
+  // Vehicle Screen
+  late String stats;
+  late String statsMainDescription;
+
+  // Add Vehicle Screen
+  late String addVehicleMainDescription;
+  late String vehicleImage;
+  late String vehicleName;
+  late String year;
+  late String engineCapacity;
+  late String tankCapacity;
+  late String color;
+  late String machineNumber;
+  late String chassisNumber;
+  late String add;
+  late String litre;
+  late String browseFile;
+  late String browseImage;
+  late String documentFormat;
+  late String vehicleImageNotes;
+  late String example;
+  late String exampleShort;
+
+  // Detail Measurement Screen
+  late String statsOf;
+  late String detailMeasurementDescription;
+  late String seeVehicleLogs;
+  late String logs;
+  late String expenses;
+  late String odoChanges;
+  late String addMeasurement;
+  late String date;
+  late String time;
+
+  // Detail Vehicle Screen
+  late String detailVehicle;
+  late String info;
+  late String mainInfo;
+  late String newOdo;
+  late String dateUpdated;
+  late String amount;
+  late String notes;
+  late String day;
+  late String hour;
+  late String minute;
+  late String second;
+  late String justNow;
+  late String chooseYourLog;
+  late String daysAgo;
+  late String hoursAgo;
+  late String minutesAgo;
+  late String secondsAgo;
+
+  // Edit Vehicle Screen
+  late String editVehicle;
+  late String editVehicleDescription;
+
+  // Edit Measurement Screen
+  late String editMeasurement;
+  late String measurementTitle;
+  late String currentOdo;
+  late String estimateOdoChanging;
+  late String amountExpenses;
+  late String checkpointDate;
+
+  // Add Measurement Screen
+  late String selectService;
+  late String addOtherService;
+
+  // Change Password Screen
+  late String oldPassword;
+  late String newPassword;
+  late String confirmNewPassword;
 }

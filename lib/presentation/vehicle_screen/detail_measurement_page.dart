@@ -14,6 +14,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class DetailMeasurementPage extends StatefulWidget {
   // final String title;
@@ -58,7 +59,8 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
           );
         },
         label: Text(
-          "Add Measurement",
+          // "Add Measurement",
+          LanguageController.language.addMeasurement,
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w500,
@@ -89,7 +91,8 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
         children: [
           // SizedBox(height: 10.h),
           Text(
-            "Stats of ${widget.data.measurmentTitle![widget.indexMeasurement]}",
+            // "Stats of ${widget.data.measurmentTitle![widget.indexMeasurement]}",
+            "${LanguageController.language.statsOf} ${widget.data.measurmentTitle![widget.indexMeasurement]}",
             style: AppTheme.theme.textTheme.displayLarge?.copyWith(
               color: Colors.black38,
               fontWeight: FontWeight.w500,
@@ -97,7 +100,8 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
           ),
           SizedBox(height: 10.h),
           Text(
-            "Show stats from your vehicle: ${widget.data.vehicleName}",
+            // "Show stats from your vehicle: ${widget.data.vehicleName}",
+            "${LanguageController.language.detailMeasurementDescription}: ${widget.data.vehicleName}",
             style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
               color: Colors.black38,
               fontWeight: FontWeight.w500,
@@ -128,7 +132,8 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Logs",
+                      // "Logs",
+                      LanguageController.language.logs,
                       style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
@@ -153,14 +158,16 @@ class _DetailMeasurementPageState extends State<DetailMeasurementPage> {
                       ),
                     );
                   },
-                  text: "See vehicle logs",
+                  // text: "See vehicle logs",
+                  text: LanguageController.language.seeVehicleLogs,
                 ),
                 SizedBox(height: 20.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Stats",
+                      // "Stats",
+                      LanguageController.language.stats,
                       style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,

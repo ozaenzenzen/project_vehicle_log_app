@@ -16,6 +16,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_container_box_wi
 import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -67,7 +68,8 @@ class _StatsPageState extends State<StatsPage> {
               children: [
                 SizedBox(height: 40.h),
                 Text(
-                  "Stats",
+                  LanguageController.language.stats,
+                  // "Stats",
                   style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -75,7 +77,8 @@ class _StatsPageState extends State<StatsPage> {
                 ),
                 SizedBox(height: 10.h),
                 Text(
-                  "Show stats based on your vehicle",
+                  LanguageController.language.statsMainDescription,
+                  // "Show stats based on your vehicle",
                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
@@ -125,24 +128,27 @@ class _StatsPageState extends State<StatsPage> {
   Widget newEmptyState({
     required String title,
   }) {
-    return Column(
-      children: [
-        SizedBox(height: 100.h),
-        Image.asset(
-          AppAssets.imgEmptyStateBlue,
-          height: 200.h,
-        ),
-        SizedBox(height: 12.h),
-        Text(
-          title,
-          style: GoogleFonts.inter(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 18.sp,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: [
+          SizedBox(height: 100.h),
+          Image.asset(
+            AppAssets.imgEmptyStateBlue,
+            height: 200.h,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+          SizedBox(height: 12.h),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 18.sp,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
@@ -150,7 +156,8 @@ class _StatsPageState extends State<StatsPage> {
     if (state.result!.listData!.isEmpty) {
       // return const SizedBox();
       return newEmptyState(
-        title: "Anda belum menambahkan data kendaraan",
+        title: LanguageController.language.emptyState,
+        // title: "Anda belum menambahkan data kendaraan",
       );
     } else {
       return Column(
@@ -196,7 +203,8 @@ class _StatsPageState extends State<StatsPage> {
                   .measurmentTitle!
                   .isEmpty)
               ? newEmptyState(
-                  title: "Anda belum menambahkan data pengukuran",
+                  title: LanguageController.language.emptyStateMilage,
+                  // title: "Anda belum menambahkan data pengukuran",
                 )
               : ListView.separated(
                   padding: EdgeInsets.symmetric(

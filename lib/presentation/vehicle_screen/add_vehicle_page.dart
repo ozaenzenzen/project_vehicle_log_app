@@ -19,6 +19,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_tooltip_widget.d
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class AddVehiclePage extends StatefulWidget {
   const AddVehiclePage({Key? key}) : super(key: key);
@@ -114,8 +115,9 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: Scaffold(
-            appBar: const AppBarWidget(
-              title: "Add Vehicle",
+            appBar: AppBarWidget(
+              title: LanguageController.language.addVehicle,
+              // title: "Add Vehicle",
             ),
             body: bodySection(context),
             bottomSheet: bottomSheetSection(),
@@ -176,7 +178,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
       },
       builder: (context, state) {
         return AppBottomNavBarButtonWidget(
-          title: "Add Vehicle",
+          title: LanguageController.language.addVehicle,
+          // title: "Add Vehicle",
           onTap: () {
             if (vehicleNameController.text.isEmpty ||
                 imagePickedInBase64 == "" ||
@@ -237,7 +240,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Add Vehicle",
+              LanguageController.language.addVehicle,
+              // "Add Vehicle",
               style: AppTheme.theme.textTheme.displayLarge?.copyWith(
                 // color: AppColor.text_4,
                 color: Colors.black38,
@@ -246,7 +250,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 10.h),
             Text(
-              "Add your vehicle alongside with measurement parameter",
+              LanguageController.language.addVehicleMainDescription,
+              // "Add your vehicle alongside with measurement parameter",
               style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                 // color: AppColor.text_4,
                 color: Colors.black38,
@@ -258,7 +263,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Vehicle Image",
+                  LanguageController.language.vehicleImage,
+                  // "Vehicle Image",
                   style: GoogleFonts.inter(
                     color: const Color(0xff331814),
                     fontSize: 16.sp,
@@ -267,7 +273,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 ),
                 AppTooltipWidget(
                   tooltipController: tooltipController,
-                  message: "Kami mereduksi ukuran gambar yang Anda pilih untuk pengalaman yang lebih baik",
+                  message: LanguageController.language.vehicleImageNotes,
+                  // message: "Kami mereduksi ukuran gambar yang Anda pilih untuk pengalaman yang lebih baik",
                   child: InkWell(
                     onTap: () {
                       // tooltip();
@@ -318,7 +325,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Browse File",
+                                  LanguageController.language.browseImage,
+                                  // "Browse File",
                                   style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w700,
@@ -327,7 +335,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                                 ),
                                 SizedBox(height: 6.h),
                                 Text(
-                                  "Format dokumen .jpg",
+                                  "${LanguageController.language.documentFormat} .jpg",
+                                  // "Format dokumen .jpg",
                                   style: AppTheme.theme.textTheme.headlineSmall?.copyWith(
                                     color: AppColor.disabled,
                                   ),
@@ -395,8 +404,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               key: vehicleNameGlobalKey,
-              textFieldTitle: "Vehicle Name",
-              textFieldHintText: "Vehicle Name",
+              textFieldTitle: LanguageController.language.vehicleName,
+              textFieldHintText: LanguageController.language.vehicleName,
+              // textFieldTitle: "Vehicle Name",
+              // textFieldHintText: "Vehicle Name",
               controller: vehicleNameController,
               focusNode: vehicleNameFocusNode,
               onTap: () {
@@ -406,8 +417,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             SizedBox(height: 15.h),
             AppTextFieldWidget(
               key: yearGlobalKey,
-              textFieldTitle: "Year",
-              textFieldHintText: "Year",
+              textFieldTitle: LanguageController.language.year,
+              textFieldHintText: LanguageController.language.year,
+              // textFieldTitle: "Year",
+              // textFieldHintText: "Year",
               controller: yearController,
               focusNode: yearFocusNode,
               keyboardType: TextInputType.number,
@@ -417,8 +430,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Engine Capacity (cc)",
-              textFieldHintText: "ex: 250",
+              textFieldTitle: "${LanguageController.language.engineCapacity} (cc)",
+              textFieldHintText: "${LanguageController.language.exampleShort}: 250",
+              // textFieldTitle: "Engine Capacity (cc)",
+              // textFieldHintText: "ex: 250",
               controller: engineCapacityController,
               focusNode: engineCapacityFocusNode,
               keyboardType: TextInputType.number,
@@ -428,8 +443,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Tank Capacity (Litre)",
-              textFieldHintText: "ex: 4.0",
+              textFieldTitle: "${LanguageController.language.tankCapacity} (${LanguageController.language.litre})",
+              textFieldHintText: "${LanguageController.language.exampleShort}: 4.0",
+              // textFieldTitle: "Tank Capacity (Litre)",
+              // textFieldHintText: "ex: 4.0",
               controller: tankCapacityController,
               focusNode: tankCapacityFocusNode,
               keyboardType: TextInputType.number,
@@ -439,8 +456,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Color",
-              textFieldHintText: "Color",
+              textFieldTitle: LanguageController.language.color,
+              textFieldHintText: LanguageController.language.color,
+              // textFieldTitle: "Color",
+              // textFieldHintText: "Color",
               controller: colorController,
               focusNode: colorFocusNode,
               onTap: () {
@@ -449,8 +468,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Machine Number",
-              textFieldHintText: "Machine Number",
+              textFieldTitle: LanguageController.language.machineNumber,
+              textFieldHintText: LanguageController.language.machineNumber,
+              // textFieldTitle: "Machine Number",
+              // textFieldHintText: "Machine Number",
               controller: machineNumberController,
               focusNode: machineNumberFocusNode,
               onTap: () {
@@ -459,8 +480,10 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Chassis Number",
-              textFieldHintText: "Chassis Number",
+              textFieldTitle: LanguageController.language.chassisNumber,
+              textFieldHintText: LanguageController.language.chassisNumber,
+              // textFieldTitle: "Chassis Number",
+              // textFieldHintText: "Chassis Number",
               controller: chassisNumberController,
               focusNode: chassisNumberFocusNode,
               onTap: () {

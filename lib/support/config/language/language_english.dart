@@ -184,4 +184,205 @@ class LanguageEnglish implements Language {
   
   @override
   String vehicleMenu = "Vehicle";
+
+  @override
+  String emailTextFieldLabel = "Email";
+  
+  @override
+  String nameTextFieldLabel = "Name";
+  
+  @override
+  String phoneNumberTextFieldLabel = "Phone Number";
+  
+  @override
+  String update = "Update";
+  
+  @override
+  String updateProfile = "Update Profile";
+
+  @override
+  String emptyState = "You have not added vehicle data";
+  
+  @override
+  String stats = "Stats";
+  
+  @override
+  String statsMainDescription = "Displays stats based on your vehicle";
+  
+  @override
+  String vehicleMainDescription = "Choose your vehicle";
+  
+  @override
+  String yourVehicle = "Your vehicle";
+
+  @override
+  String emptyStateMilage= "You have not added any measurement data";
+
+  @override
+  String add = "Add";
+  
+  @override
+  String addVehicleMainDescription = "Add your vehicle alongside with measurement parameter";
+  
+  @override
+  String browseFile = "Browse File";
+  
+  @override
+  String browseImage = "Browse Image";
+  
+  @override
+  String chassisNumber = "Chassis Number";
+  
+  @override
+  String color = "Color";
+  
+  @override
+  String documentFormat = "Document Format";
+  
+  @override
+  String engineCapacity = "Engine Capacity";
+  
+  @override
+  String litre = "Litre";
+  
+  @override
+  String machineNumber = "Machine Number";
+  
+  @override
+  String tankCapacity = "Tank Capacity";
+  
+  @override
+  String vehicleImage = "Vehicle Image";
+  
+  @override
+  String vehicleName = "Vehicle Name";
+  
+  @override
+  String year = "Year";
+
+  @override
+  String vehicleImageNotes = "We reduce the size of the image you selected for a better experience";
+
+  @override
+  String example = "Example";
+  
+  @override
+  String exampleShort = "Ex:";
+
+  @override
+  String addMeasurement = "Add Measurement";
+  
+  @override
+  String detailMeasurementDescription = "Show stats from your vehicle";
+  
+  @override
+  String expenses = "Expenses";
+  
+  @override
+  String logs = "Logs";
+  
+  @override
+  String odoChanges = "Odo Changes";
+  
+  @override
+  String seeVehicleLogs = "See Vehicle Logs";
+  
+  @override
+  String statsOf = "Stats of";
+
+  @override
+  String date = "Date";
+
+  @override
+  String time = "Time";
+
+  @override
+  String amount = "Amount";
+  
+  @override
+  String chooseYourLog = "Choose your log";
+  
+  @override
+  String dateUpdated = "Date Updated";
+  
+  @override
+  String day = "Day";
+  
+  @override
+  String hour = "Hour";
+  
+  @override
+  String info = "Info";
+  
+  @override
+  String justNow = "Just now";
+  
+  @override
+  String mainInfo = "Main Info";
+  
+  @override
+  String minute = "Minute";
+  
+  @override
+  String newOdo = "New Odo";
+  
+  @override
+  String notes = "Notes";
+  
+  @override
+  String second = "Second";
+
+  @override
+  String daysAgo = "day(s) ago";
+  
+  @override
+  String hoursAgo = "hour(s) ago";
+  
+  @override
+  String minutesAgo = "minute(s) ago";
+  
+  @override
+  String secondsAgo = "second(s) ago";
+
+  @override
+  String detailVehicle = "Detail vehicle";
+
+  @override
+  String editVehicle = "Edit Vehicle";
+  
+  @override
+  String editVehicleDescription = "Edit your vehicle alongside with measurement parameter";
+
+  @override
+  String amountExpenses = "Amount Expenses";
+  
+  @override
+  String checkpointDate = "Checkpoint Date";
+  
+  @override
+  String currentOdo = "Current Odo";
+  
+  @override
+  String estimateOdoChanging = "Estimate Odo Changing";
+  
+  @override
+  String measurementTitle = "Measurement Title";
+
+  @override
+  String editMeasurement= "Edit Measurement";
+
+  @override
+  String addOtherService = "Add Other Service";
+  
+  @override
+  String selectService = "Select Service";
+
+  @override
+  String confirmNewPassword = "Confirm New Password";
+  
+  @override
+  String newPassword = "New Password";
+  
+  @override
+  String oldPassword = "Old Password";
 }

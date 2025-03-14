@@ -20,6 +20,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_mainbutton_widge
 import 'package:project_vehicle_log_app/support/app_assets.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -146,7 +147,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Main Info",
+                        // "Main Info",
+                        LanguageController.language.mainInfo,
                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -170,32 +172,38 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Year",
+                    title: LanguageController.language.year,
+                    // title: "Year",
                     value: state.result!.listData![newIndex].year,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Engine Capacity (cc)",
+                    title: "${LanguageController.language.engineCapacity} (cc)",
+                    // title: "Engine Capacity (cc)",
                     value: state.result!.listData![newIndex].engineCapacity,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Tank Capacity (Litre)",
+                    title: "${LanguageController.language.tankCapacity} (${LanguageController.language.litre})",
+                    // title: "Tank Capacity (Litre)",
                     value: state.result!.listData![newIndex].tankCapacity,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Color",
+                    title: LanguageController.language.color,
+                    // title: "Color",
                     value: state.result!.listData![newIndex].color,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Machine Number",
+                    title: LanguageController.language.machineNumber,
+                    // title: "Machine Number",
                     value: state.result!.listData![newIndex].machineNumber,
                   ),
                   SizedBox(height: 10.h),
                   ItemListWidget(
-                    title: "Chassis Number",
+                    title: LanguageController.language.chassisNumber,
+                    // title: "Chassis Number",
                     value: state.result!.listData![newIndex].chassisNumber,
                   ),
                 ],
@@ -272,7 +280,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Logs",
+                        LanguageController.language.logs,
+                        // "Logs",
                         style: AppTheme.theme.textTheme.headlineMedium?.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -490,7 +499,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           );
         },
         label: Text(
-          "Add Measurement",
+          LanguageController.language.addMeasurement,
+          // "Add Measurement",
           style: GoogleFonts.inter(
             color: Colors.white,
             fontWeight: FontWeight.w500,
@@ -513,7 +523,8 @@ class _DetailVehiclePageState extends State<DetailVehiclePage> with TickerProvid
           ),
         ),
         title: Text(
-          "Detail Vehicle Page",
+          LanguageController.language.detailVehicle,
+          // "Detail Vehicle Page",
           textAlign: TextAlign.left,
           style: GoogleFonts.inter(
             color: Colors.white,

@@ -11,6 +11,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_overlay_loading2
 // import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget.dart';
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -54,8 +55,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 children: [
                   SizedBox(height: 12.h),
                   AppTextFieldWidget(
-                    textFieldTitle: "Old Password",
-                    textFieldHintText: "Old Password",
+                    textFieldTitle: LanguageController.language.oldPassword,
+                    textFieldHintText: LanguageController.language.oldPassword,
+                    // textFieldTitle: "Old Password",
+                    // textFieldHintText: "Old Password",
                     controller: oldPasswordTextController,
                     obscureText: isHideOldPassword,
                     textInputAction: TextInputAction.go,
@@ -82,8 +85,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                   SizedBox(height: 16.h),
                   AppTextFieldWidget(
-                    textFieldTitle: "New Password",
-                    textFieldHintText: "New Password",
+                    textFieldTitle: LanguageController.language.newPassword,
+                    textFieldHintText: LanguageController.language.newPassword,
+                    // textFieldTitle: "New Password",
+                    // textFieldHintText: "New Password",
                     controller: newPasswordTextController,
                     obscureText: isHideNewPassword,
                     textInputAction: TextInputAction.go,
@@ -110,8 +115,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                   SizedBox(height: 16.h),
                   AppTextFieldWidget(
-                    textFieldTitle: "Confirm New Password",
-                    textFieldHintText: "Confirm New Password",
+                    textFieldTitle: LanguageController.language.confirmNewPassword,
+                    textFieldHintText: LanguageController.language.confirmNewPassword,
+                    // textFieldTitle: "Confirm New Password",
+                    // textFieldHintText: "Confirm New Password",
                     controller: confirmNewPasswordTextController,
                     obscureText: isHideConfirmNewPassword,
                     textInputAction: TextInputAction.go,

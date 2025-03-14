@@ -19,6 +19,7 @@ import 'package:project_vehicle_log_app/presentation/widget/app_textfield_widget
 import 'package:project_vehicle_log_app/presentation/widget/appbar_widget.dart';
 import 'package:project_vehicle_log_app/support/app_color.dart';
 import 'package:project_vehicle_log_app/support/app_theme.dart';
+import 'package:project_vehicle_log_app/support/config/language/language_controller.dart';
 
 class EditMeasurementPage extends StatefulWidget {
   final ListDatumLogEntity data;
@@ -83,8 +84,9 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             child: Scaffold(
-              appBar: const AppBarWidget(
-                title: "Edit Measurement",
+              appBar: AppBarWidget(
+                title: LanguageController.language.editMeasurement,
+                // title: "Edit Measurement",
               ),
               body: bodySection(),
               bottomSheet: bottomSheetSection(),
@@ -145,7 +147,8 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
       },
       builder: (context, state) {
         return AppBottomNavBarButtonWidget(
-          title: "Update Measurement",
+          title: "${LanguageController.language.update} ${LanguageController.language.measurement}",
+          // title: "Update Measurement",
           onTap: () {
             editMeasurementLogBloc.add(
               UpdateMeasurementAction(
@@ -194,7 +197,8 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
             SizedBox(height: 15.h),
             IgnorePointer(
               child: AppTextFieldWidget(
-                textFieldTitle: "Measurement Title",
+                textFieldTitle: LanguageController.language.measurementTitle,
+                // textFieldTitle: "Measurement Title",
                 textFieldHintText: "ex: Oil",
                 controller: measurementTitleController,
                 readOnly: true,
@@ -202,28 +206,32 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Current Odo (km)",
+              textFieldTitle: "${LanguageController.language.currentOdo} (km)",
+              // textFieldTitle: "Current Odo (km)",
               textFieldHintText: "ex: 12000",
               controller: currentOdoController,
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Estimate Odo Changing (km)",
+              textFieldTitle: "${LanguageController.language.estimateOdoChanging} (km)",
+              // textFieldTitle: "Estimate Odo Changing (km)",
               textFieldHintText: "ex: 14000",
               controller: estimateOdoChangingController,
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Amount Expenses (Rp)",
-              textFieldHintText: "ex: 40000",
+              textFieldTitle: "${LanguageController.language.amountExpenses} (Rp)",
+              // textFieldTitle: "Amount Expenses (Rp)",
+              textFieldHintText: "${LanguageController.language.example}: 40000",
               controller: amountExpensesController,
               keyboardType: TextInputType.number,
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Checkpoint Date",
+              textFieldTitle: LanguageController.language.checkpointDate,
+              // textFieldTitle: "Checkpoint Date",
               textFieldHintText: "12-2-2023",
               controller: checkpointDateController,
               readOnly: true,
@@ -252,8 +260,10 @@ class _EditMeasurementPageState extends State<EditMeasurementPage> {
             ),
             SizedBox(height: 15.h),
             AppTextFieldWidget(
-              textFieldTitle: "Notes",
-              textFieldHintText: "notes",
+              textFieldTitle: LanguageController.language.notes,
+              textFieldHintText: LanguageController.language.notes,
+              // textFieldTitle: "Notes",
+              // textFieldHintText: "notes",
               controller: notesController,
             ),
             SizedBox(height: 25.h),
