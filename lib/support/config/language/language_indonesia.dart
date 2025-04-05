@@ -393,4 +393,7 @@ class LanguageIndonesia implements Language {
   
   @override
   String tryAgainInAMoment = "Coba lagi beberapa saat";
+
+  @override
+  String login = "Masuk";
 }

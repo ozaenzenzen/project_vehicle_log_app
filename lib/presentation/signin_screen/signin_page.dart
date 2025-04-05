@@ -112,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      LanguageController.language.enter,
+                      LanguageController.language.login,
                       // "Masuk",
                       style: AppTheme.theme.textTheme.displayMedium?.copyWith(
                         fontWeight: FontWeight.w600,
@@ -227,7 +227,7 @@ class _SignInPageState extends State<SignInPage> {
                                 //   () => const MainPage(),
                                 // );
                               },
-                              text: LanguageController.language.enter,
+                              text: LanguageController.language.login,
                               // text: "Masuk",
                             ),
                             SizedBox(height: 20.h),

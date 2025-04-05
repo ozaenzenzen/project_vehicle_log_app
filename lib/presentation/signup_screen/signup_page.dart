@@ -225,7 +225,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 //   () => const MainPage(),
                                 // );
                               },
-                              text: LanguageController.language.enter,
+                              text: LanguageController.language.login,
                               // text: "Masuk",
                             ),
                             SizedBox(height: 20.h),

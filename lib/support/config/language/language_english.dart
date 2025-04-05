@@ -394,4 +394,7 @@ class LanguageEnglish implements Language {
   
   @override
   String tryAgainInAMoment = "Try again in a moment";
+
+  @override
+  String login = "Login";
 }
