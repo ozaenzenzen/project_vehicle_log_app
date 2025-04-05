@@ -46,6 +46,9 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                 await AppSettings.openAppSettings(type: AppSettingsType.notification);
               },
               child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
                 padding: EdgeInsets.all(16.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
