@@ -32,11 +32,11 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-    nameTextFieldController.text = "Akun Test OTP Register";
-    emailTextFieldController.text = "tkdbintara@gmail.com";
-    phoneTextFieldController.text = "080811110808";
-    passwordTextFieldController.text = "example";
-    confirmPasswordTextFieldController.text = "example";
+    // nameTextFieldController.text = "Akun Test OTP Register";
+    // emailTextFieldController.text = "tkdbintara@gmail.com";
+    // phoneTextFieldController.text = "080811110808";
+    // passwordTextFieldController.text = "example";
+    // confirmPasswordTextFieldController.text = "example";
   }
 
   @override
@@ -100,7 +100,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     AppTextFieldWidget(
                       textFieldTitle: LanguageController.language.email,
                       // textFieldTitle: "Email",
-                      textFieldHintText: "journalist@email.com",
+                      // textFieldHintText: "Your Email Here",
+                      textFieldHintText: LanguageController.language.emailHintText,
                       controller: emailTextFieldController,
                     ),
                     SizedBox(height: 10.h),

@@ -397,4 +397,7 @@ class LanguageEnglish implements Language {
 
   @override
   String login = "Login";
+
+  @override
+  String emailHintText = "Your Email Here";
 }

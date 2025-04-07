@@ -42,8 +42,8 @@ class _SignInPageState extends State<SignInPage> {
     // passwordTextFieldController.text = "example";
     // emailTextFieldController.text = "tkdbintara@gmail.com";
     // passwordTextFieldController.text = "example";
-    emailTextFieldController.text = "example1@test.com";
-    passwordTextFieldController.text = "example";
+    // emailTextFieldController.text = "example1@test.com";
+    // passwordTextFieldController.text = "example";
 
     // // Empty Account
     // emailTextFieldController.text = "example4@test.com";
@@ -123,7 +123,9 @@ class _SignInPageState extends State<SignInPage> {
                   AppTextFieldWidget(
                     textFieldTitle: LanguageController.language.email,
                     // textFieldTitle: "Email",
-                    textFieldHintText: "journalist@email.com",
+                    // textFieldHintText: "journalist@email.com",
+                    // textFieldHintText: "Your Email Here",
+                    textFieldHintText: LanguageController.language.emailHintText,
                     controller: emailTextFieldController,
                   ),
                   SizedBox(height: 10.h),

@@ -36,6 +36,7 @@ abstract class Language with AppLanguage {
   late String chooseLanguage;
   late String email;
   late String password;
+  late String emailHintText;
 
   // Register Screen
   late String registerAccount;

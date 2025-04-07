@@ -396,4 +396,7 @@ class LanguageIndonesia implements Language {
 
   @override
   String login = "Masuk";
+
+  @override
+  String emailHintText = "Email Anda";
 }
