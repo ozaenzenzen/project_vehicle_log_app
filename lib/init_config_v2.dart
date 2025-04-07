@@ -46,7 +46,7 @@ class AppInitConfig {
     await famCodingSupply.appDeviceInfo.getDeviceData();
 
     // EnvironmentConfig.customBaseUrl = "https://4be5-112-215-170-211.ngrok.io"; // for ngrok
-    EnvironmentConfig.customBaseUrl = "https://5dbb-114-10-42-38.ngrok-free.app"; // for ngrok
+    EnvironmentConfig.customBaseUrl = "http://157.15.124.154:8080"; // for ngrok
     // EnvironmentConfig.customBaseUrl = "http://10.0.2.2:8080"; // for emulator android
     // EnvironmentConfig.customBaseUrl = "http://localhost:8080"; // for emulator iOS
 
