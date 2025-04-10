@@ -31,7 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   void initState() {
-    emailTextController.text = "recovery252@gmail.com";
+    // emailTextController.text = "recovery252@gmail.com";
     super.initState();
   }
 
@@ -59,8 +59,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 children: [
                   SizedBox(height: 16.h),
                   AppTextFieldWidget(
-                    textFieldTitle: "Your Email",
-                    textFieldHintText: "youremail@domain.com",
+                    textFieldTitle: LanguageController.language.emailHintText,
+                    textFieldHintText: LanguageController.language.emailHintText,
                     controller: emailTextController,
                     // textInputAction: TextInputAction.go,
                   ),
