@@ -12,6 +12,8 @@ import 'package:project_vehicle_log_app/presentation/enum/get_all_vehicle_action
 import 'package:project_vehicle_log_app/presentation/enum/get_log_vehicle_action_enum.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_all_vehicle_bloc/get_all_vehicle_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/home_screen/bloc/get_list_log_bloc/get_list_log_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/profile_screen/signout_bloc/signout_bloc.dart';
+import 'package:project_vehicle_log_app/presentation/signin_screen/signin_page.dart';
 import 'package:project_vehicle_log_app/presentation/vehicle_screen/detail_measurement_page.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_bloc/profile_bloc.dart';
 import 'package:project_vehicle_log_app/presentation/profile_screen/profile_page.dart';
@@ -60,64 +62,80 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        context
-          ..read<ProfileBloc>().add(
-            GetProfileRemoteAction(),
-          )
-          ..read<GetAllVehicleBloc>().add(
-            GetAllVehicleRemoteAction(
-              reqData: GetAllVehicleRequestModelV2(
-                limit: 10,
-                currentPage: 1,
-              ),
-              action: GetAllVehicleActionEnum.refresh,
-            ),
-          )
-          ..read<GetListLogBloc>().add(
-            GetListLogAction(
-              actionType: GetLogVehicleActionEnum.refresh,
-              reqData: GetLogVehicleRequestModelV2(
-                limit: 10,
-                currentPage: 1,
-              ),
-            ),
+    return BlocListener<SignoutBloc, SignoutState>(
+      listener: (context, state) {
+        if (state is SignoutFailed) {
+          AppDialogActionCS.showMainPopup(
+            context: context,
+            title: LanguageController.language.errorTitle1,
+            content: Text(state.errorMessage),
+            mainButtonAction: () {
+              Get.back();
+            },
           );
+        } else if (state is SignoutSuccess) {
+          Get.offAll(() => const SignInPage());
+        }
       },
-      child: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Container(
-          color: AppColor.shape,
-          padding: EdgeInsets.all(16.h),
-          alignment: Alignment.center,
-          child: Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context
+            ..read<ProfileBloc>().add(
+              GetProfileRemoteAction(),
+            )
+            ..read<GetAllVehicleBloc>().add(
+              GetAllVehicleRemoteAction(
+                reqData: GetAllVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                ),
+                action: GetAllVehicleActionEnum.refresh,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(height: 40.h),
-                  headHomeSection(),
-                  SizedBox(height: 20.h),
-                  Column(
-                    children: [
-                      homeVehicleSummarySection(),
-                      SizedBox(height: 20.h),
-                      homeListVehicleSection(),
-                      SizedBox(height: 20.h),
-                      homeListMeasurementSection(),
-                      SizedBox(height: kToolbarHeight.h + 10.h),
-                    ],
-                  ),
-                ],
+            )
+            ..read<GetListLogBloc>().add(
+              GetListLogAction(
+                actionType: GetLogVehicleActionEnum.refresh,
+                reqData: GetLogVehicleRequestModelV2(
+                  limit: 10,
+                  currentPage: 1,
+                ),
               ),
-            ],
+            );
+        },
+        child: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Container(
+            color: AppColor.shape,
+            padding: EdgeInsets.all(16.h),
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(height: 40.h),
+                    headHomeSection(),
+                    SizedBox(height: 20.h),
+                    Column(
+                      children: [
+                        homeVehicleSummarySection(),
+                        SizedBox(height: 20.h),
+                        homeListVehicleSection(),
+                        SizedBox(height: 20.h),
+                        homeListMeasurementSection(),
+                        SizedBox(height: kToolbarHeight.h + 10.h),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -136,15 +154,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               BlocConsumer<ProfileBloc, ProfileState>(
                 listener: (context, state) {
                   if (state is ProfileFailed) {
-                    AppDialogActionCS.showFailedPopup(
-                      context: context,
-                      title: LanguageController.language.errorTitle1,
-                      description: state.errorMessage,
-                      buttonTitle: LanguageController.language.backButton,
-                      mainButtonAction: () {
-                        Get.back();
-                      },
-                    );
+                    if (state.errorMessage == "User Data Not Found") {
+                      context.read<SignoutBloc>().add(SignoutAction());
+                    } else {
+                      AppDialogActionCS.showFailedPopup(
+                        context: context,
+                        title: LanguageController.language.errorTitle1,
+                        description: state.errorMessage,
+                        buttonTitle: LanguageController.language.backButton,
+                        mainButtonAction: () {
+                          Get.back();
+                        },
+                      );
+                    }
                   }
                 },
                 builder: (context, state) {
