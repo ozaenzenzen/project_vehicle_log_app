@@ -431,8 +431,8 @@ class _AddMeasurementPageState extends State<AddMeasurementPage> {
           SizedBox(height: 15.h),
           AppTextFieldWidget(
             focusNode: notesFocusNode,
-            textFieldTitle: LanguageController.language.checkpointDate,
-            textFieldHintText: LanguageController.language.checkpointDate,
+            textFieldTitle: LanguageController.language.notes,
+            textFieldHintText: LanguageController.language.notes,
             // textFieldTitle: "Notes",
             // textFieldHintText: "notes",
             maxLines: 4,
