@@ -332,7 +332,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   SizedBox(height: 5.h),
                   Text(
                     // "Last Update: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
-                    "${LanguageController.language.lastUpdate}: ${formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal())}",
+                    "${LanguageController.language.lastUpdate}: ${(state.result!.collectionLogData!.lastCreatedAt!.year == 0001) ? "-" : (formattedDate.format(state.result!.collectionLogData!.lastCreatedAt!.toLocal()))}",
                     // "Last Update: 16 Nov 2022",
                     style: AppTheme.theme.textTheme.bodySmall?.copyWith(
                       color: Colors.black54,
